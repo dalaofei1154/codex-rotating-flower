@@ -1,8 +1,8 @@
-# Build the Rotating Flower electronics and Codex bridge
+# Build your own Codex-controlled motor
 
-This guide helps a DIY beginner reproduce the **electronics and software behavior** shown in the [60-second demo](../publish-assets/rotating-flower-demo-en-60s.mp4). Start with a bare motor; the purchased decorative flower and its 3D files are not supplied.
+This guide takes you from loose parts to a motor that spins while a local Codex task runs. Start with a bare motor. The flower decoration in the [video](../publish-assets/rotating-flower-demo-en-60s.mp4) was purchased separately, and its 3D model is not included.
 
-Tested scope: one macOS computer running local Codex tasks, an ESP32-C3 SuperMini, a ULN2003 driver, and a 5 V 28BYJ-48 stepper motor. This is a short-run prototype, not a validated design for continuous operation or every board and motor variation.
+I tested this for short runs with a Mac, an ESP32-C3 SuperMini, a ULN2003 driver, and a 5 V 28BYJ-48 motor. I have not tested continuous operation or every board and motor version.
 
 ## 1. Parts and tools
 
@@ -17,7 +17,7 @@ Tested scope: one macOS computer running local Codex tasks, an ESP32-C3 SuperMin
 
 The motor's built-in five-pin plug goes into the ULN2003 socket and does not require five more jumper wires. Install Arduino IDE and Espressif's Arduino-ESP32 board support using the [official installation instructions](https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html). The project has been tested with core version **3.3.11**. Install Python 3.9 or newer for the Mac bridge; no third-party Python packages are required.
 
-Power off and unplug USB before changing wires. Do not connect a 5 V motor to a 3.3 V pin. Recheck power capacity, polarity, and common ground if you change the motor, add load, or use a separate supply. Keep moving pieces clear of fixed parts and begin at LOW.
+Unplug USB before changing wires. Do not connect a 5 V motor to a 3.3 V pin. If you change the motor, add weight, or use a separate power supply, check the voltage and current again; the ESP32 and motor driver must share a ground. Keep moving pieces clear of fixed parts and begin at LOW.
 
 ## 2. Wire the boards
 
@@ -78,9 +78,9 @@ No OpenAI API key is required. The bridge reads local state records and does not
 
 - **Same Mac and hardware family:** Try the included [firmware](../m0/motor_control/motor_control.ino), [bridge](../m1/global_bridge.py), and [installer](../m1/install_macos.py). The bridge uses the current user's `CODEX_HOME` (or default `~/.codex`) and probes serial ports; it does not hard-code the author's username or USB port.
 - **Different boards or motors:** Recheck pins, supply, motor type, and acceleration. A four-wire bipolar motor and a different driver cannot run this ULN2003 firmware unchanged. You can retain the `RUN ...` / `STOP` serial protocol and replace the motor-control code.
-- **Different Codex environment:** This Mac bridge reads an **internal** transcript format. [OpenAI's Hooks documentation](https://learn.chatgpt.com/docs/hooks) says that format is not stable. Retest after upgrades. [Local and Worktree tasks run on the computer, while Cloud tasks run remotely](https://learn.chatgpt.com/docs/environments/modes). Windows serial access and service installation have not been implemented.
+- **Different Codex environment:** The Mac program reads local Codex task files. Their format may change after a Codex update, so test it again after upgrading. [Local and Worktree tasks run on the computer, while Cloud tasks run remotely](https://learn.chatgpt.com/docs/environments/modes). Windows serial access and service installation have not been implemented.
 
-For a port, first get `PING`, `RUN LOW`, and `STOP` working between the computer and ESP32. Next provide a reliable task-start and task-finish event source. Add reasoning-effort mapping only when that information is available; a simpler running/stopped indicator still reproduces the core idea.
+For another setup, first make the computer send `PING`, `RUN LOW`, and `STOP` to the ESP32. Then find a reliable way to tell when your Codex task starts and ends. You can add speed control later; spinning and stopping already give you the basic effect.
 
 ## 6. Troubleshooting
 
