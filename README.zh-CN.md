@@ -31,9 +31,21 @@ Python 程序读取**本机** Codex 任务记录。任务开始时，它让 ESP3
 | 母对母杜邦线 | 6 根 |
 | USB-C **数据线** | 1 根 |
 
+![标出控制板、杜邦线、驱动板、电机线和电机的实物图](publish-assets/hardware-components-labeled.png)
+
+图中 **1** 是 ESP32-C3 控制板，**2** 是连接两块板的 6 根母对母杜邦线，**3** 是 ULN2003 驱动板，**4** 是电机自带的五线线束和白色插头，**5** 是 5 V 步进电机。**照片里的白色插头尚未插入驱动板**，试转前要插进驱动板的白色插座。Mac 和 USB-C 数据线没有拍进这张近照。照片用于认配件；接线时以板上的丝印和[教程中的接线表](docs/从零搭建.md#2-接线)为准。
+
 ESP32-C3 就是控制器，不需要另买一块单片机。电机自带的五针插头直接插到 ULN2003 上。还需要 Arduino IDE 上传程序，以及 Mac 上的 Python 3.9 或更新版本；Python 程序不用安装第三方包。
 
 我的原型使用约 1:16 减速比的电机，做过短时测试。换电机或装更重的花朵，效果可能不同。
+
+### 可选的花朵外观件
+
+电机不装花朵也能运行。下图是视频中**购买的成品配件**；你也可以换成适合自己电机和固定方式的装饰。
+
+![标出五件可选花朵外观件的实物图](publish-assets/optional-flower-parts-labeled.png)
+
+图中 **1** 是白色圆形件，**2** 是花头，**3** 是花茎和叶片，**4** 是花盆，**5** 是绿色小连接件。这些名称仅帮助辨认外观，不代表精确尺寸或装配说明。**仓库不提供这些配件的 CAD、STL、STEP 或其他 3D 打印模型。**花头带有第三方 OpenAI 标志，详见[许可说明](LICENSES.md)。
 
 ## 先让它转起来
 
@@ -71,4 +83,4 @@ ESP32-C3 就是控制器，不需要另买一块单片机。电机自带的五�
 python3 -m unittest discover -s m1 -p 'test_*.py' -v
 ```
 
-代码采用 [MIT](LICENSE)，教程文字采用 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode)。**视频和第三方标志不在这两种许可范围内。** 详见 [LICENSES.md](LICENSES.md) 和 [CONTRIBUTING.md](CONTRIBUTING.md)。
+代码采用 [MIT](LICENSE)，教程文字采用 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode)。**视频、照片和第三方标志不在这两种许可范围内。** 详见 [LICENSES.md](LICENSES.md) 和 [CONTRIBUTING.md](CONTRIBUTING.md)。

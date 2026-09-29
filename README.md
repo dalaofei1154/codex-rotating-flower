@@ -31,9 +31,21 @@ The Python program reads **local** Codex task records. When a task starts, it te
 | Female-to-female jumper wires | 6 |
 | USB-C **data** cable | 1 |
 
+![The controller, jumper wires, driver, motor lead, and motor, marked 1 to 5](publish-assets/hardware-components-labeled.png)
+
+In the photo: **1** ESP32-C3 controller; **2** six female-to-female jumper wires; **3** ULN2003 driver; **4** the motor's own five-wire lead and white plug; **5** the 5 V stepper motor. The white plug is **unplugged in the photo**—insert it into the driver's white socket before testing. The Mac and USB-C data cable are not shown. Use the printed pin labels and the [wiring table](docs/build-guide-en.md#2-wire-the-boards) for connections; the photo is for identifying parts.
+
 The ESP32-C3 is the controller; you do not need another microcontroller. The motor's built-in five-pin plug goes into the ULN2003 board. You will also need Arduino IDE to upload the firmware and Python 3.9 or newer on the Mac. The Python program uses only the standard library.
 
 My prototype uses a roughly 1:16 geared motor. I tested this setup for short runs; a different motor or a heavier flower may behave differently.
+
+### Optional flower decoration
+
+The motor works without a flower. These are the separate **purchased** pieces shown in my demo; you can use a different decoration that fits your motor and mounting method.
+
+![Optional purchased flower pieces marked 1 to 5](publish-assets/optional-flower-parts-labeled.png)
+
+The labels show **1** a white round piece, **2** the flower head, **3** the stem and leaves, **4** the pot, and **5** a small green connector piece. This identifies what is visible, not exact dimensions or assembly instructions. **No CAD, STL, STEP, or other 3D-print model for these pieces is included.** The flower head bears a third-party OpenAI logo; see the [license details](LICENSES.md).
 
 ## Get it running
 
@@ -71,4 +83,4 @@ Run the software tests from the repository root:
 python3 -m unittest discover -s m1 -p 'test_*.py' -v
 ```
 
-The code is under [MIT](LICENSE), and the written guides are under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode). The video and third-party logo are **not** covered by those licenses. See [LICENSES.md](LICENSES.md) and [CONTRIBUTING.md](CONTRIBUTING.md).
+The code is under [MIT](LICENSE), and the written guides are under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode). The video, photos, and third-party logo are **not** covered by those licenses. See [LICENSES.md](LICENSES.md) and [CONTRIBUTING.md](CONTRIBUTING.md).
