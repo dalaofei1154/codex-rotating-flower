@@ -15,6 +15,8 @@ I tested this for short runs with a Mac, an ESP32-C3 SuperMini, a ULN2003 driver
 | Female-to-female jumper wires | **6** | Four signal wires plus power and ground; use a different connector type if your boards require it. |
 | USB-C **data** cable | 1 | Powers and connects the current ESP32 board. Match the computer end to your Mac. |
 
+Use the [labeled electronics photo](../publish-assets/hardware-components-labeled.png) to identify the parts. The motor's white plug is unplugged in that photo; the wiring table below shows what to connect. The [optional flower-parts photo](../publish-assets/optional-flower-parts-labeled.png) shows my purchased decoration. No printable model is provided.
+
 The motor's built-in five-pin plug goes into the ULN2003 socket and does not require five more jumper wires. Install Arduino IDE and Espressif's Arduino-ESP32 board support using the [official installation instructions](https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html). The project has been tested with core version **3.3.11**. Install Python 3.9 or newer for the Mac bridge; no third-party Python packages are required.
 
 Unplug USB before changing wires. Do not connect a 5 V motor to a 3.3 V pin. If you change the motor, add weight, or use a separate power supply, check the voltage and current again; the ESP32 and motor driver must share a ground. Keep moving pieces clear of fixed parts and begin at LOW.
