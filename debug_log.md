@@ -1,4 +1,6 @@
-# M0 调试记录
+# Prototype test notes / 原型测试记录
+
+**English summary:** The ESP32-C3, ULN2003, and 5 V 28BYJ-48 motor responded to serial commands in short bench tests. The Mac bridge also changed the motor among LOW, MEDIUM, HIGH, XHIGH, and ULTRA during local Codex tasks, then stopped it when tasks ended. The current build uses an approximately 1:16 geared motor. LOW and MEDIUM looked similar by eye; the higher settings looked progressively faster. Speed figures below are estimates from programmed step timing, **not measured output RPM**. Continuous operation, other motors, and other loads have not been fully tested. The dated record below is in Chinese.
 
 目标：Mac 通过 USB 控制 ESP32，使步进电机稳定启动、停止，并呈现三种明显不同的转速。
 

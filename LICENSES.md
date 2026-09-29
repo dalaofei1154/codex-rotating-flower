@@ -1,15 +1,33 @@
-# 许可范围
+# What you can reuse
 
-本仓库使用两种许可，按文件类型划分：
+[简体中文](#中文说明)
+
+Different parts of this repository have different terms:
+
+| Material | Terms |
+| --- | --- |
+| `*.py` and `*.ino` files, plus runnable code examples in the guides | [MIT](LICENSE) |
+| Original writing, tables, and diagrams in `*.md` files | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode) |
+| `publish-assets/rotating-flower-demo-en-60s.mp4` and `publish-assets/demo-preview.gif` | For viewing this project; no permission to redistribute under MIT or CC BY 4.0 |
+
+The MIT license is in [LICENSE](LICENSE). CC BY 4.0 allows sharing and adaptation, including commercial use, if you give credit, link the license, and note changes. For the written guides, credit “Flynn” and link to this repository.
+
+These licenses do not give anyone rights to third-party logos or designs. The decoration in the video is a purchased piece bearing an OpenAI logo. This is a personal, non-commercial DIY project, with no affiliation, sponsorship, or endorsement from OpenAI. The repository does not include the decoration's CAD or 3D-print files, and this page does not give permission to use the logo, copy the decoration, or redistribute the video. See [OpenAI's brand guidelines](https://openai.com/brand/).
+
+If original hardware design files are added later, they will need their own stated license. The table above does not assign one to future files.
+
+## 中文说明
+
+仓库中的不同内容适用不同许可：
 
 | 内容 | 许可 |
 | --- | --- |
-| `*.py`、`*.ino` 程序及文档内可运行的代码示例 | [MIT](LICENSE) |
-| `*.md` 文档文字、表格和原创示意图 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode) |
-| `publish-assets/rotating-flower-demo-en-60s.mp4` 演示视频 | 仅供观看演示；不在 MIT 或 CC BY 4.0 的授权范围内 |
+| `*.py`、`*.ino` 程序及教程中的可运行代码示例 | [MIT](LICENSE) |
+| `*.md` 文件中的原创文字、表格和示意图 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode) |
+| `publish-assets/rotating-flower-demo-en-60s.mp4` 和 `publish-assets/demo-preview.gif` | 供浏览本项目；不在 MIT 或 CC BY 4.0 的再分发授权范围内 |
 
-MIT 许可保留在根目录 [`LICENSE`](LICENSE)。CC BY 4.0 允许分享和改编，包括商业用途；传播时需按许可要求署名、附许可链接，并说明修改。建议署名为“Flynn”，并链接到本仓库。两种许可均不授予第三方商标、标志或第三方资料的权利。
+MIT 许可见 [LICENSE](LICENSE)。CC BY 4.0 允许分享和改编文字内容，包括商业用途；使用时需署名、附许可链接并说明修改。教程文字建议署名“Flynn”，并链接到本仓库。
 
-视频中的花件是购买的成品，其上有 OpenAI 标志。本项目是个人、非商业的 DIY 原型，与 OpenAI 没有合作、赞助或官方关联。作者没有该标志或花件 3D 模型的授权，仓库也不提供其模型文件。视频仅用于展示本仓库的电子与软件方法；本许可文件不授予他人使用 OpenAI 标志、复制花件设计或再分发视频的权利。标志使用仍须遵守 [OpenAI 品牌说明](https://openai.com/brand/)。
+这些许可不包含第三方标志或设计的权利。视频中的花朵装饰件是购买的成品，带有 OpenAI 标志。本项目是个人非商业 DIY，与 OpenAI 没有合作、赞助或官方关联。仓库不提供该装饰件的 CAD 或 3D 打印文件；本页也不授权使用标志、复制装饰件设计或再分发视频。标志使用请参阅 [OpenAI 品牌说明](https://openai.com/brand/)。
 
-仓库没有花件的 CAD/STL/STEP 文件。若将来加入作者自制的硬件设计文件，应在提交时明确其许可；当前表格不自动指定未来文件的许可。
+如果以后加入自制的硬件设计文件，会单独说明许可；上表不会自动为未来文件指定许可。
