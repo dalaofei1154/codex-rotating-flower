@@ -1,0 +1,25 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+*.log
+*.jsonl
+.pytest_cache/
+.idea/
+.vscode/
+
+# Local editing sources and release drafts; publish only the selected demo.
+0000.mov
+codex-*.mp4
+codex-*.mov
+video-clips/
+video-edit-a/
+docs/发布检查清单.md
+docs/发布文案.md
+m1/concept/
+m1/机械方案_v0.md
+m1/盆栽主体结构_v1.md
+m0/codex_bridge.py
