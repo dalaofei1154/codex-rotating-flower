@@ -4,7 +4,9 @@ A small physical status indicator for local Codex work. On a Mac, a Python bridg
 
 **This is an independent, personal, non-commercial DIY prototype. It is not affiliated with, sponsored by, or endorsed by OpenAI.** The OpenAI mark shown on the purchased decorative piece in the demo belongs to OpenAI. This repository does not include that piece's 3D model or grant any right to use the mark.
 
-**[▶ Watch the 60-second English demo](publish-assets/rotating-flower-demo-en-60s.mp4)** · [Step-by-step build guide](docs/build-guide-en.md) · [中文说明](README.md)
+[![10-second preview of the flower responding to Codex](publish-assets/demo-preview.gif)](https://raw.githubusercontent.com/dalaofei1154/codex-rotating-flower/main/publish-assets/rotating-flower-demo-en-60s.mp4)
+
+**[▶ View or download the full 60-second English demo](https://raw.githubusercontent.com/dalaofei1154/codex-rotating-flower/main/publish-assets/rotating-flower-demo-en-60s.mp4)** · [Step-by-step build guide](docs/build-guide-en.md) · [中文说明](README.md)
 
 The demonstration shows the working electronics and software prototype. The decorative flower body is a purchased part; this repository teaches the control method and does not contain a printable flower enclosure.
 

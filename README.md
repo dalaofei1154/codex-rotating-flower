@@ -4,7 +4,9 @@
 
 **这是个人、非商业的 DIY 原型，与 OpenAI 没有合作、赞助或官方关联。** 演示视频中的 OpenAI 标志属于 OpenAI，装饰花件为购买的成品；本仓库不提供该标志或花件的 3D 模型，也不授权他人使用该标志。项目目前验证了电子与软件联动，尚无可直接打印的完整花朵模型。
 
-**[▶ 观看 60 秒英文演示视频](publish-assets/rotating-flower-demo-en-60s.mp4)** · [English guide](README.en.md) · [中文从零搭建教程](docs/从零搭建.md)
+[![旋转花随 Codex 工作的 10 秒预览](publish-assets/demo-preview.gif)](https://raw.githubusercontent.com/dalaofei1154/codex-rotating-flower/main/publish-assets/rotating-flower-demo-en-60s.mp4)
+
+**[▶ 查看或下载完整 60 秒英文视频](https://raw.githubusercontent.com/dalaofei1154/codex-rotating-flower/main/publish-assets/rotating-flower-demo-en-60s.mp4)** · [English guide](README.en.md) · [中文从零搭建教程](docs/从零搭建.md)
 
 演示视频展示了实际原型；教程聚焦于如何通过电脑、ESP32 和步进电机让自己的旋转装置跟随 Codex 任务状态变化。视频和第三方标志的使用范围见[许可说明](LICENSES.md)。
 
