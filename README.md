@@ -1,86 +1,68 @@
-# Rotating Flower for Codex
+# Rotating Flower
 
 **English** · [简体中文](README.zh-CN.md)
 
-I made a small desk flower that spins while Codex is working. It stops when the task finishes. On my Mac, it also spins faster when I choose a higher reasoning setting.
+A desk flower that moves with local AI tasks. The macOS bridge connects **Codex and WorkBuddy** to an ESP32-controlled motor over USB.
 
-[![Watch a 10-second preview of the rotating flower](publish-assets/demo-preview.gif)](https://raw.githubusercontent.com/dalaofei1154/codex-rotating-flower/main/publish-assets/rotating-flower-demo-en-60s.mp4)
+Formerly `codex-rotating-flower`. This small release adds WorkBuddy support and a downloadable Mac installer. New enclosure designs and light notifications are planned separately and are **not included** in this release.
 
-**[Watch or download the full 60-second demo](https://raw.githubusercontent.com/dalaofei1154/codex-rotating-flower/main/publish-assets/rotating-flower-demo-en-60s.mp4)** · [Build it step by step](docs/build-guide-en.md)
+## WorkBuddy for Mac — v0.3.0
 
-This repository shows how to make the **motor respond to Codex**. It includes the ESP32 code and the Mac program that links Codex to the motor. The flower decoration in the video is a purchased piece; there is no printable flower model here. You can use your own decoration or start with a bare motor.
+**[Download the Mac installer](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.3.0/rotating-flower-workbuddy-macos-v0.3.0.zip)** · [Release notes and checksums](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.3.0) · [Setup / 安装说明](docs/workbuddy-macos.md)
 
-> This is my personal, non-commercial DIY project. It is not affiliated with, sponsored by, or endorsed by OpenAI. The OpenAI logo on the purchased decoration belongs to OpenAI. This repository does not provide a model of that decoration or permission to use the logo. [Read the license details](LICENSES.md).
+The installer is for an **already assembled, flashed and tested USB flower**. DIY builders should first follow the [hardware and firmware guide](docs/build-guide-en.md).
 
-## How it works
+1. Install and sign in to WorkBuddy on an Apple Silicon Mac, then connect the flower with a USB data cable.
+2. Unzip the download. Attach its versioned `.sh` file to WorkBuddy together with `INSTALL.md`, and send the text in `发给WorkBuddy的安装指令.txt` (adapt the attachment reference if using the extracted file).
+3. Let WorkBuddy run the installer. Approve any required system prompts yourself. Confirm that both the background service and a fresh USB handshake pass, then check that the flower turns during a task and stops afterward when no other tasks are active.
 
-```text
-Local Codex task → Python program on the Mac → USB cable → ESP32-C3 → motor driver → motor
+The package contains its source and instructions; it does not download programs or require an API key. It reuses an available Python 3.9+ runtime, including WorkBuddy's bundled Python. Setup messages and packaged instructions are currently in Chinese; the linked guide includes English instructions.
+
+## What it does
+
+| Source / selection | Motor preset |
+| --- | --- |
+| Codex | Five presets mapped from the selected reasoning effort |
+| WorkBuddy: Fast / 快速 | LOW |
+| WorkBuddy: Balanced / 均衡 | HIGH |
+| WorkBuddy: Deep / 极致 | ULTRA |
+| WorkBuddy: independent or unknown nonempty model | HIGH |
+| WorkBuddy: older records with no model selection | LOW |
+
+WorkBuddy tasks pause their motor contribution while waiting for user input, resume when work continues, and stop contributing when completed or cancelled. Multiple active tasks use the highest preset; the motor stops when none remain active. Existing Codex support is preserved by the WorkBuddy installer.
+
+These are **selected-mode mappings**, not measurements of cloud compute, intelligence, tokens per second or physical RPM. A WorkBuddy mode change applies to the next task turn. See the guide for restart and sampling limitations.
+
+## Run from source
+
+With Python 3.9+ on macOS, from the repository root:
+
+```sh
+# Read-only state inspection; does not open USB
+python3 m1/global_bridge.py --source workbuddy --once
+
+# Follow WorkBuddy, or both apps (run only one bridge at a time)
+python3 m1/global_bridge.py --source workbuddy
+python3 m1/global_bridge.py --source both
 ```
 
-The Python program reads **local** Codex task records. When a task starts, it tells the ESP32 to turn the motor. When the task ends, it tells the motor to stop. If several tasks run at once, it uses the fastest of their selected settings.
+The default source remains Codex. For background installation, updates and removal, see the [bridge guide](m1/README.md).
 
-## What you need
+## Scope and validation
 
-| Part | Quantity |
-| --- | ---: |
-| Mac running local Codex tasks | 1 |
-| ESP32-C3 SuperMini board | 1 |
-| ULN2003 motor driver board | 1 |
-| 5 V 28BYJ-48 five-wire stepper motor | 1 |
-| Female-to-female jumper wires | 6 |
-| USB-C **data** cable | 1 |
-
-![The controller, jumper wires, driver, motor lead, and motor, marked 1 to 5](publish-assets/hardware-components-labeled.png)
-
-In the photo: **1** ESP32-C3 controller; **2** six female-to-female jumper wires; **3** ULN2003 driver; **4** the motor's own five-wire lead and white plug; **5** the 5 V stepper motor. The white plug is **unplugged in the photo**—insert it into the driver's white socket before testing. The Mac and USB-C data cable are not shown. Use the printed pin labels and the [wiring table](docs/build-guide-en.md#2-wire-the-boards) for connections; the photo is for identifying parts.
-
-The ESP32-C3 is the controller; you do not need another microcontroller. The motor's built-in five-pin plug goes into the ULN2003 board. You will also need Arduino IDE to upload the firmware and Python 3.9 or newer on the Mac. The Python program uses only the standard library.
-
-My prototype uses a roughly 1:16 geared motor. I tested this setup for short runs; a different motor or a heavier flower may behave differently.
-
-### Optional flower decoration
-
-The motor works without a flower. These are the separate **purchased** pieces shown in my demo; you can use a different decoration that fits your motor and mounting method.
-
-![Optional purchased flower pieces marked 1 to 5](publish-assets/optional-flower-parts-labeled.png)
-
-The labels show **1** a white round piece, **2** the flower head, **3** the stem and leaves, **4** the pot, and **5** a small green connector piece. This identifies what is visible, not exact dimensions or assembly instructions. **No CAD, STL, STEP, or other 3D-print model for these pieces is included.** The flower head bears a third-party OpenAI logo; see the [license details](LICENSES.md).
-
-## Get it running
-
-The [full build guide](docs/build-guide-en.md) has detailed wiring, setup, and troubleshooting steps. Start with the motor before attaching a flower.
-
-1. **Wire the boards with USB unplugged.** Connect `5V → +`, `G/GND → -`, and `GPIO4–7 → IN1–IN4` in order. Check the labels on *your* boards and the motor's 5 V rating before powering anything.
-2. **Upload the firmware.** Open [`m0/motor_control/motor_control.ino`](m0/motor_control/motor_control.ino) in Arduino IDE, select your ESP32-C3 board and port, then upload. I tested with Espressif's Arduino-ESP32 core 3.3.11.
-3. **Test the motor.** In Serial Monitor at 115200 baud, send `PING` and look for `PONG`. Send `RUN LOW` to turn the motor, then `STOP`. Close Serial Monitor before the next step so the Python program can use the same port.
-4. **Start the Mac program** from this repository's root folder:
-
-   ```sh
-   python3 m1/global_bridge.py --once
-   python3 m1/global_bridge.py
-   ```
-
-   The first command only reports what Codex task state it sees; it does not connect to the motor. Leave the second command running and start a **local** Codex task. Press Ctrl+C to stop the program and send `STOP`. If automatic port detection fails, add `--port /dev/cu.usbmodemXXXX` with the actual port name on your Mac.
-
-After the manual test works, you can [set it to start when you log in](m1/README.md).
-
-## What can you reuse?
-
-The [ESP32 firmware](m0/motor_control/motor_control.ino) and [Mac program](m1/global_bridge.py) are here for you to try on similar hardware. The Mac program does not contain my username or a fixed USB port. It looks under your `CODEX_HOME` folder (or `~/.codex` by default) and finds the board through a `PING`/`PONG` reply.
-
-The Codex connection reads a **local file format that may change**. If a Codex update breaks it, that part of the program may need updating. Cloud tasks and Windows are not supported by this version. If you use different hardware or a different Codex setup, the [build guide](docs/build-guide-en.md#5-what-transfers-to-another-setup) explains which pieces to change. You can begin with just two states: spinning while a task runs and stopped when it ends.
-
-The five speed names set delays between motor steps; they are **not measured RPM**. I have not tested long-term continuous use or every motor and load combination. [See the test notes](debug_log.md).
-
-The program reads local task state and sends commands over USB. It does not need an OpenAI API key or send your conversation to a project server. Please do not upload your own Codex session files, logs, or credentials to GitHub.
-
-## Tests and licenses
-
-Run the software tests from the repository root:
+- Local macOS tasks only; no Windows or cloud-task support in this release.
+- WorkBuddy 5.9.3: three presets, parallel-task fallback, cancellation and wait/resume checked against real controller replies. Earlier 5.8.3 start/stop behavior was also visually confirmed.
+- v0.3.0 installation: tested on the maintainer's Apple Silicon Mac with WorkBuddy 5.9.3, including fresh USB handshake and final STOP. Independent installation on another Mac and long-running use remain to be verified; the latest three-preset test did not measure RPM or noise.
+- 42 automated tests cover the bridge, installer and package. Tests use temporary fixtures and mocked hardware/service controls.
+- The adapters depend on local application data formats and need retesting after application updates. WorkBuddy reads task/worker metadata, not conversation text or credentials, and does not modify its database. The bridge sends no data to a project server.
+- A task with no state update for 10 minutes stops contributing. The existing firmware stops after 30 seconds without a `RUN` command.
 
 ```sh
 python3 -m unittest discover -s m1 -p 'test_*.py' -v
 ```
 
-The code is under [MIT](LICENSE), and the written guides are under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode). The video, photos, and third-party logo are **not** covered by those licenses. See [LICENSES.md](LICENSES.md) and [CONTRIBUTING.md](CONTRIBUTING.md).
+## What is open source?
+
+The bridge, installer and ESP32 firmware are [MIT licensed](LICENSE); written guides use CC BY 4.0. **3D models and manufacturing files are not published.** You can use your own decoration or start with a bare motor. See [LICENSES.md](LICENSES.md) for the separate terms covering historical media.
+
+This release adds no images or new hardware design. The [original Codex build guide](docs/build-guide-en.md) remains available as a hardware reference. This is an independent project, not affiliated with or endorsed by OpenAI or WorkBuddy.

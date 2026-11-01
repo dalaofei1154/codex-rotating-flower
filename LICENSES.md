@@ -13,7 +13,7 @@ Different parts of this repository have different terms:
 
 The MIT license is in [LICENSE](LICENSE). CC BY 4.0 allows sharing and adaptation, including commercial use, if you give credit, link the license, and note changes. For the written guides, credit “Flynn” and link to this repository.
 
-These licenses do not give anyone rights to third-party logos or designs. The decoration in the video and labeled photo is a purchased piece bearing an OpenAI logo. This is a personal, non-commercial DIY project, with no affiliation, sponsorship, or endorsement from OpenAI. The repository does not include the decoration's CAD or 3D-print files, and this page does not give permission to use the logo, copy the decoration, or redistribute the video or photos. See [OpenAI's brand guidelines](https://openai.com/brand/).
+These licenses do not give anyone rights to third-party logos or designs. The decoration in the video and labeled photo is a purchased piece bearing an OpenAI logo. The original demo was a personal, non-commercial DIY experiment. Rotating Flower is an independent project, with no affiliation, sponsorship, or endorsement from OpenAI or WorkBuddy. The repository does not include the decoration's CAD or 3D-print files, and this page does not give permission to use the logo, copy the decoration, or redistribute the video or photos. See [OpenAI's brand guidelines](https://openai.com/brand/).
 
 If original hardware design files are added later, they will need their own stated license. The table above does not assign one to future files.
 
@@ -30,6 +30,10 @@ If original hardware design files are added later, they will need their own stat
 
 MIT 许可见 [LICENSE](LICENSE)。CC BY 4.0 允许分享和改编文字内容，包括商业用途；使用时需署名、附许可链接并说明修改。教程文字建议署名“Flynn”，并链接到本仓库。
 
-这些许可不包含第三方标志或设计的权利。视频和标注照片中的花朵装饰件是购买的成品，带有 OpenAI 标志。本项目是个人非商业 DIY，与 OpenAI 没有合作、赞助或官方关联。仓库不提供该装饰件的 CAD 或 3D 打印文件；本页也不授权使用标志、复制装饰件设计或再分发视频及照片。标志使用请参阅 [OpenAI 品牌说明](https://openai.com/brand/)。
+这些许可不包含第三方标志或设计的权利。视频和标注照片中的花朵装饰件是购买的成品，带有 OpenAI 标志。早期演示是个人非商业 DIY 实验。Rotating Flower 是独立项目，与 OpenAI 或 WorkBuddy 没有合作、赞助或官方关联。仓库不提供该装饰件的 CAD 或 3D 打印文件；本页也不授权使用标志、复制装饰件设计或再分发视频及照片。标志使用请参阅 [OpenAI 品牌说明](https://openai.com/brand/)。
 
 如果以后加入自制的硬件设计文件，会单独说明许可；上表不会自动为未来文件指定许可。
+
+The WorkBuddy update publishes software and installer assets only. Current 3D models and manufacturing files are not included.
+
+本次 WorkBuddy 更新仅发布软件及安装包，当前 3D 模型和生产文件不公开。

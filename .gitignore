@@ -23,3 +23,23 @@ m1/concept/
 m1/机械方案_v0.md
 m1/盆栽主体结构_v1.md
 m0/codex_bridge.py
+
+# Private design, manufacturing, research and local delivery work.
+/design/
+/output/
+/deliverables/
+/diagnostics/
+/tmp/
+/dist/
+/项目总览.md
+/docs/self-review/
+/docs/资料索引.md
+/docs/版本与验证状态.md
+*.stl
+*.3mf
+*.step
+*.stp
+*.blend
+*.blend1
+*.gcode
+*.zip
