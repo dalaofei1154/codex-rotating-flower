@@ -14,6 +14,7 @@ For code changes, say whether you changed the ESP32 firmware, the Mac program, o
 
 ```sh
 python3 -m unittest discover -s m1 -p 'test_*.py' -v
+python3 -m unittest discover -s m1/integrated -p 'test_*.py' -v
 ```
 
 If you change motor pins, speed, or power wiring, tell us which hardware you tested and for how long. A speed calculated from step timing is not a measured RPM. For images or other media, include the source and redistribution rights. The flower decoration in the demo was purchased; its 3D model is not included here.
