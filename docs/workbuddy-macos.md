@@ -1,3 +1,11 @@
+# Current installation / 当前安装入口
+
+For the current Codex + WorkBuddy installer with rotation and attention lights, use [install-macos.md](install-macos.md). The v0.3.0 instructions below describe the historical motor-only release.
+
+当前双应用旋转与提醒灯使用 [统一安装说明](install-macos.md)；下方仅保留 v0.3.0 纯旋转版本记录。
+
+---
+
 # WorkBuddy Mac setup / WorkBuddy Mac 安装
 
 [English README](../README.md) · [中文首页](../README.zh-CN.md)

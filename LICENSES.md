@@ -6,7 +6,7 @@ Different parts of this repository have different terms:
 
 | Material | Terms |
 | --- | --- |
-| `*.py` and `*.ino` files, plus runnable code examples in the guides | [MIT](LICENSE) |
+| Original `*.py`, `*.ino`, `*.sh` and `*.command` files, plus runnable code examples in the guides | [MIT](LICENSE) |
 | Original writing, tables, and diagrams in `*.md` files | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode) |
 | `publish-assets/rotating-flower-demo-en-60s.mp4` and `publish-assets/demo-preview.gif` | For viewing this project; no permission to redistribute under MIT or CC BY 4.0 |
 | `publish-assets/hardware-components-labeled.png` and `publish-assets/optional-flower-parts-labeled.png` | For viewing this project; no permission to redistribute under MIT or CC BY 4.0 |
@@ -23,7 +23,7 @@ If original hardware design files are added later, they will need their own stat
 
 | 内容 | 许可 |
 | --- | --- |
-| `*.py`、`*.ino` 程序及教程中的可运行代码示例 | [MIT](LICENSE) |
+| 原创 `*.py`、`*.ino`、`*.sh`、`*.command` 程序及教程中的可运行代码示例 | [MIT](LICENSE) |
 | `*.md` 文件中的原创文字、表格和示意图 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode) |
 | `publish-assets/rotating-flower-demo-en-60s.mp4` 和 `publish-assets/demo-preview.gif` | 供浏览本项目；不在 MIT 或 CC BY 4.0 的再分发授权范围内 |
 | `publish-assets/hardware-components-labeled.png` 和 `publish-assets/optional-flower-parts-labeled.png` | 供浏览本项目；不在 MIT 或 CC BY 4.0 的再分发授权范围内 |
@@ -37,3 +37,7 @@ MIT 许可见 [LICENSE](LICENSE)。CC BY 4.0 允许分享和改编文字内容�
 The WorkBuddy update publishes software and installer assets only. Current 3D models and manufacturing files are not included.
 
 本次 WorkBuddy 更新仅发布软件及安装包，当前 3D 模型和生产文件不公开。
+
+The Mac installer bundles CPython from python-build-standalone. CPython and its included dependencies retain their own licenses and notices, preserved inside the Python archive. The project MIT license does not replace those third-party terms. See `Python来源.txt` in the release package for the pinned source and checksum.
+
+Mac 安装包附带 python-build-standalone 提供的 CPython；Python 及其依赖保留各自许可和版权声明，原文件完整保留在 Python 压缩包内，项目 MIT 不覆盖第三方许可。固定来源和校验值见安装包内 `Python来源.txt`。

@@ -1,3 +1,11 @@
+# Current Mac installer / 当前 Mac 安装器
+
+Use the [v0.6.0 unified installer](../docs/install-macos.md) for Codex + WorkBuddy rotation and attention lights. It includes Python and detects installed apps. The commands below are the historical motor-only implementation and must not replace the unified service.
+
+旋转与提醒灯请使用 [统一安装说明](../docs/install-macos.md)。下方保留旧版纯旋转程序的文档；不要用旧安装命令覆盖统一后台。
+
+---
+
 # Mac bridge: Codex + WorkBuddy
 
 [简体中文](#中文说明)
