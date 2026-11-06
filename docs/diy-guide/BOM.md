@@ -1,6 +1,6 @@
 # 采购清单 / Bill of materials
 
-一盆无品牌雏菊带灯版所需数量。材料与接线以实物端子为准；不要求购买某个店铺。 / Quantities for one unbranded daisy with an attention light. Check the actual board connectors before ordering.
+制作一朵带提醒灯的雏菊，需要以下材料。 / Materials for one daisy with an attention light.
 
 | 配件 / Part | 数量 / Qty | 规格 / Specification |
 | --- | --- | --- |
@@ -17,9 +17,9 @@
 | 热熔胶、绝缘胶带 / Hot glue and insulating tape | 适量 / As needed | 固定板卡、电机和遮光片 / Secure boards, motor and light shield |
 | 修边工具、镊子 / Deburring tool and tweezers | 各1 / 1 each | 清支撑、整线 / Remove supports and route wires |
 
-8 根普通线加一分二线是根据接线拓扑给出的采购方案，不是对原照片线束品牌或焊接工艺的认定。电机自带线不计入这 8 根。若使用另一种分线结构，应实现同一公共地连接，不能把两个母头硬塞进同一根针。 / This jumper count follows the wiring topology. The motor's own cable is separate. A different ground harness is acceptable if it securely joins the same three grounds.
+电机自带的五针线不计入 8 根杜邦线。用一分二线将主控、驱动板和灯板接到公共地。 / The motor's five-wire cable is separate from the eight jumpers. Use the splitter to join the controller, driver and LED grounds.
 
-作者补充的商品图已确认 KY-016 为四根预焊直角公排针版，可见三颗板载电阻及 R/G/B/− 丝印；按这个端子形态预留接线空间。图片用于核对模块外形，共阴电气规格仍以项目要求及实物核对为准。若买到未焊版本，需要先完成合适的焊接；本教程没有把焊接工具计入标准装配套件。 / The supplied product photo confirms the KY-016 variant with four pre-soldered right-angle male pins, three visible onboard resistors and R/G/B/− labels. Allow space for this connector arrangement. The photo identifies the physical variant; verify the required common-cathode electrical configuration on the actual module. Unpopulated boards require soldering before assembly, which is outside the standard tool list.
+购买灯板时选择预焊直角公排针、带限流电阻的共阴 KY-016，为排针和杜邦母头留出空间。 / Choose a common-cathode KY-016 with onboard resistors and pre-soldered right-angle male headers. Leave space for the headers and jumper connectors.
 
 准备一台 Apple 芯片 Mac（macOS 12+）运行 v0.6.0 联动软件，以及带 Arduino-ESP32 支持包的 Arduino IDE 烧录主控。安装包自带 Python，烧录工具须另外准备。 / Use an Apple silicon Mac with macOS 12+ for the v0.6.0 bridge, and Arduino IDE with Arduino-ESP32 support for flashing. The bridge installer includes Python, but does not include the flashing tools.
 

@@ -1,33 +1,31 @@
-# Rotating Flower Daisy DIY materials
+# Build a Rotating Flower
 
-**[▶ Watch the English film](../../README.md#watch)** · [▶ 中文配乐版](../../README.zh-CN.md#watch)
+[简体中文](README.md) · [See it in action](../../README.md#watch)
 
-See how the flower works and fits together in 72 seconds, with the original soundtrack “Little Things Turning.” The film also shows DSH in the local v0.7.0 preview. The current v0.6.0 download supports Codex and WorkBuddy.
+Rotating Flower connects to your Mac over USB. The flower spins while your AI works and pulses a light when it needs your answer. Start here to build the daisy edition with a reminder light.
 
-[模型下载图与3D组成动画 / Visual download guide and 3D animation](../../hardware/daisy-light/VISUAL_GUIDE.md)
+## Prepare and build
 
-[简体中文](README.md)
+| Step | Guide |
+| --- | --- |
+| 1. Gather the parts | [Materials list](../diy-guide/BOM.md) |
+| 2. Download and print | [Choose parts by picture](../../hardware/daisy-light/VISUAL_GUIDE.md) · [Printing guide](../diy-guide/PRINTING.md) |
+| 3. Assemble and wire | [Illustrated build guide](../diy-guide/README.en.md) · [Wiring table](../diy-guide/WIRING.md) |
+| 4. Flash the controller | [Motor and light firmware](../../firmware/README.md) |
+| 5. Connect your Mac | [Install the software](INSTALL.md#en) · [Build checklist](../diy-guide/CHECKLIST.md) |
 
-A little desk flower that connects to your Mac over USB. It spins while your AI works and gently pulses a light when it needs your answer. Different reasoning settings give the flower different speeds.
+Each flower needs 10 printed parts. The models come as 3MF projects, color-separated STL files and editable Blender meshes. Some 3MF plates include spares; use the parts list to select one set and slice it for your printer.
 
-Here are the files for the light-enabled daisy: 10 printed parts, models, an illustrated build guide, motor-and-light firmware, and the v0.6.0 software source.
+The flower center, clear cap and stem-to-lid joint are fitted without glue and are still a little loose. Check these fits during assembly, and hold the pot when moving the flower.
 
-My current build uses the L2 lid and P4 cap, and both rotation and lighting work. I haven't glued the flower center, clear cap or stem-to-lid joint; these fits are still a little loose, and I plan to improve them. Check them as you assemble yours, and hold the pot when moving the flower.
+## Software and source
 
-## Build your flower
+The [v0.6.0 installer](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) supports Codex and WorkBuddy on Apple silicon Macs and includes Python. DSH support is in development; see the [adapter notes](../dsh-macos.md).
 
-1. Read the [English build guide](../diy-guide/README.en.md) before purchasing parts.
-2. Follow the [model guide](../../hardware/README.md). Use the 3MF projects to preserve color alignment. The L2 and P4 reference plates contain two and four copies; you need one of each per flower.
-3. Wire with USB disconnected, then upload the [combined firmware](../../firmware/README.md).
-4. Install the [published v0.6.0 Mac release](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0). It targets Apple silicon Macs.
-5. Check motion, stopping, attention light, concurrent tasks, and operation with the enclosure closed. See the [checklist](../diy-guide/CHECKLIST.md).
+[Software source](../../software/release-v0.6.0/README.md) · [Firmware source](../../firmware/README.md) · [Editable models](../../hardware/daisy-light/README.en.md) · [Build updates](RELEASE_NOTES.md#english)
 
-The models include editable Blender meshes. The [v0.6.0 software source](../../software/release-v0.6.0/README.md) matches the public installer. The installer runs on Apple silicon Macs. I've tested it on my own Mac and would love to hear how it works on yours. If an app update breaks the connection, please include the app version when reporting it.
+## Share your flower
 
-## Reuse and share
+Post a photo in [Issues](https://github.com/dalaofei1154/rotating-flower/issues), along with your printer, filament and anything you learned while building it. Fit improvements and bug reports are welcome too.
 
-Software is MIT licensed. Written guides use CC BY 4.0. The selected models and new DIY images use CC BY-NC-SA 4.0: credit the creator, use them noncommercially, and share adaptations under the same license. Commercial use requires separate permission. See [license scope](../../LICENSES.md) and the [attribution example](ATTRIBUTION.md).
-
-Made a flower? Share a photo, your printer and material, or anything you learned along the way in [Issues](https://github.com/dalaofei1154/rotating-flower/issues). You can report problems or ask about commercial use there too. Please hide private information in any logs or screenshots you share.
-
-I'm Flynn. This started with a hand-turned potted ornament. With help from AI tools, I gradually built my own daisy design, motorized mechanism and app connection.
+Software and firmware use MIT, written guides use CC BY 4.0, and models, photos and videos use CC BY-NC-SA 4.0. See the [license details](../../LICENSES.md) and [inspiration and credits](ATTRIBUTION.md).

@@ -1,44 +1,31 @@
-# 旋转花雏菊版公开资料
+# 做一朵旋转花
 
-**[▶ 中文配乐介绍片](../../README.zh-CN.md#watch)** · [▶ English film](../../README.md#watch)
+[English](README.en.md) · [看看它怎么工作](../../README.zh-CN.md#watch)
 
-72 秒看看小花怎么工作、由哪些零件组成，配上原创音乐《小花慢慢转》。视频也展示了 DSH 的 v0.7.0 本地试用版；目前可下载的 v0.6.0 支持 Codex 和 WorkBuddy。
+旋转花通过 USB 连接 Mac。AI 工作时花盘转动，需要你回答时亮起呼吸灯。这里是雏菊带灯版的制作入口。
 
-[模型下载图与3D组成动画 / Visual download guide and 3D animation](../../hardware/daisy-light/VISUAL_GUIDE.md)
+## 准备与制作
 
-[English](README.en.md)
+| 步骤 | 资料 |
+| --- | --- |
+| 1. 准备材料 | [材料清单](../diy-guide/BOM.md) |
+| 2. 下载和打印 | [按图选择零件](../../hardware/daisy-light/VISUAL_GUIDE.md) · [打印说明](../diy-guide/PRINTING.md) |
+| 3. 组装和接线 | [图解制作教程](../diy-guide/README.md) · [接线表](../diy-guide/WIRING.md) |
+| 4. 烧录固件 | [旋转和提醒灯组合固件](../../firmware/README.md) |
+| 5. 连接 Mac | [安装软件](INSTALL.md) · [装配检查表](../diy-guide/CHECKLIST.md) |
 
-旋转花是一朵通过 USB 连接 Mac 的桌面小花：AI 工作时转动，需要你回答时亮起呼吸灯。不同推理档位对应不同转速。
+一盆需要 10 个打印件。模型提供 3MF、分色 STL 和可编辑 Blender 网格。部分 3MF 打印盘放了备用件，按零件清单取一套，再为自己的打印机切片。
 
-这里整理了雏菊带灯版的整套制作资料：10 个打印件、模型、图解教程、旋转＋灯光固件，以及 v0.6.0 软件源码。
+花心、透明灯帽、枝干与盆盖这几处没用胶，目前连接还有些松。装配时留意松紧，搬动时托住花盆。
 
-我现在装的是 L2 灯盖和 P4 灯帽，转动、亮灯都正常。花心、透明灯帽、枝干与盆盖的连接没有用胶，配合还有些松，后续会继续改模型。试装时留意这几处，搬动时托住花盆。
+## 软件与源码
 
-## 从这里开始
+[v0.6.0 安装包](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0)支持 Apple 芯片 Mac 上的 Codex 和 WorkBuddy，包内自带 Python。DSH 支持正在开发中，见[适配进展](../dsh-macos.md)。
 
-1. 阅读[材料、打印与装配教程](../diy-guide/README.md)，先核对材料再下单。
-2. 按[模型说明](../../hardware/README.md)选择一套零件，使用 3MF 保留双色对齐，或按 STL 清单导入。每套 10 件；L2、P4 参考盘分别排了 2 件、4 件，切片时只保留所需数量。
-3. 断电接线并检查，再烧录[旋转和提醒灯组合固件](../../firmware/README.md)。
-4. 安装[公开 v0.6.0 Mac 软件](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0)。已装好软件的人不必再次安装。
-5. 依照[验收表](../diy-guide/CHECKLIST.md)检查起停、灯光、并行任务和合盖后运行。
+[软件源码](../../software/release-v0.6.0/README.md) · [固件源码](../../firmware/README.md) · [可编辑模型](../../hardware/daisy-light/README.md) · [制作资料更新](RELEASE_NOTES.md)
 
-## 文件与版本
+## 分享你做的小花
 
-| 内容 | 入口 | 说明 |
-| --- | --- | --- |
-| 打印模型与可编辑网格 | [hardware](../../hardware/README.md) | 雏菊版打印文件与可编辑 Blender 网格 |
-| 图解制作教程 | [中文](../diy-guide/README.md) / [English](../diy-guide/README.en.md) | 过程实拍；封面替换过背景 |
-| 固件 | [firmware](../../firmware/README.md) | `FLOWER_COMBINED_V1`；USB 控制旋转和呼吸灯 |
-| 软件源码 | [release-v0.6.0](../../software/release-v0.6.0/README.md) | 与公开 v0.6.0 安装包对应 |
-| 更新记录 | [RELEASE_NOTES](RELEASE_NOTES.md) | 本次内容、试装情况和待改进之处 |
-| 许可与署名 | [LICENSES](../../LICENSES.md) / [ATTRIBUTION](ATTRIBUTION.md) | 软件 MIT；文字 CC BY；模型和新图片 CC BY-NC-SA |
+欢迎在 [Issues](https://github.com/dalaofei1154/rotating-flower/issues) 发张照片，聊聊打印机、耗材和组装过程。接口改进和使用问题也可以在那里交流。
 
-安装包适用于 Apple 芯片 Mac。我在自己的 Mac 上做了联动测试，也想看看它在大家的设备上用起来怎么样。Codex、WorkBuddy 更新后，如果出现联动问题，欢迎反馈应用版本。
-
-## 复现与改进
-
-欢迎在[项目 Issues](https://github.com/dalaofei1154/rotating-flower/issues)晒出你做的小花，聊聊打印机、耗材和组装过程，也可以反馈问题。贴日志或截图前，记得遮住私人信息。商业合作也可以在这里联系。
-
-这批模型与新图片采用 CC BY-NC-SA 4.0，允许署名后的非商业分享、改编，分享改编作品时沿用相同许可。商业使用需另行取得许可。软件的 MIT 许可保持不变。
-
-我是 Flynn。这朵小花的起点是一个手动盆栽摆件，后来我借助 AI 工具，一点点做出了自己的雏菊造型、电动结构和应用联动。
+软件与固件采用 MIT，教程文字采用 CC BY 4.0，模型、图片和视频采用 CC BY-NC-SA 4.0。具体范围见[许可说明](../../LICENSES.md)，创作来源见[参考与署名](ATTRIBUTION.md)。

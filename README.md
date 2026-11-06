@@ -12,11 +12,7 @@
 
 https://github.com/user-attachments/assets/debc0f6c-ad6e-49d3-a212-e0ad689b4f36
 
-**[▶ Watch in English](#watch)** · [▶ 中文介绍](README.zh-CN.md#watch) · [More videos and images](hardware/daisy-light/VISUAL_GUIDE.md)
-
-A 72-second animation made from the printable models, showing how the flower works and how its ten parts fit together. With original music, no voiceover.
-
-The video features **Codex, WorkBuddy and DeepSeek Harness (DSH)**. See [which versions you can use below](#compatibility).
+[中文介绍](README.zh-CN.md#watch) · [Parts and models](hardware/daisy-light/VISUAL_GUIDE.md)
 
 ## What it tells you
 
@@ -45,9 +41,8 @@ Each mode has a speed preset. When several tasks run together, the flower uses t
 | --- | --- | --- |
 | Codex | [v0.6.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | Apple silicon · macOS 12+ |
 | WorkBuddy | [v0.6.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | Apple silicon · macOS 12+ |
-| DeepSeek Harness (DSH) | **v0.7.0 — testing locally**, download coming later | Apple silicon · DSH needs macOS 13+ |
+| [DeepSeek Harness (DSH)](docs/dsh-macos.md) | v0.7.0 in development | Apple silicon · macOS 13+ |
 
-The downloadable v0.6.0 installer supports Codex and WorkBuddy. DSH support was developed with DSH 0.2.1-rc.5; progress and mode mappings are in the [DSH notes](docs/dsh-macos.md).
 
 <a id="install"></a>
 ### Install on your Mac
@@ -58,7 +53,7 @@ The downloadable v0.6.0 installer supports Codex and WorkBuddy. DSH support was 
 2. Double-click **安装小花.command** and follow the prompts.
 3. Open and sign in to Codex or WorkBuddy, then start a task.
 
-The package includes Python and needs no API key of its own. Install your AI apps beforehand; the [build guide](docs/diy-guide/README.en.md) covers wiring and firmware. macOS may show a security prompt because the installer is unsigned. [Installation, upgrades and checksums](docs/open-release/INSTALL.md#en)
+The installer includes Python. See the [installation guide](docs/open-release/INSTALL.md#en) for setup, upgrades and uninstalling.
 
 <a id="models"></a>
 ## Build the daisy edition
@@ -101,8 +96,6 @@ The Mac software reads local task status and sends commands to the ESP32 over US
 <a id="faq"></a>
 ## A few practical questions
 
-**Does the flower play the music in the video?** The music is just for the video. The flower communicates through movement and light.
-
 **Does it need an internet connection or an API key?** The flower connects over USB and uses your apps' local task status. It needs no separate API key and sends no task records to a project server. Use your usual account to sign in to each AI app. [More about local data](docs/open-release/INSTALL.md#data)
 
 **Can I change the design?** Yes. You can adapt the models for noncommercial use. Credit the project and share your modified models under the same license. [License details](LICENSES.md)
@@ -119,6 +112,6 @@ Made by **Flynn**, with help from AI tools for modeling and code. [Inspiration a
 | --- | --- |
 | Software and firmware | MIT |
 | Written guides | CC BY 4.0 |
-| Selected models, DIY photos, renders, videos and original soundtrack | CC BY-NC-SA 4.0 |
+| Models, photos, renders and videos | CC BY-NC-SA 4.0 |
 
 See [LICENSES.md](LICENSES.md) for the scope of each license and third-party credits. Please contact me about commercial use of the models or media.

@@ -1,17 +1,11 @@
-# Hardware design license
+# Hardware and media license
 
 Copyright © 2026 Flynn.
 
-The selected design files in `daisy-light/print/`, `daisy-light/stl/` and `daisy-light/source/`, and the model-derived renders, video, original film soundtrack and animation scene in `daisy-light/visuals/`, identified by the model and visualization manifests, are licensed under **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**, to the extent of the licensor’s rights.
+The design files in `daisy-light/print/`, `daisy-light/stl/` and `daisy-light/source/`, and the images and videos in `daisy-light/visuals/`, including the music in the videos, use **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**.
 
-Full terms: https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.en
+You may share and adapt these materials for noncommercial purposes. Credit Flynn / Rotating Flower, link to the project and license, and indicate your changes. Shared adaptations must use the same license. For commercial use, contact the author.
 
-You may share and adapt the licensed material for noncommercial purposes with attribution, a license link and an indication of changes. Shared adaptations must use the same license. Commercial use requires separate permission. The full legal text governs; this summary adds no restrictions. Trademark and patent rights are not granted by this license.
+本目录中的雏菊模型、打印工程、可编辑模型、图片、视频及片中配乐采用 **CC BY-NC-SA 4.0**。可以署名后非商业分享和改编，分享改版时沿用相同许可，并说明修改。商用请联系作者。
 
-Credit Flynn and link to https://github.com/dalaofei1154/rotating-flower . See [attribution examples](../docs/open-release/ATTRIBUTION.md). Commercial inquiries may start at the [project issue tracker](https://github.com/dalaofei1154/rotating-flower/issues).
-
-本许可仅覆盖清单列明的雏菊模型、打印工程与可编辑网格，不覆盖第三方参考模型、品牌标志、工具链或运行时。模型以作者有权授权的范围提供；软件 MIT、教程文字 CC BY 4.0，分别适用。按许可保留署名、来源、许可链接和修改说明；非商业分享改版需沿用同一许可。商业使用另行联系作者。
-
-本次真实模型渲染图、组成动画视频及Blender动画场景同样适用CC BY-NC-SA 4.0。它们用于展示，不作为打印模型替代或已验证装配路径。
-
-2026-11-06新增的原创影片配乐《小花慢慢转 / Little Things Turning》同样采用CC BY-NC-SA 4.0，合成源代码采用项目MIT许可。配乐没有使用外部录音、采样或现成曲目。
+[Full license terms / 完整许可](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.en) · [Attribution examples / 署名示例](../docs/open-release/ATTRIBUTION.md) · [Project / 项目](https://github.com/dalaofei1154/rotating-flower)

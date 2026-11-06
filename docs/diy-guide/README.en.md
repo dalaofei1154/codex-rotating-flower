@@ -2,21 +2,21 @@
 
 [简体中文](README.md) · **English**
 
-Build a USB-powered desk flower that rotates with local AI work and uses a breathing light for recognized questions waiting for your response. This guide covers the unbranded daisy, ESP32-C3 SuperMini, ULN2003 driver, 5 V 1:16 28BYJ-48 motor and common-cathode KY-016 module.
+Build a USB-powered desk flower that rotates with local AI work and lights up when a task needs your response. This guide covers the daisy, ESP32-C3 SuperMini, ULN2003 driver, 5 V 1:16 28BYJ-48 motor and common-cathode KY-016 module.
 
-The guide was updated on **2026-11-05**. Use the combined `FLOWER_COMBINED_V1` firmware and the v0.6.0 Mac installer. The older motor-only firmware cannot control the light. The author confirmed that the L2 lid and P4 cap are assembled and both rotation and lighting work. The center, transparent cap and stem-to-lid joint are unglued and currently do not hold securely enough; the author plans to improve their fit in a later model iteration. Working motion and light do not establish reliable retention. Independent reproduction and long-term use remain to be tested.
+Use the combined `FLOWER_COMBINED_V1` firmware and the v0.6.0 Mac installer. My current build uses the L2 lid and P4 clear cap, and both motion and light work. The center, cap and stem-to-lid joint are fitted without glue and are still a little loose. I plan to improve those fits; carry the flower by the pot.
 
 ![Assembled rotating daisy](images/finished-clean-background.png)
 
-The background of this finished-product photo was replaced with AI assistance. The assembly photos below preserve the photographed parts; they are not dimensional drawings.
+The finished-product photo has a replaced background. The assembly photos below show the actual build.
 
 ## Prepare the parts
 
-Start with the bilingual [bill of materials](BOM.md), [printing settings](PRINTING.md), [wiring reference](WIRING.md) and [verification sheet](CHECKLIST.md). Download the matching [model set and manifest](../../hardware/README.md).
+Start with the bilingual [bill of materials](BOM.md), [printing settings](PRINTING.md), [wiring reference](WIRING.md) and [build checklist](CHECKLIST.md). Download the matching [models](../../hardware/README.md).
 
 The finished assembly uses ten printed parts: stem with leaves, motor cover, wire cover, daisy rotor, center, shaft adapter, pot, L2 light lid, P4 transparent cap and electronics tray. Colored STL components are not additional finished parts. Keep the black outlines aligned with their main bodies when loading the model project.
 
-Use PLA, a 0.4 mm nozzle, 0.20 mm layers and 100% scale as the recorded starting configuration. Reslice for your printer and actual filament. The per-part wall and infill values, L2 orientation, P4 settings and fit checks are in [PRINTING.md](PRINTING.md). Do not send another printer's G-code to your machine.
+Use PLA, a 0.4 mm nozzle, 0.20 mm layers and 100% scale as a starting point. Reslice for your printer and actual filament. The per-part wall and infill values, L2 orientation, P4 settings and fit checks are in [PRINTING.md](PRINTING.md). Do not send another printer's G-code to your machine.
 
 ![Printed parts and electronics](images/IMG_2556.jpg)
 
@@ -34,15 +34,15 @@ Disconnect USB before every wiring change, glue application or mechanical adjust
 
    ![Motor and rear wire channel](images/IMG_2559.jpg)
 
-3. **Fit the attention light.** Align the KY-016 LED with the lid's small round hole and secure the board to the underside mounting block with hot glue. Leave access to all four terminals. Test-fit the transparent cap from the front without glue. It must not press on the LED or obstruct the stem opening. Record any looseness: the author's current unglued cap does not hold securely enough. The author’s supplied product photo confirms a KY-016 with four pre-soldered right-angle male pins extending from the board edge parallel to the PCB. Leave room for the female connectors and wires. Three onboard resistors and R/G/B/− labels are visible; this identifies the physical variant, not a new electrical polarity test.
+3. **Fit the attention light.** Align the KY-016 LED with the lid's small round hole and secure the board to the underside mounting block with hot glue. Leave access to all four terminals. Test-fit the transparent cap from the front without glue. It must not press on the LED or obstruct the stem opening. Check whether the cap stays in place. Use the KY-016 version with four right-angle male pins along the board edge, and leave room for the female connectors and wires.
 
    ![Light module under the lid](images/IMG_2561.jpg)
 
-4. **Prepare the rotor.** Press the adapter into the back of the daisy with its shaft-hole boss facing outward. It should stay centered and secure; a little hot glue can reinforce the fit, but no glue should enter the shaft hole. Fit the yellow center on the front without glue and check its retention. The author's current center is not secure enough; seating it is not a successful retention check. Set the rotor aside until the bare-shaft electrical tests pass.
+4. **Prepare the rotor.** Press the adapter into the back of the daisy with its shaft-hole boss facing outward. It should stay centered and secure; a little hot glue can reinforce the fit, but no glue should enter the shaft hole. Fit the yellow center on the front without glue and check its retention. Set the rotor aside until the bare-shaft electrical tests pass.
 
    ![Adapter on the back of the rotor](images/IMG_2565.jpg)
 
-5. **Pass the motor plug through the lid first.** Keep it disconnected from the driver. Feed the white five-pin plug through the square lid opening from the top, then seat the stem. Check that the wire is not trapped at the edge. The author's stem-to-lid joint is unglued and not secure enough. Record wobble or withdrawal, and keep the joint accessible for fit checks. When moving the flower, support the pot body rather than lifting it by the stem or rotor.
+5. **Pass the motor plug through the lid first.** Keep it disconnected from the driver. Feed the white five-pin plug through the square lid opening from the top, then seat the stem. Check that the wire is not trapped at the edge. Check that the stem is seated and note any wobble.
 
    ![Pass the connector through the lid](images/IMG_2572.jpg)
 
@@ -55,8 +55,6 @@ Disconnect USB before every wiring change, glue application or mechanical adjust
 9. **Install the rotor last.** Support the motor housing, align the adapter's flat-sided hole with the motor shaft and press axially. Do not twist the petals to enlarge the hole. Leave clearance behind the rotor. Start at LOW, stopping immediately if it rubs, wobbles excessively or loosens.
 
    ![Aligning the shaft and adapter](images/IMG_2576.jpg)
-
-The author confirmed hot-glue fastening for the boards and motor, and a press-fit adapter that may be reinforced with glue. A mandatory screw specification has not been established. The center, cap and stem-to-lid joint are confirmed unglued. Their insufficient retention is a current known issue for later model iteration, not merely an untested long-term property. Check each interface independently; this guide does not present adding glue as a validated fix.
 
 ## Wire the electronics
 
@@ -71,7 +69,7 @@ Plug the motor's five-pin connector into the driver after routing it through the
 
 ## Flash and test the combined firmware
 
-Open [flower_integrated.ino](../../firmware/flower_integrated/flower_integrated.ino) in Arduino IDE. The verified build used Arduino-ESP32 **3.3.11**, **ESP32C3 Dev Module**, **USB CDC On Boot = Enabled**, **Flash Mode = DIO**, and **Upload Speed = 115200**. Select the actual USB port, compile and upload. Other board packages require retesting.
+Open [flower_integrated.ino](../../firmware/flower_integrated/flower_integrated.ino) in Arduino IDE. The verified build used Arduino-ESP32 **3.3.11**, **ESP32C3 Dev Module**, **USB CDC On Boot = Enabled**, **Flash Mode = DIO**, and **Upload Speed = 115200**. Select the actual USB port, compile and upload.
 
 For a first build, flash and test before installing the Mac bridge. If a background flower service is already installed, stop it before opening Serial Monitor; simply closing Codex or WorkBuddy may not release the port. The installer's `卸载小花.command` removes the whole flower background service while retaining logs and backups; reinstall after manual testing if you use this route.
 
@@ -89,25 +87,25 @@ Open Serial Monitor at **115200 baud**, sending a newline after each command:
 
 A single `ATTENTION ON` expires after approximately six seconds without renewal. A single `RUN` command expires after approximately 30 seconds without renewal. Check the corresponding timeout responses and physical stop/off behavior. Finish with `STOP`, `ATTENTION OFF`, `STATUS` and `LED STATUS`; expect `IDLE` and `LED_STATE=OFF`.
 
-After the bare-shaft tests pass, assemble the rotor and repeat LOW. Then briefly test LOW, MEDIUM, HIGH, XHIGH and ULTRA in order, sending STOP between presets. Do not use the experimental `TEST FAST` commands for normal acceptance. The presets are control intervals, not measured RPM.
+After the bare-shaft tests pass, assemble the rotor and repeat LOW. Then briefly test LOW, MEDIUM, HIGH, XHIGH and ULTRA in order, sending STOP between presets.
 
 ## Install the Mac bridge
 
-Use an **Apple silicon Mac with macOS 12 or later** and local Codex or WorkBuddy tasks. Intel Macs and Windows are not validated by this release. The hardware must already be assembled, flashed and tested.
+Use an **Apple silicon Mac with macOS 12 or later** and local Codex or WorkBuddy tasks. Assemble, flash and test the flower before installing the bridge.
 
 1. Close Serial Monitor and any old foreground bridge. Only one process should control the USB serial port.
 2. Download the [v0.6.0 Mac installer](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0), extract it and double-click **安装小花.command**. It includes Python and needs no API key. It does not flash firmware.
-3. The installer detects installed Codex and WorkBuddy applications and enables either or both. Open and sign in to the application yourself, then start a task. It can wait for an unopened or uninitialized app; this is not yet a successful task-source verification. Run the installer again if you later add the other app.
-4. Follow the [versioned installation guide](https://github.com/dalaofei1154/rotating-flower/blob/v0.6.0/docs/install-macos.md) for macOS prompts. This personal package is unsigned and not notarized; use the system's per-file confirmation when appropriate, without disabling global protections.
+3. The installer detects installed Codex and WorkBuddy applications and enables either or both. Open and sign in to the application yourself, then start a task. Run the installer again if you later add the other app.
+4. If macOS shows a security prompt, follow the [installation guide](../open-release/INSTALL.md#en) to allow the installer script to open.
 5. Check task start, completion, cancellation and a structured question card. The flower should rotate during work, stop when all work ends, light for a recognized pending question and clear that reminder after it is answered. If another task is working, rotation and the light can coexist.
 
-WorkBuddy Fast / Balanced / Deep map to LOW / HIGH / ULTRA. Codex maps the selected reasoning effort to five presets. These are mode mappings, not measurements of cloud compute or token throughput. The light does not claim to recognize every permission dialog; real system approval prompts remain a verification gap.
+WorkBuddy Fast / Balanced / Deep use LOW / HIGH / ULTRA. Codex uses five speed presets based on the selected reasoning effort. The light indicates questions waiting for your response.
 
 The bridge starts at Mac login. To remove it, double-click **卸载小花.command** from an extracted installer. This removes all flower background integration, retaining logs and backups.
 
 ## Finish and troubleshoot
 
-Complete the bilingual [verification sheet](CHECKLIST.md). The author's short tests and working L2/P4 assembly do not replace testing your own build. Long-running temperature, durability, another Mac's first installation and reproduction with another printer remain unverified.
+Work through the bilingual [build checklist](CHECKLIST.md) to check the finished flower.
 
 | Symptom | Check |
 | --- | --- |
@@ -120,6 +118,4 @@ Complete the bilingual [verification sheet](CHECKLIST.md). The author's short te
 
 ## Attribution and reuse
 
-The model files and this set of DIY photos, including the edited cover, are licensed **CC BY-NC-SA 4.0**, subject to their file-specific notices. Written tutorial text follows the repository's documentation license; software and firmware keep their separate license. Check [LICENSES.md](../../LICENSES.md), [model terms](../../hardware/LICENSE.md) and [image terms](images/LICENSE.md) before reuse. Third-party brand-logo rotors are excluded from this model set.
-
-[PHOTO_INDEX.md](PHOTO_INDEX.md) preserves the mapping from the 22 original photographs to the 15 selected process images. [REVIEW.md](REVIEW.md) records the remaining manufacturing details to clarify.
+Models and DIY photos use **CC BY-NC-SA 4.0**: credit the project, use them noncommercially and share adaptations under the same license. Tutorial text uses CC BY 4.0; software and firmware use MIT. See [LICENSES.md](../../LICENSES.md), [model terms](../../hardware/LICENSE.md) and [image terms](images/LICENSE.md).

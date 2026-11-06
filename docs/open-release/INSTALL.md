@@ -6,54 +6,49 @@
 
 ## 中文
 
-### 选哪个版本
+### 下载
 
-| 版本 | 支持应用 | 获取方式 |
-| --- | --- | --- |
-| 公开 v0.6.0 | Codex、WorkBuddy，可启用其中一个或两个 | [下载 ZIP](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.6.0/RotatingFlower-Mac-v0.6.0.zip) · [Release](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) |
-| 本地试用 v0.7.0 | Codex、WorkBuddy、DSH | 尚未公开发布；见 [DSH 适配说明](../dsh-macos.md) |
+**[下载 v0.6.0 安装包](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.6.0/RotatingFlower-Mac-v0.6.0.zip)** · [版本说明](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0)
 
-下面的双击安装、退出码和校验值对应公开 **v0.6.0**，该版本不包含 DSH。小花软件 v0.7.0 与 DSH 应用自身版本是两个不同编号。
+v0.6.0 支持 Codex 和 WorkBuddy，可以启用其中一个或两个。DSH 支持正在开发中，见[适配进展](../dsh-macos.md)。
 
 ### 安装前准备
 
-- Apple 芯片 Mac，macOS 12 或以上。DSH 试用适配另要求 DSH 自身支持的 macOS 13+。
+- Apple 芯片 Mac，macOS 12 或以上。
 - 已安装 Codex 和／或 WorkBuddy，使用自己的账号登录应用。
-- 已装好、接线检查完毕并烧录[旋转＋提醒灯组合固件](../../firmware/README.md)的小花，以及 USB 数据线。
+- 已装好并烧录[旋转＋提醒灯组合固件](../../firmware/README.md)的小花，以及 USB 数据线。
 
-安装包内带 Python，不需要另装 Python、Homebrew 或填写 API Key。包尚未签名、公证；必要的系统确认由使用者完成。Mac 安装器不代装 AI 应用，也不烧录控制板。
+安装包自带 Python，不需要另外安装运行环境或填写 API Key。包还没有签名、公证，macOS 可能会要求确认打开文件或允许 USB 配件连接，按系统提示操作即可。
 
 ### 三步安装
 
 1. 用 USB 数据线连接小花，下载并解压 ZIP。
-2. 双击 `安装小花.command`，按提示完成安装和系统确认。
-3. 打开并登录要使用的应用，开始一个任务，检查小花的转动、停转和提醒灯。
+2. 双击 `安装小花.command`，按窗口提示安装。
+3. 打开并登录 Codex 或 WorkBuddy，开始一个任务，看看小花的转动、停转和提醒灯。
 
-安装器根据已安装的应用识别 Codex、WorkBuddy，启用其中一个或两者。Codex 以应用 bundle ID 识别，不依赖应用文件名。
+安装器自动识别已安装的 Codex、WorkBuddy，启用其中一个或两者。安装后后台会在登录 Mac 时启动，解压文件夹可以删除。
 
 ### 安装结果与退出码
 
-以下为公开 v0.6.0 安装自检的返回值。自检覆盖后台服务、启用来源就绪状态，以及本次安装后的旋转＋提醒灯控制板连接；通信通过仍需自行观察实物动作。
+安装器会检查后台服务、应用状态和控制板连接。
 
 | 退出码 | 含义 | 下一步 |
 | --- | --- | --- |
-| `0` | 后台运行、启用应用就绪，旋转与提醒灯控制板已连接 | 开始任务，检查实物动作 |
-| `5` | 已安装且控制板连接通过，应用尚未打开或初始化 | 打开、登录应用并开始使用；后台会自动连接，不必重装 |
-| `4` | 已连接的控制板只提供旋转能力，没有提醒灯能力 | 核对硬件和固件，按组合固件教程处理；Mac 安装器不负责烧录 |
-| `3` | 后台设置已保存，但应用状态或设备连接自检未全部通过 | 根据日志核对应用、USB 数据线、连接许可和固件；此时尚未完成安装验收 |
-| `1` | 安装未完成，或另一安装程序仍在运行 | 查看终端中的具体原因；若是并发安装，等前一个结束 |
+| `0` | 后台运行、应用就绪，旋转与提醒灯控制板已连接 | 开始任务，检查小花的动作 |
+| `5` | 已安装且控制板连接通过，应用尚未打开或初始化 | 打开、登录应用并开始任务；后台会自动连接，不必重装 |
+| `4` | 控制板缺少提醒灯固件支持 | 按[组合固件说明](../../firmware/README.md)检查和烧录 |
+| `3` | 后台设置已保存，但应用状态或 USB 连接检查未通过 | 根据日志检查应用、数据线、USB 连接许可和固件 |
+| `1` | 安装未完成，或另一安装程序仍在运行 | 查看终端中的具体错误；若是并发安装，等前一个结束 |
 
-损坏或不兼容的应用数据会报告错误，不会被当成普通“等待应用”。可用的来源可以继续运行；需保留错误信息以便核对。分享日志前删去私人路径、任务标识、聊天内容和凭据。
+应用数据损坏或版本不兼容时，窗口会显示具体错误。反馈问题时请附上错误提示和应用版本，分享日志前删去私人信息。
 
 ### 升级、增加应用与卸载
 
-新装和升级都会重新识别已安装的 Codex／WorkBuddy。之后新增另一款应用，再运行一次安装器即可。安装过程保留备份和日志；请使用旋转＋提醒灯版本，历史纯旋转安装包只适合对应的旧配置。
+升级时运行新版本安装包。如果之后又安装了 Codex 或 WorkBuddy，重新运行安装器即可识别并启用它。安装过程会保留备份和日志。
 
-双击 `卸载小花.command` 会移除 Codex、WorkBuddy 共用的小花后台服务与登录自启，保留备份和日志，不卸载 AI 应用。该操作会同时移除两个来源的联动。
+双击 `卸载小花.command` 可移除小花后台服务和登录自启，Codex、WorkBuddy 的小花联动会一起停止。备份、日志和 AI 应用会保留。
 
-v0.7.0 的 DSH 接入还涉及本地插件配置的备份、安装和移除；以 [DSH 说明](../dsh-macos.md)为准。
-
-### 校验下载与源码对应
+### 校验下载与查看源码
 
 文件名：`RotatingFlower-Mac-v0.6.0.zip`
 
@@ -63,81 +58,86 @@ SHA256：
 a82b64865092d03672e4340752c0c574078149b9dbcfa028f9f3e3e995dd0c01
 ```
 
-可在终端输入 `shasum -a 256 `，将实际下载的 ZIP 拖入终端补全路径，然后按回车，与上面的值核对。此校验值仅对应原公开 v0.6.0 ZIP。
+在终端输入 `shasum -a 256 `，将下载的 ZIP 拖入终端补全路径，按回车后与上面的值核对。
 
-[固定 v0.6.0 源码快照](../../software/release-v0.6.0/README.md)对应公开 ZIP 的运行文件。根目录 `m1/` 后续开发已包含不同功能，不能视为同一个发布包的逐字源码；本地重新打包也会得到不同的 ZIP 校验值。
+安装包对应的运行代码在 [v0.6.0 源码目录](../../software/release-v0.6.0/README.md)。需要通过终端安装时，可以使用[固定版本安装脚本](https://github.com/dalaofei1154/rotating-flower/blob/v0.6.0/m1/install_unified_release.sh)，脚本会下载并校验同一个 ZIP。
 
 <a id="data"></a>
 
-### 本地数据与验证范围
+### 本地数据
 
-桥接只跟随本机任务，通过 USB 控制小花，不向本项目服务器上传任务记录。WorkBuddy 适配读取任务与进程元数据；Codex 适配读取本地运行状态和 rollout 记录来识别问题卡，保留状态与标识而不保留问题正文。DSH 本地试用适配通过观察插件提供状态摘要，细节见 [DSH 数据说明](../dsh-macos.md#本地数据与边界)。
+小花软件读取本机任务状态，通过 USB 控制小花，不向项目服务器上传任务记录。
 
-现有 v0.6.0 记录覆盖维护者 Mac 上的安装、USB、两应用并行、问题等待与回答恢复；作者已目视确认呼吸灯。其他 Mac 首次完整安装和长期运行仍需独立验证。应用内部格式可能变化，升级后应复测。DSH 的本地适配有独立验证记录，各版本的验证范围分别记录。
+- **WorkBuddy：** 读取任务与进程元数据，包括状态和模式信息。
+- **Codex：** 读取本地运行状态和 rollout 记录来识别问题卡，保留状态与标识，不保存问题正文。
+
+应用更新可能改变本地数据格式。如果更新后联动出现问题，请反馈应用版本和现象。
 
 <a id="en"></a>
 
 ## English
 
-### Choose a version
+### Download
 
-| Version | Apps | Availability |
-| --- | --- | --- |
-| Public v0.6.0 | Codex, WorkBuddy, or both | [Download ZIP](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.6.0/RotatingFlower-Mac-v0.6.0.zip) · [Release](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) |
-| Local v0.7.0 preview | Codex, WorkBuddy and DSH | Not publicly released; see the [DSH adaptation notes](../dsh-macos.md) |
+**[Download v0.6.0](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.6.0/RotatingFlower-Mac-v0.6.0.zip)** · [Release notes](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0)
 
-The instructions, exit codes and checksum below refer to **public v0.6.0**, which does not include DSH. Rotating Flower v0.7.0 and the DSH application's own version are separate identifiers.
+v0.6.0 supports Codex, WorkBuddy, or both. DSH support is in development; see the [adapter notes](../dsh-macos.md).
 
 ### Before installing
 
-Use an Apple silicon Mac with macOS 12+, Codex and/or WorkBuddy, and an assembled flower flashed with the [combined rotation and attention-light firmware](../../firmware/README.md). Connect it with a USB data cable. The DSH preview additionally requires macOS 13+ for the DSH app.
+- An Apple silicon Mac running macOS 12 or later.
+- Codex and/or WorkBuddy installed, using your own account.
+- An assembled flower with the [combined motor-and-light firmware](../../firmware/README.md), plus a USB data cable.
 
-Python is included; no separate Python, Homebrew or API key is needed. The installer does not install or sign in to AI apps, and does not flash the control board. The package is unsigned and unnotarized; complete required system confirmations yourself.
+Python is included, and no separate runtime or API key is needed. The package is unsigned and unnotarized, so macOS may ask you to confirm opening a file or allow the USB accessory. Follow the system prompts.
 
 ### Install
 
 1. Connect the flower, download the ZIP and extract it.
-2. Double-click `安装小花.command` and follow the installation prompts.
-3. Open and sign in to your AI app, start a task, and check physical rotation, stopping and the attention light.
+2. Double-click `安装小花.command` and follow the prompts.
+3. Open and sign in to Codex or WorkBuddy, start a task, and check rotation, stopping and the attention light.
 
-The installer detects the installed Codex and WorkBuddy apps and enables either or both. Codex is identified by its bundle ID, not its application filename.
+The installer detects the installed apps and enables either or both. The service starts when you log in to your Mac. You can delete the extracted download folder after installation.
 
 ### Exit codes
 
-These codes describe the v0.6.0 installation self-check: background service, enabled app readiness, and a fresh connection to a board with both motor and attention capabilities. Successful communication is not a measurement of physical motion.
+The installer checks the background service, app status and controller connection.
 
 | Code | Meaning | What to do |
 | --- | --- | --- |
-| `0` | Service running, enabled apps ready, motor/light board connected | Start a task and check the flower |
-| `5` | Installed and board connected; an app is not open or initialized | Open and sign in to the app; connection retries automatically, without reinstalling |
-| `4` | The connected board supports rotation but lacks the light capability | Check hardware and combined firmware; the Mac installer does not flash it |
-| `3` | Settings saved, but app or device checks did not all pass | Read the log and check app state, USB cable, connection permission and firmware |
-| `1` | Installation failed, or another installer is running | Read the specific terminal error; wait if another installation is in progress |
+| `0` | Service running, apps ready, motor-and-light controller connected | Start a task and check the flower |
+| `5` | Installed and controller connected; an app is not open or initialized | Open and sign in to the app, then start a task; the service connects automatically |
+| `4` | The controller lacks attention-light firmware support | Check and flash the [combined firmware](../../firmware/README.md) |
+| `3` | Settings saved, but an app or USB check failed | Read the log and check the app, data cable, USB permission and firmware |
+| `1` | Installation failed, or another installer is running | Read the specific error; wait if another installation is in progress |
 
-Damaged or incompatible app data is reported as an error, not normal waiting. Healthy sources may continue operating. Remove private paths, task identifiers, conversation text and credentials before sharing logs.
+Damaged app data or an incompatible version produces a specific error. Include that message and your app version when reporting a problem, and remove private information from logs before sharing them.
 
 ### Upgrade, add an app or uninstall
 
-New installations and upgrades detect the installed apps again. Run the installer again if you later add Codex or WorkBuddy. Backups and logs are retained. Use the current motor-and-light package; historical motor-only packages belong to older configurations.
+Run the new installer to upgrade. If you later install Codex or WorkBuddy, run the installer again to detect and enable it. Backups and logs are retained.
 
-`卸载小花.command` removes the shared Rotating Flower background service and login startup for both apps, keeping backups and logs. It does not uninstall the AI apps. Both sources stop following tasks after removal.
-
-The local v0.7.0 DSH adaptation also manages a local observer-plugin configuration. Its backup, installation and removal behavior is documented in the [DSH notes](../dsh-macos.md).
+Double-click `卸载小花.command` to remove the flower's background service and login startup. This stops the flower connection for both apps. Backups, logs and the AI apps remain.
 
 ### Checksum and source
 
 File: `RotatingFlower-Mac-v0.6.0.zip`
 
+SHA256:
+
 ```text
 a82b64865092d03672e4340752c0c574078149b9dbcfa028f9f3e3e995dd0c01
 ```
 
-To check it, type `shasum -a 256 ` in Terminal, drag in the actual downloaded ZIP to insert its path, then press Return. This checksum identifies the original public v0.6.0 ZIP only.
+Type `shasum -a 256 ` in Terminal, drag in the downloaded ZIP to insert its path, then press Return and compare the result with the value above.
 
-The [pinned v0.6.0 source](../../software/release-v0.6.0/README.md) matches runtime files from that release. Later code in the root `m1/` development tree differs; a locally rebuilt archive also has a different checksum.
+The runtime code for this installer is in the [v0.6.0 source directory](../../software/release-v0.6.0/README.md). For Terminal installation, use the [versioned installation script](https://github.com/dalaofei1154/rotating-flower/blob/v0.6.0/m1/install_unified_release.sh), which downloads and verifies the same ZIP.
 
-### Local data and validation
+### Local data
 
-The bridge follows local tasks and sends control commands over USB. It does not upload task records to a project server. WorkBuddy uses task/process metadata. Codex reads local runtime and rollout records to recognize questions, retaining state and identifiers rather than question text. The DSH preview uses a local observer plugin to provide state summaries.
+The bridge reads local task status and sends control commands over USB. It does not upload task records to a project server.
 
-Existing v0.6.0 checks cover the maintainer's Mac installation, USB communication, concurrent apps, waiting questions and resumption; the author visually confirmed the breathing light. Another Mac's full first installation and long-running use still need independent validation. App data formats may change, so app upgrades require retesting. DSH has separate adaptation records, with validation scope recorded for each version.
+- **WorkBuddy:** reads task and process metadata, including status and mode settings.
+- **Codex:** reads local runtime and rollout records to recognize questions, retaining state and identifiers without saving question text.
+
+App updates may change local data formats. If the connection stops working after an update, report the app version and what happened.

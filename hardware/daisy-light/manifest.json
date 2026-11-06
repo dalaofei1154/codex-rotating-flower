@@ -1,7 +1,6 @@
 {
   "schema_version": 1,
   "date": "2026-11-05",
-  "status": "public_materials",
   "name": "Daisy light / 雏菊带灯版",
   "physical_parts_per_set": 10,
   "stl_color_meshes": 13,
@@ -20,7 +19,6 @@
       "layer_height_mm": 0.2,
       "nozzle_mm": 0.4,
       "material": "PLA",
-      "validation": "保留已验纯绿结构；双色版可见于装配照片，未建立逐件文件哈希到照片的实装追踪。 2026-11-05补充：花心、灯帽、枝干与盆盖接口未用胶，目前连接不够稳固，待后续模型迭代；功能通过不等于保持力达标。",
       "stl_files": [
         "stl/P01_1.stl",
         "stl/P01_2.stl"
@@ -38,7 +36,6 @@
       "layer_height_mm": 0.2,
       "nozzle_mm": 0.4,
       "material": "PLA",
-      "validation": "已接受3号结构；原实装有双面胶缓冲。",
       "stl_files": [
         "stl/P02A.stl"
       ],
@@ -55,7 +52,6 @@
       "layer_height_mm": 0.2,
       "nozzle_mm": 0.4,
       "material": "PLA",
-      "validation": "已选7.1 mm完整长盖；10月22日实装反馈已推进旧待试装状态。",
       "stl_files": [
         "stl/P02B.stl"
       ],
@@ -72,7 +68,6 @@
       "layer_height_mm": 0.2,
       "nozzle_mm": 0.4,
       "material": "PLA",
-      "validation": "用户继续选择本项目原版雏菊；不采用N1试验花形。",
       "stl_files": [
         "stl/P03_1.stl",
         "stl/P03_2.stl"
@@ -90,7 +85,6 @@
       "layer_height_mm": 0.2,
       "nozzle_mm": 0.4,
       "material": "PLA",
-      "validation": "2026-10-31用户确认2号最合适；未完成长期带载/疲劳测试。",
       "stl_files": [
         "stl/P04.stl"
       ],
@@ -107,7 +101,6 @@
       "layer_height_mm": 0.2,
       "nozzle_mm": 0.4,
       "material": "PLA",
-      "validation": "沿用配套封底盆；无独立Type-C面框。",
       "stl_files": [
         "stl/P05.stl"
       ],
@@ -124,7 +117,6 @@
       "layer_height_mm": 0.2,
       "nozzle_mm": 0.4,
       "material": "PLA",
-      "validation": "2026-11-05作者在当前整理聊天确认L2＋P4已装好，转动与亮灯正常；几何检查通过。未推定长期寿命、跨机器复现或量产验收。 2026-11-05补充：花心、灯帽、枝干与盆盖接口未用胶，目前连接不够稳固，待后续模型迭代；功能通过不等于保持力达标。",
       "stl_files": [
         "stl/P06.stl"
       ],
@@ -141,7 +133,6 @@
       "layer_height_mm": 0.2,
       "nozzle_mm": 0.4,
       "material": "PLA",
-      "validation": "完整托盘已获用户实装认可；板卡热熔胶固定。",
       "stl_files": [
         "stl/P07.stl"
       ],
@@ -158,7 +149,6 @@
       "layer_height_mm": 0.2,
       "nozzle_mm": 0.4,
       "material": "PLA",
-      "validation": "2026-10-29实装确认最紧档；样品编号不可辨认，不推定寿命测试通过。 2026-11-05补充：花心、灯帽、枝干与盆盖接口未用胶，目前连接不够稳固，待后续模型迭代；功能通过不等于保持力达标。",
       "stl_files": [
         "stl/P08_1.stl",
         "stl/P08_2.stl"
@@ -176,7 +166,6 @@
       "layer_height_mm": 0.2,
       "nozzle_mm": 0.4,
       "material": "PLA",
-      "validation": "P3 D6.2基本实物配合已获认可；P4为相同几何。2026-11-05作者进一步确认L2＋P4整套装好，转动及亮灯正常；长期保持力未验证。 2026-11-05补充：花心、灯帽、枝干与盆盖接口未用胶，目前连接不够稳固，待后续模型迭代；功能通过不等于保持力达标。",
       "stl_files": [
         "stl/P09.stl"
       ],
@@ -186,344 +175,211 @@
   "files": [
     {
       "path": "hardware/daisy-light/stl/P01_1.stl",
-      "source_path": "deliverables/花间_I1p1整合打印版_含已验花心_20261029/01_STL/01a_枝干_B版_绿色.stl",
       "sha256": "541b25a474f46a877d4a744a61b688ee5ed5d72887190a63310391d939a685d8",
-      "source_sha256": "541b25a474f46a877d4a744a61b688ee5ed5d72887190a63310391d939a685d8",
-      "copy_byte_identical": true,
       "part_ids": [
         "P01"
       ],
       "quantity_per_set": 1,
-      "triangles": 17094,
-      "kind": "stl",
-      "closed_edge_topology": true
+      "kind": "stl"
     },
     {
       "path": "hardware/daisy-light/stl/P01_2.stl",
-      "source_path": "deliverables/花间_I1p1整合打印版_含已验花心_20261029/01_STL/01b_枝干_B版_黑色描边.stl",
       "sha256": "87c0865c8a4d950d85a6a1e01e37ecd943bce89b01219ce05ab3db4753d5a94e",
-      "source_sha256": "87c0865c8a4d950d85a6a1e01e37ecd943bce89b01219ce05ab3db4753d5a94e",
-      "copy_byte_identical": true,
       "part_ids": [
         "P01"
       ],
       "quantity_per_set": 1,
-      "triangles": 6200,
-      "kind": "stl",
-      "closed_edge_topology": true
+      "kind": "stl"
     },
     {
       "path": "hardware/daisy-light/stl/P02A.stl",
-      "source_path": "deliverables/花间_I1p1整合打印版_含已验花心_20261029/01_STL/02_电机后盖_实心3号_绿色.stl",
       "sha256": "ecbb2e9cbc22d21fe3caf22f83e988ccecc34024075690d566c9e80b71bca425",
-      "source_sha256": "ecbb2e9cbc22d21fe3caf22f83e988ccecc34024075690d566c9e80b71bca425",
-      "copy_byte_identical": true,
       "part_ids": [
         "P02A"
       ],
       "quantity_per_set": 1,
-      "triangles": 4050,
-      "kind": "stl",
-      "closed_edge_topology": true
+      "kind": "stl"
     },
     {
       "path": "hardware/daisy-light/stl/P02B.stl",
-      "source_path": "deliverables/花间_I1p1整合打印版_含已验花心_20261029/01_STL/03_藏线盖_W1_7p1_绿色.stl",
       "sha256": "95a68c66dffd5f3be9cba0fa50c0067f81e325069abb630564795fbac2f100c6",
-      "source_sha256": "95a68c66dffd5f3be9cba0fa50c0067f81e325069abb630564795fbac2f100c6",
-      "copy_byte_identical": true,
       "part_ids": [
         "P02B"
       ],
       "quantity_per_set": 1,
-      "triangles": 468,
-      "kind": "stl",
-      "closed_edge_topology": true
+      "kind": "stl"
     },
     {
       "path": "hardware/daisy-light/stl/P03_1.stl",
-      "source_path": "deliverables/花间_I1p1整合打印版_含已验花心_20261029/01_STL/04a_花盘_6mm_白色.stl",
       "sha256": "82af55e8b1b4b7e9b42dd02f4d049c4bbbc20910af07cc86f797ce5ce3b44448",
-      "source_sha256": "82af55e8b1b4b7e9b42dd02f4d049c4bbbc20910af07cc86f797ce5ce3b44448",
-      "copy_byte_identical": true,
       "part_ids": [
         "P03"
       ],
       "quantity_per_set": 1,
-      "triangles": 11748,
-      "kind": "stl",
-      "closed_edge_topology": true
+      "kind": "stl"
     },
     {
       "path": "hardware/daisy-light/stl/P03_2.stl",
-      "source_path": "deliverables/花间_I1p1整合打印版_含已验花心_20261029/01_STL/04b_花盘_1p6黑边.stl",
       "sha256": "a824d099992bf70ec5d3881826f6931296e18f47205f52620b105e619be92ee5",
-      "source_sha256": "a824d099992bf70ec5d3881826f6931296e18f47205f52620b105e619be92ee5",
-      "copy_byte_identical": true,
       "part_ids": [
         "P03"
       ],
       "quantity_per_set": 1,
-      "triangles": 3520,
-      "kind": "stl",
-      "closed_edge_topology": true
+      "kind": "stl"
     },
     {
       "path": "hardware/daisy-light/stl/P04.stl",
-      "source_path": "output/adapter_front_three_20261030/model/ADAPTER_2_D16.95_NO3HOLES.stl",
       "sha256": "a88cdf7571b4e87dc4493daee665acfb4e6965311d7915912bb24638052d2eb0",
-      "source_sha256": "a88cdf7571b4e87dc4493daee665acfb4e6965311d7915912bb24638052d2eb0",
-      "copy_byte_identical": true,
       "part_ids": [
         "P04"
       ],
       "quantity_per_set": 1,
-      "triangles": 4642,
-      "kind": "stl",
-      "closed_edge_topology": true
+      "kind": "stl"
     },
     {
       "path": "hardware/daisy-light/stl/P05.stl",
-      "source_path": "deliverables/花间_I1p1整合打印版_含已验花心_20261029/01_STL/07_盆体_一体封底_米色.stl",
       "sha256": "68692126691e4d8edf665c7d6e042571bbb56f2ce517e15684b72d37bd599349",
-      "source_sha256": "68692126691e4d8edf665c7d6e042571bbb56f2ce517e15684b72d37bd599349",
-      "copy_byte_identical": true,
       "part_ids": [
         "P05"
       ],
       "quantity_per_set": 1,
-      "triangles": 16746,
-      "kind": "stl",
-      "closed_edge_topology": true
+      "kind": "stl"
     },
     {
       "path": "hardware/daisy-light/stl/P06.stl",
-      "source_path": "output/lid_light_L2_actual_use_20261103/model/L2_BEIGE_LID_SHORT_MOUNT.stl",
       "sha256": "1ec7b504f5d1f8ea56a7de91b8bf715b438f09e90c7d203fd9e97e9e9eff2dd5",
-      "source_sha256": "1ec7b504f5d1f8ea56a7de91b8bf715b438f09e90c7d203fd9e97e9e9eff2dd5",
-      "copy_byte_identical": true,
       "part_ids": [
         "P06"
       ],
       "quantity_per_set": 1,
-      "triangles": 20170,
-      "kind": "stl",
-      "closed_edge_topology": true
+      "kind": "stl"
     },
     {
       "path": "hardware/daisy-light/stl/P07.stl",
-      "source_path": "deliverables/花间_I1p1整合打印版_含已验花心_20261029/01_STL/10_电子托盘_四套环D6p75_米色.stl",
       "sha256": "048c5ad85d6fb480d49baea70c93d52bd6cba638a6ceeb24dd7df7b5794da77e",
-      "source_sha256": "048c5ad85d6fb480d49baea70c93d52bd6cba638a6ceeb24dd7df7b5794da77e",
-      "copy_byte_identical": true,
       "part_ids": [
         "P07"
       ],
       "quantity_per_set": 1,
-      "triangles": 24154,
-      "kind": "stl",
-      "closed_edge_topology": true
+      "kind": "stl"
     },
     {
       "path": "hardware/daisy-light/stl/P08_1.stl",
-      "source_path": "deliverables/花间_I1p1整合打印版_含已验花心_20261029/01_STL/06a_花心_Y1_D22p00_黄色.stl",
       "sha256": "c781b4c716d1c183e703f15fcfafd584f1725a7ff2c82eb7c58721aeafc7a66e",
-      "source_sha256": "c781b4c716d1c183e703f15fcfafd584f1725a7ff2c82eb7c58721aeafc7a66e",
-      "copy_byte_identical": true,
       "part_ids": [
         "P08"
       ],
       "quantity_per_set": 1,
-      "triangles": 5762,
-      "kind": "stl",
-      "closed_edge_topology": true
+      "kind": "stl"
     },
     {
       "path": "hardware/daisy-light/stl/P08_2.stl",
-      "source_path": "deliverables/花间_I1p1整合打印版_含已验花心_20261029/01_STL/06b_花心_Y1_黑色描边.stl",
       "sha256": "8b1368db93a5de3cc61f92a94ca3e28bd185016f4e3a86726af35b5f4ef65327",
-      "source_sha256": "8b1368db93a5de3cc61f92a94ca3e28bd185016f4e3a86726af35b5f4ef65327",
-      "copy_byte_identical": true,
       "part_ids": [
         "P08"
       ],
       "quantity_per_set": 1,
-      "triangles": 2560,
-      "kind": "stl",
-      "closed_edge_topology": true
+      "kind": "stl"
     },
     {
       "path": "hardware/daisy-light/stl/P09.stl",
-      "source_path": "output/lid_light_P4_selected_4up_20261104/P4_1_D6p2_H2p4_head_down.stl",
       "sha256": "f9a65c8eda08cf7402bccf71cb94dd6f2e34531939e376b3a8bf9b1fc1e2f247",
-      "source_sha256": "f9a65c8eda08cf7402bccf71cb94dd6f2e34531939e376b3a8bf9b1fc1e2f247",
-      "copy_byte_identical": true,
       "part_ids": [
         "P09"
       ],
       "quantity_per_set": 1,
-      "triangles": 2300,
-      "kind": "stl",
-      "closed_edge_topology": true
+      "kind": "stl"
     },
     {
       "path": "hardware/daisy-light/print/P01.3mf",
-      "source_path": "deliverables/花间_商家打印版_双色已组合_20261031/P01_枝干_绿黑_1件.3mf",
       "sha256": "fc09870ea7b5e30642f41ff6c0ae89f8ac4662b1ec443cc4c1a8756a78a53b09",
-      "source_sha256": "fc09870ea7b5e30642f41ff6c0ae89f8ac4662b1ec443cc4c1a8756a78a53b09",
-      "copy_byte_identical": true,
       "part_ids": [
         "P01"
       ],
       "plate_physical_quantity": 1,
       "quantity_per_set": 1,
-      "kind": "3mf",
-      "embedded_gcode": false,
-      "geometry_payload_sha256": {
-        "3D/3dmodel.model": "117155ac9993169b9caf1dc70151558f4063051027e9698695929a12e29fbed2",
-        "3D/Objects/object_1.model": "fdd4362cfb4c222f277fdc02af3e8c1c4da41249bc0354ce5bf4dadceda3d29a"
-      }
+      "kind": "3mf"
     },
     {
       "path": "hardware/daisy-light/print/P02.3mf",
-      "source_path": "deliverables/花间_商家打印版_双色已组合_20261031/P02_后盖与藏线盖_绿色_各1件.3mf",
       "sha256": "e8f13065d8424e04b937ecafd21fb3c5b50c6fd921aa41bd4b2510150db043c5",
-      "source_sha256": "e8f13065d8424e04b937ecafd21fb3c5b50c6fd921aa41bd4b2510150db043c5",
-      "copy_byte_identical": true,
       "part_ids": [
         "P02A",
         "P02B"
       ],
       "plate_physical_quantity": 2,
       "quantity_per_set": 2,
-      "kind": "3mf",
-      "embedded_gcode": false,
-      "geometry_payload_sha256": {
-        "3D/3dmodel.model": "c132771ce171883859fa9f140bdaddec9c13b2e252f06cec35b82791ea7cea83",
-        "3D/Objects/object_2.model": "fd89d14b44563c2d6243aed1275209aeab8855d8c7d31a6e927970d2d6dd4be4",
-        "3D/Objects/object_1.model": "32d6c23c4365e699b6e8ae0933bbce76d24c706f1c690c0150ca94ea0741e302"
-      }
+      "kind": "3mf"
     },
     {
       "path": "hardware/daisy-light/print/P03.3mf",
-      "source_path": "deliverables/花间_商家打印版_双色已组合_20261031/P03_花盘_白黑_1件.3mf",
       "sha256": "74759fad58aa75c49d94df8319ec9a51f6bcfdcefa720de2e5005bec6a979a4e",
-      "source_sha256": "74759fad58aa75c49d94df8319ec9a51f6bcfdcefa720de2e5005bec6a979a4e",
-      "copy_byte_identical": true,
       "part_ids": [
         "P03"
       ],
       "plate_physical_quantity": 1,
       "quantity_per_set": 1,
-      "kind": "3mf",
-      "embedded_gcode": false,
-      "geometry_payload_sha256": {
-        "3D/3dmodel.model": "3364f819f7fef36056753d8e2bdd1531785db04b75fba40e818dd0fd893b7d9f"
-      }
+      "kind": "3mf"
     },
     {
       "path": "hardware/daisy-light/print/P04.3mf",
-      "source_path": "deliverables/花间_商家打印版_双色已组合_20261031/P04_传动连接件_2号D16p95无三孔_米色_1件.3mf",
       "sha256": "bac84922221d6340e0610c84e744777322fd20c3df1cf57c13200cbbe20075c2",
-      "source_sha256": "bac84922221d6340e0610c84e744777322fd20c3df1cf57c13200cbbe20075c2",
-      "copy_byte_identical": true,
       "part_ids": [
         "P04"
       ],
       "plate_physical_quantity": 1,
       "quantity_per_set": 1,
-      "kind": "3mf",
-      "embedded_gcode": false,
-      "geometry_payload_sha256": {
-        "3D/3dmodel.model": "2ebcef1e5f1947e780b35b62fd2d266fade498be0b26af8f8c11c573eeb02c97"
-      }
+      "kind": "3mf"
     },
     {
       "path": "hardware/daisy-light/print/P05.3mf",
-      "source_path": "deliverables/花间_商家打印版_双色已组合_20261031/P05_花盆_米色_1件.3mf",
       "sha256": "54ffb3bfd11ff9090b7a3ec4ba1e0cfbe72462b739f63b329caedea487cc578a",
-      "source_sha256": "54ffb3bfd11ff9090b7a3ec4ba1e0cfbe72462b739f63b329caedea487cc578a",
-      "copy_byte_identical": true,
       "part_ids": [
         "P05"
       ],
       "plate_physical_quantity": 1,
       "quantity_per_set": 1,
-      "kind": "3mf",
-      "embedded_gcode": false,
-      "geometry_payload_sha256": {
-        "3D/3dmodel.model": "f65d13d4a2501941887b5e4cbf3ac4a9163fa6ee56b2e0f5cf71415096591b2f",
-        "3D/Objects/object_1.model": "d4d7f2b02ce1b03f1ad7b7cf8181fafca9e93fc6cf1fb2417aede4f21033794f"
-      }
+      "kind": "3mf"
     },
     {
       "path": "hardware/daisy-light/print/P07.3mf",
-      "source_path": "deliverables/花间_商家打印版_双色已组合_20261031/P07_电子托盘_米色_1件.3mf",
       "sha256": "706ed96dafdf1c26cee53e6fd3e4c917d58a5a69c717aa44fd2c8c6282a03400",
-      "source_sha256": "706ed96dafdf1c26cee53e6fd3e4c917d58a5a69c717aa44fd2c8c6282a03400",
-      "copy_byte_identical": true,
       "part_ids": [
         "P07"
       ],
       "plate_physical_quantity": 1,
       "quantity_per_set": 1,
-      "kind": "3mf",
-      "embedded_gcode": false,
-      "geometry_payload_sha256": {
-        "3D/3dmodel.model": "5ef563dd5915ce1ea6155e5b5be031b7e0fdcced4e43d0891229f44d39e82484",
-        "3D/Objects/object_1.model": "4ff8f06bbbb316a2f94bf64c549ed67c11570fc00788684fae34888159e86d60"
-      }
+      "kind": "3mf"
     },
     {
       "path": "hardware/daisy-light/print/P08.3mf",
-      "source_path": "deliverables/花间_商家打印版_双色已组合_20261031/P08_花心_黄黑_1件.3mf",
       "sha256": "aee9e7ca252651d603ff6272fdd511862106c94908290431822087ba4a814998",
-      "source_sha256": "aee9e7ca252651d603ff6272fdd511862106c94908290431822087ba4a814998",
-      "copy_byte_identical": true,
       "part_ids": [
         "P08"
       ],
       "plate_physical_quantity": 1,
       "quantity_per_set": 1,
-      "kind": "3mf",
-      "embedded_gcode": false,
-      "geometry_payload_sha256": {
-        "3D/3dmodel.model": "70dcfd347a3db7caa17ca2d420c263bd810e391e217dbb16be82cbf7ce7c0ff3"
-      }
+      "kind": "3mf"
     },
     {
       "path": "hardware/daisy-light/print/P06_2pcs.3mf",
-      "source_path": "output/lid_light_L2_actual_use_20261103/print/L2_BEIGE_LID_2PCS_READY.3mf",
       "sha256": "7c261871b6db8793f56f7211fcf5d305a1c7410700e1f9d06bcdd5980b6b5365",
-      "source_sha256": "7c261871b6db8793f56f7211fcf5d305a1c7410700e1f9d06bcdd5980b6b5365",
-      "copy_byte_identical": true,
       "part_ids": [
         "P06"
       ],
       "plate_physical_quantity": 2,
       "quantity_per_set": 1,
-      "kind": "3mf",
-      "embedded_gcode": false,
-      "geometry_payload_sha256": {
-        "3D/3dmodel.model": "f3365f824d0579474aef853297fa0ce7834d8fc7e885e46e2af163856f7ce956"
-      }
+      "kind": "3mf"
     },
     {
       "path": "hardware/daisy-light/print/P09_4pcs.3mf",
-      "source_path": "output/lid_light_P4_selected_4up_20261104/P4_CLEAR_CAP_D6p2_H2p4_4PCS_READY.3mf",
       "sha256": "b422bbd3e2d1083e2b48028f7bcc0d6b5921e4bc75c8faa66f8db17d9a33328b",
-      "source_sha256": "b422bbd3e2d1083e2b48028f7bcc0d6b5921e4bc75c8faa66f8db17d9a33328b",
-      "copy_byte_identical": true,
       "part_ids": [
         "P09"
       ],
       "plate_physical_quantity": 4,
       "quantity_per_set": 1,
-      "kind": "3mf",
-      "embedded_gcode": false,
-      "geometry_payload_sha256": {
-        "3D/3dmodel.model": "de48b5eb333577dcd271eb26af577f63a485470a5819dc6058676fddb8650c23"
-      }
+      "kind": "3mf"
     },
     {
       "path": "hardware/daisy-light/source/P01.blend",
@@ -532,29 +388,7 @@
         "P01"
       ],
       "quantity_per_set": 1,
-      "kind": "blend",
-      "source_type": "editable_scene_from_release_stl",
-      "source_inputs": [
-        {
-          "path": "hardware/daisy-light/stl/P01_1.stl",
-          "sha256": "541b25a474f46a877d4a744a61b688ee5ed5d72887190a63310391d939a685d8"
-        },
-        {
-          "path": "hardware/daisy-light/stl/P01_2.stl",
-          "sha256": "87c0865c8a4d950d85a6a1e01e37ecd943bce89b01219ce05ab3db4753d5a94e"
-        }
-      ],
-      "selected_objects": [
-        "P01_1",
-        "P01_2"
-      ],
-      "mesh_and_transform_sha256": {
-        "P01_1": "a0eb15de68e4dbe9a2272ee5225bcffc2902ec1f1f5681135880029f2f12f126",
-        "P01_2": "e54b825746acbfe7ecdc5e01571e7ec7b5683bf1346792d0bd2bdab704f42fb7"
-      },
-      "roundtrip_geometry_unchanged": true,
-      "excluded_unselected_variants": true,
-      "private_file_browser_path_removed": true
+      "kind": "blend"
     },
     {
       "path": "hardware/daisy-light/source/P02A.blend",
@@ -563,23 +397,7 @@
         "P02A"
       ],
       "quantity_per_set": 1,
-      "kind": "blend",
-      "source_type": "selected_original_blend_meshes",
-      "source_inputs": [
-        {
-          "path": "output/motor_cover_solid_three_trials_20261021/电机背盖_三档实心插块对比.blend",
-          "sha256": "ca768753205930badd4a5987962655435d2bdaac583dd0229061243484bc285e"
-        }
-      ],
-      "selected_objects": [
-        "MC_SOLID_3"
-      ],
-      "mesh_and_transform_sha256": {
-        "MC_SOLID_3": "f2075468661045928b0a7f1f830ac2d5a34c932f07c3f2e59547f28a964c039f"
-      },
-      "roundtrip_geometry_unchanged": true,
-      "excluded_unselected_variants": true,
-      "private_file_browser_path_removed": true
+      "kind": "blend"
     },
     {
       "path": "hardware/daisy-light/source/P02B.blend",
@@ -588,23 +406,7 @@
         "P02B"
       ],
       "quantity_per_set": 1,
-      "kind": "blend",
-      "source_type": "selected_original_blend_meshes",
-      "source_inputs": [
-        {
-          "path": "output/w1_selected_7p1_full_20261021/旋转花_W1藏线盖_选定7p1完整盖_待试装.blend",
-          "sha256": "de5c276ea12674b8f806c8a4443cba703d3b0b0c27765d6a5abe067859853d5c"
-        }
-      ],
-      "selected_objects": [
-        "03_GREEN_WIRE_COVER_W1_SELECTED_7p1"
-      ],
-      "mesh_and_transform_sha256": {
-        "03_GREEN_WIRE_COVER_W1_SELECTED_7p1": "aaa69277d1a5c1070e257518687927406cb14080ede1930be7862454c9598684"
-      },
-      "roundtrip_geometry_unchanged": true,
-      "excluded_unselected_variants": true,
-      "private_file_browser_path_removed": true
+      "kind": "blend"
     },
     {
       "path": "hardware/daisy-light/source/P03.blend",
@@ -613,29 +415,7 @@
         "P03"
       ],
       "quantity_per_set": 1,
-      "kind": "blend",
-      "source_type": "editable_scene_from_release_stl",
-      "source_inputs": [
-        {
-          "path": "hardware/daisy-light/stl/P03_1.stl",
-          "sha256": "82af55e8b1b4b7e9b42dd02f4d049c4bbbc20910af07cc86f797ce5ce3b44448"
-        },
-        {
-          "path": "hardware/daisy-light/stl/P03_2.stl",
-          "sha256": "a824d099992bf70ec5d3881826f6931296e18f47205f52620b105e619be92ee5"
-        }
-      ],
-      "selected_objects": [
-        "P03_1",
-        "P03_2"
-      ],
-      "mesh_and_transform_sha256": {
-        "P03_1": "0c9faa9dd592c174219e7d173b64f3858708d71aae8e5bf3400bc5faf4f7778e",
-        "P03_2": "4d6484b821c05fb00e3d2ba9b28aa1fe6b9e0607632323dd807c66afa90446f1"
-      },
-      "roundtrip_geometry_unchanged": true,
-      "excluded_unselected_variants": true,
-      "private_file_browser_path_removed": true
+      "kind": "blend"
     },
     {
       "path": "hardware/daisy-light/source/P04.blend",
@@ -644,23 +424,7 @@
         "P04"
       ],
       "quantity_per_set": 1,
-      "kind": "blend",
-      "source_type": "selected_original_blend_meshes",
-      "source_inputs": [
-        {
-          "path": "output/adapter_front_three_20261030/model/传动连接件_无三孔_三档实验.blend",
-          "sha256": "4dcda667e5828a7a35f5a89077f6889b9894e4ca6409d7785e80133f2c700ff4"
-        }
-      ],
-      "selected_objects": [
-        "ADAPTER_2_D16.95_NO3HOLES"
-      ],
-      "mesh_and_transform_sha256": {
-        "ADAPTER_2_D16.95_NO3HOLES": "a68afd8da3a79048972853a54e7aed34aa2f8a9b64d073645ae750632a36cd7a"
-      },
-      "roundtrip_geometry_unchanged": true,
-      "excluded_unselected_variants": true,
-      "private_file_browser_path_removed": true
+      "kind": "blend"
     },
     {
       "path": "hardware/daisy-light/source/P05.blend",
@@ -669,23 +433,7 @@
         "P05"
       ],
       "quantity_per_set": 1,
-      "kind": "blend",
-      "source_type": "selected_original_blend_meshes",
-      "source_inputs": [
-        {
-          "path": "output/pot_closed_inset_lid_20261021/旋转花_P1一体封底_米色嵌入顶盖.blend",
-          "sha256": "d781c6d2cfda812e7297508627d61bda84ad434a071660f91f130b3a97866d3d"
-        }
-      ],
-      "selected_objects": [
-        "07_POT_INTEGRAL_BASE_INSET_RECEIVER"
-      ],
-      "mesh_and_transform_sha256": {
-        "07_POT_INTEGRAL_BASE_INSET_RECEIVER": "313cc311f8359135f2a1d550d9516db16cf159d5d5fe8ef46ce878745a8338d3"
-      },
-      "roundtrip_geometry_unchanged": true,
-      "excluded_unselected_variants": true,
-      "private_file_browser_path_removed": true
+      "kind": "blend"
     },
     {
       "path": "hardware/daisy-light/source/P06.blend",
@@ -694,23 +442,7 @@
         "P06"
       ],
       "quantity_per_set": 1,
-      "kind": "blend",
-      "source_type": "selected_original_blend_meshes",
-      "source_inputs": [
-        {
-          "path": "output/lid_light_L2_actual_use_20261103/model/L2_BEIGE_LID_SHORT_MOUNT.blend",
-          "sha256": "0a9ae7a09c4f86fdbcfec6e54c79117345c7b037f2ba9321155452a1537f3d9f"
-        }
-      ],
-      "selected_objects": [
-        "L2_BEIGE_LID_SHORT_MOUNT"
-      ],
-      "mesh_and_transform_sha256": {
-        "L2_BEIGE_LID_SHORT_MOUNT": "405fe156634114ad71b5b40cffb3517123744aff24e43c477f1b985de5415531"
-      },
-      "roundtrip_geometry_unchanged": true,
-      "excluded_unselected_variants": true,
-      "private_file_browser_path_removed": true
+      "kind": "blend"
     },
     {
       "path": "hardware/daisy-light/source/P07.blend",
@@ -719,23 +451,7 @@
         "P07"
       ],
       "quantity_per_set": 1,
-      "kind": "blend",
-      "source_type": "selected_original_blend_meshes",
-      "source_inputs": [
-        {
-          "path": "output/tray_full_D675_20261029/model/旋转花_完整托盘_中间档6p75_实物选定.blend",
-          "sha256": "2430f2a53b8a3bfd6e9d10abd4ed95a666d4acdab40bd48a3ad1db30d8db441f"
-        }
-      ],
-      "selected_objects": [
-        "10_TRAY_R4_FULL_D6p75_PHYSICAL_FIT_SELECTED"
-      ],
-      "mesh_and_transform_sha256": {
-        "10_TRAY_R4_FULL_D6p75_PHYSICAL_FIT_SELECTED": "22c1f2324592193fbd694f7693f5deccd9edc27c4a59ec6389698bed699f71f5"
-      },
-      "roundtrip_geometry_unchanged": true,
-      "excluded_unselected_variants": true,
-      "private_file_browser_path_removed": true
+      "kind": "blend"
     },
     {
       "path": "hardware/daisy-light/source/P08.blend",
@@ -744,25 +460,7 @@
         "P08"
       ],
       "quantity_per_set": 1,
-      "kind": "blend",
-      "source_type": "selected_original_blend_meshes",
-      "source_inputs": [
-        {
-          "path": "output/center_Y1_three_fits_20261029/model/黄色圆心_Y1_三档黑描边.blend",
-          "sha256": "f2cad730da30ceea72a562ffddd55ff38b87237027e2dddb35fa51e608684774"
-        }
-      ],
-      "selected_objects": [
-        "CENTER_Y1_3_YELLOW_D22p0",
-        "CENTER_Y1_3_BLACK"
-      ],
-      "mesh_and_transform_sha256": {
-        "CENTER_Y1_3_YELLOW_D22p0": "e9f4f42ec2e23544f5dd8a5064ccace706c2a6b9eb93d82affcc574ec3d60116",
-        "CENTER_Y1_3_BLACK": "9e8c8a8abcddc82394807575aca47a74f0bc2f72d27f8d9ba0e7a8c04081c04b"
-      },
-      "roundtrip_geometry_unchanged": true,
-      "excluded_unselected_variants": true,
-      "private_file_browser_path_removed": true
+      "kind": "blend"
     },
     {
       "path": "hardware/daisy-light/source/P09.blend",
@@ -771,50 +469,17 @@
         "P09"
       ],
       "quantity_per_set": 1,
-      "kind": "blend",
-      "source_type": "editable_scene_from_release_stl",
-      "source_inputs": [
-        {
-          "path": "hardware/daisy-light/stl/P09.stl",
-          "sha256": "f9a65c8eda08cf7402bccf71cb94dd6f2e34531939e376b3a8bf9b1fc1e2f247"
-        }
-      ],
-      "selected_objects": [
-        "P09"
-      ],
-      "mesh_and_transform_sha256": {
-        "P09": "4b4b209788999f62251b55ec99a1e41713d2df7479a28b4fe0d9efc89c61db8b"
-      },
-      "roundtrip_geometry_unchanged": true,
-      "excluded_unselected_variants": true,
-      "private_file_browser_path_removed": true
+      "kind": "blend"
     }
   ],
-  "limitations": [
-    "All projects require reslicing for the actual printer and filament.",
-    "P06 is a two-lid plate; P09 is a four-cap plate. A set uses one of each.",
-    "P09 retained project color labels are not the actual transparent-PLA identity.",
-    "Source scenes are editable mesh data, not STEP/CAD feature histories.",
-    "No complete machine-independent build from parameter source has been reproduced.",
-    "The author additionally confirmed that the flower center, transparent cap and stem-to-lid joint use no glue and are not sufficiently secure in the current build. Improving their retention is a planned model iteration. Working rotation and light do not establish secure mechanical retention; check each fit and support the pot when moving the flower."
+  "publication_date": "2026-11-06",
+  "printing_notes": [
+    "Reslice for your printer and filament.",
+    "P06 contains two lids and P09 contains four caps; use one of each per flower.",
+    "Use transparent PLA for P09 regardless of the project color label.",
+    "Blender files contain editable meshes without a parametric CAD feature history."
   ],
-  "validation": {
-    "user_confirmation_date": "2026-11-05",
-    "confirmed_configuration": "L2 lid + P4 cap on assembled flower",
-    "functional_result": "assembled; rotation and attention light normal",
-    "scope": "author physical confirmation in current preparation chat",
-    "not_claimed": [
-      "long-term durability",
-      "independent reproduction on another printer",
-      "production readiness"
-    ],
-    "mechanical_retention": {
-      "date": "2026-11-05",
-      "author_feedback": "No glue used for flower center, transparent cap or stem-to-lid joint; connections are not sufficiently secure.",
-      "status": "known_issue_pending_model_iteration",
-      "geometry_changed_in_this_revision": false
-    }
-  },
-  "documentation_revision": "r2",
-  "publication_date": "2026-11-06"
+  "fit_notes": [
+    "The flower center, clear cap and stem-to-lid joint are fitted without glue and are still a little loose. Check each fit and carry the flower by the pot."
+  ]
 }

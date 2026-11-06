@@ -2,7 +2,7 @@
 
 **拔掉 USB 后再插拔、整理或点胶。 / Disconnect USB before wiring, moving connectors or applying glue.**
 
-本表已逐项核对 [组合固件](../../firmware/flower_integrated/flower_integrated.ino) 中的 `kPins`、`ledR`、`ledG`、`ledB`。GPIO 数字是板上名称，不是物理排针的顺序。按实际丝印核对，不靠线色判断。 / The pin names below match the combined firmware. GPIO numbers are labels, not physical header positions. Follow the silkscreen, not wire colors.
+接线对应本项目的[旋转与提醒灯固件](../../firmware/flower_integrated/flower_integrated.ino)。GPIO 数字是板上名称，不是物理排针的顺序。按实际丝印核对，不靠线色判断。 / The pin names below match the combined firmware. GPIO numbers are labels, not physical header positions. Follow the silkscreen, not wire colors.
 
 | ESP32-C3 SuperMini | 目的端 / Destination | 用途 / Function |
 | --- | --- | --- |
@@ -31,6 +31,6 @@ ULN2003 5-pin socket ── 28BYJ-48 motor plug
 
 ![断电接线参考 / Unpowered wiring reference](images/IMG_2566.jpg)
 
-照片用于核对布局和走线，逐针连接以表格及板上丝印为准。当前实测方案通过 USB 供电，没有提供外接电源或多电机供电改造教程。 / The photo shows layout; the table and silkscreen determine pin connections. The tested arrangement uses USB power. External supplies and multiple-motor modifications are outside this guide.
+照片用于核对布局和走线，逐针连接以表格及板上丝印为准。整套电路通过 USB 供电。 / The photo shows layout; the table and silkscreen determine pin connections. The flower is powered through USB.
 
 返回 [中文教程](README.md) · [English guide](README.en.md)

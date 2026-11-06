@@ -1,33 +1,26 @@
 # Daisy with attention light: models and printing
 
-[按图下载与3D组成动画 / Visual downloads and 3D animation](VISUAL_GUIDE.md)
+[简体中文](README.md) · **English** · [Choose models by picture](VISUAL_GUIDE.md)
 
-[简体中文](README.md) · **English**
+One flower needs **10 printed parts**, including the L2 light lid and P4 clear cap. The set contains 9 3MF print projects, 13 color-separated STL meshes and 10 editable Blender mesh files.
 
-This set uses the unbranded daisy, the L2 twist-lock lid and the P4 transparent light cap. **One flower needs 10 physical parts.** On 2026-11-05, the author confirmed that the L2 lid and P4 cap were assembled and both rotation and light operation worked normally.
+## Before printing
 
-The package contains 13 STL color meshes, 9 unsliced 3MF projects and 10 editable Blender mesh scenes. It excludes the old unlit T1 lid, unselected fit trials, the N1 flower experiment, third-party manual models and OpenAI/WorkBuddy logo rotors.
+Open the files in `print/` as projects in Bambu Studio. Choose your printer, nozzle and filament, reslice, then check the layer preview.
 
+- `P02.3mf` contains one motor cover and one wire cover. Use both.
+- `P06_2pcs.3mf` contains two lids. Use one per flower.
+- `P09_4pcs.3mf` contains four light caps. Use one per flower.
 
-The author additionally confirmed that the flower center, transparent cap and stem-to-lid joint use no glue and are not sufficiently secure in the current build. Improving their retention is a planned model iteration. Working rotation and light do not establish secure mechanical retention; check each fit and support the pot when moving the flower.
+Printing all plates as supplied gives 14 parts, including one spare lid and three spare caps. Adjust the quantities while keeping the original scale. Update the filament slots and color labels for your materials; use transparent PLA for the light cap.
 
-## Open and slice
+For two-color STL parts, import both meshes as parts of the same object and preserve their common coordinates. The black outlines print together with their main bodies.
 
-Prefer the projects in `print/`: open them as projects in Bambu Studio, then reslice for your printer, nozzle and actual filament. The files contain no G-code. Inspect the sliced model before printing and do not reuse historical printer or filament-slot mappings without checking them.
+## Parts and print settings
 
-The original plate layouts have been preserved:
+**PLA · 0.4 mm nozzle · 0.20 mm layers · millimeters · 100% scale**
 
-- `P02.3mf` contains one motor rear cover and one wire cover. Both are needed.
-- **`P06_2pcs.3mf` contains two lids. One flower needs one lid.** Remove one duplicate instance in your slicer if desired; keep the remaining geometry and scale unchanged.
-- **`P09_4pcs.3mf` contains four light caps. One flower needs one cap.** Keep only the quantity needed.
-
-Printing all nine projects exactly as provided yields **14 physical parts**, including one spare lid and three spare caps. The retained filament labels are historical settings. In particular, the purple label in the cap project does not indicate purple material: use **transparent PLA** for the cap.
-
-For two-color STL parts, import both meshes as parts of the same object and preserve their common coordinates. Do not center or drop them onto the bed separately. The black outline is part of the printed object, not a separate decoration to glue on. Other color-production methods on single-material printers have not been validated by this package.
-
-## Bill of printed parts
-
-Use millimeters, 100% scale, PLA, a 0.4 mm nozzle and 0.20 mm layers. These are the existing trial settings. Preserve the project-specific top/bottom layers, supports and support blockers; do not replace all settings with one generic profile.
+The table lists the project colors. Choose your own colors if you like; my finished flower has a red pot, ivory petals and lid, green leaves, a yellow center and black outlines.
 
 | ID / project | Selected part and version | Per flower | Color | Walls | Infill |
 | --- | --- | ---: | --- | ---: | ---: |
@@ -42,28 +35,24 @@ Use millimeters, 100% scale, PLA, a 0.4 mm nozzle and 0.20 mm layers. These are 
 | P08 | Y1 center cap, selected tightest D22.00 fit | 1 | Yellow + black | 4 | 100% |
 | P09_4pcs | P4 diffuser cap: Ø6.2 mm × 6 mm post, Ø8 mm × 2.4 mm head | 1 | Transparent PLA | 2 | 100% |
 
-P04 and P07 include support blockers for their bores; keep them. Print P06 face-down and remove sacrificial supports carefully without cutting off the twist-lock detent. P09 prints head-down, post-up, with no supports and a 2 mm brim. Remove burrs before testing the fit. Printer accuracy, PLA and XY/hole compensation affect fit; the nominal dimensions are not universal tolerance guarantees.
 
-## Compatibility and assembly
+Keep the support blockers for the P04 and P07 bores. Print P06 face-down and leave the twist-lock detent intact when removing supports. Print P09 head-down, post-up, with no supports and a 2 mm brim. Remove burrs before testing each fit.
 
-1. Use P04 adapter 2 from this set. It supersedes the older R2/S2 adapter with three flange holes.
-2. Use the D22.00 center cap in P08. The printed trial numbers were not legible, so choose by filename rather than by a number on the physical part.
-3. P06 mates with this set's P1 pot. Align its three tabs with the openings, insert it, then turn it approximately 30° clockwise when viewed from above until the stop. Reverse to open. This is the current light-enabled L2, not an older lid for a legacy pot.
-4. The selected stem, rear cover, wire cover, daisy and center cap retain their existing interfaces. Fix the motor, boards and light module as described in the [illustrated English assembly guide](../../docs/diy-guide/README.en.md). A separate Type-C bezel is not included.
-5. Before closing the pot, test the bare shaft, low-speed rotation with the daisy installed, all operating modes, stop, and light on/off. Route the wires clear of moving parts and the lid tabs, then repeat the test with the lid closed.
+## Assembly
 
-## Editable mesh scenes
+- Use the P04 adapter and P08 D22.00 center from this set.
+- Align the three P06 lid tabs with the pot openings, insert the lid and turn about 30° clockwise from above until the stop. Reverse to open.
+- My flower center, clear cap and stem-to-lid joint are fitted without glue and are still a little loose. Check each fit and carry the flower by the pot.
+- Test the bare motor shaft first, then fit the daisy and check LOW followed by the other presets. Tidy the wires, close the lid and test again.
 
-The files in `source/` correspond to the IDs above; P02 is split into P02A and P02B. They can be opened in Blender and edited at the vertex/mesh level. They are **not STEP solids or parametric CAD feature histories**.
+Follow the [illustrated build guide](../../docs/diy-guide/README.en.md) for the full assembly.
 
-- P02A, P02B, P04, P05, P06, P07 and P08 contain only the selected mesh objects and world transforms extracted from the original Blender files. Unselected variants, old hidden objects, electronics references, scripts and absolute private paths have been excluded. Mesh vertices, faces and world transforms were compared before and after saving and reopening.
-- P01, P03 and P09 were originally generated with Python and had no matching native Blender scene. Their editable scenes were created from the exact released STL files, preserving mesh coordinates and triangle faces. This distinction is recorded in the manifest.
-- Some original objects retain assembly coordinates and may be away from the origin. Use the STL/3MF files for printing; an editable source scene is not a new print layout.
+## Edit the models
 
-The complete historical parameterized generation chain has not been rerun or packaged as a standalone build. Source paths and hashes in the manifest are provenance records, not executable dependencies of the download. Editing a mesh requires renewed fit checks.
+The Blender files in `source/` use the part IDs above; P02 is split into P02A and P02B. They contain editable vertices and meshes, without a parametric CAD feature history. Some parts retain assembly coordinates and may sit away from the origin. Use `stl/` or `print/` for printing, and test the fit after changing an interface.
 
-## Verification and license
+## Files and license
 
-All 32 model/project files have SHA256 checksums. STL and 3MF copies are byte-identical to the selected source files. All 13 STL meshes passed closed-edge checks. All 10 Blender scenes were reopened and their geometry/transforms compared. The 3MF build-item counts were inspected and no G-code is embedded. The author confirmed assembled rotation and light behavior on 2026-11-05. Long-term durability and independent reproduction on other printers remain unverified.
+[manifest.json](manifest.json) maps parts to their specifications and files. Use [SHA256SUMS.txt](SHA256SUMS.txt) to check downloaded files.
 
-Model files are licensed under **CC BY-NC-SA 4.0**, subject to the scope and attribution in the included [model license](../LICENSE.md). See [manifest.json](manifest.json) for file provenance and validation, and [SHA256SUMS.txt](SHA256SUMS.txt) for model checksums. The repository's software MIT license does not automatically apply to these models.
+Models use [CC BY-NC-SA 4.0](../LICENSE.md): credit the project, use them noncommercially and share adaptations under the same license.

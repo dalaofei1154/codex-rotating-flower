@@ -20,15 +20,11 @@
 
 <a id="watch"></a>
 
-## 72 秒看看它怎么工作
+## 看看小花怎么工作
 
 https://github.com/user-attachments/assets/a38f9855-469f-46ad-a9b5-1f78d493e84b
 
-**[播放中文版](#watch)** · [Watch in English](README.md#watch) · [更多视频和图片](hardware/daisy-light/VISUAL_GUIDE.md)
-
-用实际打印模型做了一段 72 秒动画，看看小花怎么转、怎么提醒，以及 10 个零件怎样拼在一起。配了原创音乐，没有旁白。
-
-片中展示了 **Codex、WorkBuddy 和 DeepSeek Harness（DSH）**，各应用对应的版本见[下方说明](#compatibility)。
+[Watch in English](README.md#watch) · [零件与模型](hardware/daisy-light/VISUAL_GUIDE.md)
 
 | AI 的状态 | 小花的表现 |
 | --- | --- |
@@ -56,9 +52,9 @@ https://github.com/user-attachments/assets/a38f9855-469f-46ad-a9b5-1f78d493e84b
 | --- | --- | --- |
 | Codex | [v0.6.0](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | 已提供下载 |
 | WorkBuddy | [v0.6.0](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | 已提供下载 |
-| DeepSeek Harness（DSH） | [v0.7.0 适配进展](docs/dsh-macos.md) | 本地试用中，安装包稍后提供 |
+| DeepSeek Harness（DSH） | [v0.7.0 适配进展](docs/dsh-macos.md) | 开发中 |
 
-小花软件支持 **Apple 芯片 Mac、macOS 12+**；DSH 自身需要 **macOS 13+**。目前可下载的 v0.6.0 支持 Codex 和 WorkBuddy。DSH 适配使用的是 0.2.1-rc.5，进展和档位对应关系见 [DSH 说明](docs/dsh-macos.md)。
+小花软件支持 **Apple 芯片 Mac、macOS 12+**；DSH 自身需要 **macOS 13+**。
 
 <a id="install"></a>
 
@@ -72,7 +68,7 @@ https://github.com/user-attachments/assets/a38f9855-469f-46ad-a9b5-1f78d493e84b
 2. 双击 `安装小花.command`，跟着提示安装。
 3. 打开并登录 Codex 或 WorkBuddy，开始一个任务。
 
-安装包还没有签名，macOS 可能会显示安全提示，具体操作见[安装说明](docs/open-release/INSTALL.md)。升级、卸载和文件校验也放在这份说明里。
+安装、升级和卸载的具体步骤见[安装说明](docs/open-release/INSTALL.md)。
 
 <a id="models"></a>
 
@@ -87,7 +83,7 @@ https://github.com/user-attachments/assets/a38f9855-469f-46ad-a9b5-1f78d493e84b
 1. **准备材料**：按材料清单购买电机、控制板、灯板、线材和紧固件。
 2. **打印与试装**：选择模型、确认颜色与数量，试试各个接口的松紧。
 3. **接线与烧录**：依照图解教程断电接线，烧录组合固件，再安装 Mac 软件。
-4. **检查与使用**：按[验收表](docs/diy-guide/CHECKLIST.md)检查旋转、停转、提醒灯和合盖后运行。
+4. **检查与使用**：按[装配检查表](docs/diy-guide/CHECKLIST.md)检查旋转、停转、提醒灯和合盖后运行。
 
 我现在装的是 L2 带灯盆盖和 P4 透明灯帽，转动和亮灯都正常。花心、透明灯帽、枝干与盆盖这几处没用胶，连接还有点松，后面会继续改；目前搬动时托住花盆就好。详细装配过程见[制作教程](docs/diy-guide/README.md)。
 
@@ -113,9 +109,6 @@ Mac 上的小花软件读取本机任务状态，通过 USB 把指令发给 ESP3
 
 ## 常见问题
 
-**视频里的音乐是小花发出来的吗？**<br />
-音乐是给介绍片配的，小花靠转动和灯光提醒你。
-
 **小花需要联网或填写 API Key 吗？会上传我的对话吗？**<br />
 小花通过 USB 连接 Mac，读取应用在本机的任务状态，不需要另填 API Key，也不向本项目服务器上传任务记录。AI 应用照常用你自己的账号登录。[本地数据说明](docs/open-release/INSTALL.md#data)
 
@@ -128,7 +121,7 @@ Mac 上的小花软件读取本机任务状态，通过 USB 把指令发给 ESP3
 
 - **软件与固件：MIT。**
 - **原创教程文字：CC BY 4.0。**
-- **选定模型、DIY 图片、渲染、视频与原创配乐：CC BY-NC-SA 4.0。**
+- **模型、图片、渲染与视频：CC BY-NC-SA 4.0。**
 
 各类文件的许可和第三方素材说明见 [LICENSES](LICENSES.md)。模型或图片、视频等素材如需商用，请联系我。
 
