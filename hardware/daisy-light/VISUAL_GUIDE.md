@@ -8,7 +8,7 @@ The pictures and 24-second animation use the 13 downloadable STL meshes, which m
 
 **DSH 扩展版 / DSH edition · 2026-11-06**
 
-**配乐版 / With music:** [中文版72秒](https://github.com/user-attachments/assets/a38f9855-469f-46ad-a9b5-1f78d493e84b) · [English 72-second film](https://github.com/user-attachments/assets/debc0f6c-ad6e-49d3-a212-e0ad689b4f36)
+**配乐版 / With music:** [中文版72秒](../../README.zh-CN.md#watch) · [English 72-second film](../../README.md#watch)
 
 中英文两版都配上了原创音乐《小花慢慢转》，没有旁白。键盘、木质拨弦和轻打击乐跟着小花的动作走，等待时安静一点，零件展开时再热闹起来。两版使用同一段 72 秒配乐，也可以下载[单独音轨](visuals/little-things-turning.m4a)。画面与下方静音版相同，配乐采用 CC BY-NC-SA 4.0。
 

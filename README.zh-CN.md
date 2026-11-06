@@ -24,7 +24,7 @@
 
 https://github.com/user-attachments/assets/a38f9855-469f-46ad-a9b5-1f78d493e84b
 
-**[播放中文版](https://github.com/user-attachments/assets/a38f9855-469f-46ad-a9b5-1f78d493e84b)** · [Watch in English](https://github.com/user-attachments/assets/debc0f6c-ad6e-49d3-a212-e0ad689b4f36) · [更多视频和图片](hardware/daisy-light/VISUAL_GUIDE.md)
+**[播放中文版](#watch)** · [Watch in English](README.md#watch) · [更多视频和图片](hardware/daisy-light/VISUAL_GUIDE.md)
 
 用实际打印模型做了一段 72 秒动画，看看小花怎么转、怎么提醒，以及 10 个零件怎样拼在一起。配了原创音乐，没有旁白。
 
