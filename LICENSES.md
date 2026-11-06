@@ -6,7 +6,7 @@
 | Original guide text, tables and diagrams / 教程文字、表格与示意图 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | Daisy models, print files, renders and videos / 雏菊模型、打印工程、渲染图与视频 | [CC BY-NC-SA 4.0](hardware/LICENSE.md) |
 | DIY photographs / 制作照片 | [CC BY-NC-SA 4.0](docs/diy-guide/images/LICENSE.md) |
-| Project flower mark / 项目花朵图标 | [CC BY-NC-SA 4.0](docs/media/LICENSE.md) |
+| Project flower mark and live-action demo / 项目花朵图标与实拍视频 | [CC BY-NC-SA 4.0](docs/media/LICENSE.md) |
 
 Credit **Flynn / Rotating Flower**, link to the project and license, and describe your changes when sharing models or images. Noncommercial adaptations must use the same license. The music included in the project videos uses the same CC BY-NC-SA 4.0 license. Third-party software keeps its own license.
 

@@ -22,9 +22,11 @@
 
 ## 看看小花怎么工作
 
-https://github.com/user-attachments/assets/a38f9855-469f-46ad-a9b5-1f78d493e84b
+https://github.com/user-attachments/assets/f6ea34b5-76c4-4571-9aa7-4811f79ccf80
 
-[Watch in English](README.md#watch) · [零件与模型](hardware/daisy-light/VISUAL_GUIDE.md)
+46 秒实拍：工作时旋转、不同档位的转速、等待输入时亮灯，以及回答后恢复工作。英文旁白，中英双语字幕。
+
+[下载原版视频](docs/media/rotating-flower-demo-en-zh.mp4) · [English page](README.md#watch) · [3D 介绍片与模型](hardware/daisy-light/VISUAL_GUIDE.md#animation)
 
 | AI 的状态 | 小花的表现 |
 | --- | --- |
@@ -73,6 +75,8 @@ https://github.com/user-attachments/assets/a38f9855-469f-46ad-a9b5-1f78d493e84b
 <a id="models"></a>
 
 ## 从模型，到你桌上的小花
+
+**本次所列材料合计 53.92 元**：电子配件与线材 22.42 元，3D 打印件 31.50 元（210 g × 0.15 元/g）。这是我在 2026 年 11 月 6 日提供的参考价格，USB 数据线、工具、胶和胶带、运费另计。[查看成本明细与材料清单](docs/diy-guide/BOM.md#costs)
 
 [![10个打印件与对应下载文件](hardware/daisy-light/visuals/parts-and-files.png)](hardware/daisy-light/VISUAL_GUIDE.md)
 

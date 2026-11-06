@@ -2,6 +2,27 @@
 
 制作一朵带提醒灯的雏菊，需要以下材料。 / Materials for one daisy with an attention light.
 
+<a id="costs"></a>
+
+## 制作材料参考成本 / Reference material costs
+
+以下是我在 **2026-11-06** 提供的材料价格，金额均为人民币。 / These are the material prices I shared on **2026-11-06**, in Chinese yuan (CNY).
+
+| 项目 / Item | 本次金额（元） / Reported amount (CNY) |
+| --- | ---: |
+| 1P 一母分两母杜邦线 / Three-female-terminal Y splitter | 0.59 |
+| KY-016 三色 LED 模块 / RGB LED module | 1.10 |
+| 10 cm 母对母杜邦线 / Female-to-female jumpers | 1.70 |
+| ULN2003 驱动板 / Motor driver | 1.63 |
+| 1:16、5 V、四相五线步进电机 / 5 V, 1:16, four-phase, five-wire stepper motor | 3.40 |
+| ESP32-C3 SuperMini 开发板 / Development board | 14.00 |
+| 3D 打印件：210 g × 0.15 元/g / 3D printing: 210 g × CNY 0.15/g | 31.50 |
+| **所列项目合计 / Total for the listed items** | **53.92** |
+
+电子配件与线材共 **22.42 元**，打印件按上述重量和单价计算为 **31.50 元**。USB 数据线、工具、胶和胶带、运费未计入，实际采购价格会有所不同。 / Electronics and wiring total **CNY 22.42**; printing comes to **CNY 31.50** at the weight and rate above. The USB data cable, tools, glue, tape and shipping are not included. Local purchase prices may vary.
+
+## 材料与规格 / Parts and specifications
+
 | 配件 / Part | 数量 / Qty | 规格 / Specification |
 | --- | --- | --- |
 | ESP32-C3 SuperMini | 1 | USB-C，已焊公排针 / USB-C, soldered male headers |

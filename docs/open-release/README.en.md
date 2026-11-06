@@ -6,6 +6,8 @@ Rotating Flower connects to your Mac over USB. The flower spins while your AI wo
 
 ## Prepare and build
 
+The listed materials total **CNY 53.92**: CNY 22.42 for electronics and wiring, plus CNY 31.50 for printing. Start with the [reference costs and parts list](../diy-guide/BOM.md#costs).
+
 | Step | Guide |
 | --- | --- |
 | 1. Gather the parts | [Materials list](../diy-guide/BOM.md) |

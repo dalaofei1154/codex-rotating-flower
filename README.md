@@ -10,9 +10,11 @@
 <a id="watch"></a>
 ## Meet the flower
 
-https://github.com/user-attachments/assets/debc0f6c-ad6e-49d3-a212-e0ad689b4f36
+https://github.com/user-attachments/assets/f6ea34b5-76c4-4571-9aa7-4811f79ccf80
 
-[中文介绍](README.zh-CN.md#watch) · [Parts and models](hardware/daisy-light/VISUAL_GUIDE.md)
+46 seconds with the real flower: spinning, different speeds, a reminder light, and work resuming after a reply. English narration with Chinese and English subtitles.
+
+[Download the original video](docs/media/rotating-flower-demo-en-zh.mp4) · [中文页面](README.zh-CN.md#watch) · [3D explainer and models](hardware/daisy-light/VISUAL_GUIDE.md#animation)
 
 ## What it tells you
 
@@ -57,6 +59,8 @@ The installer includes Python. See the [installation guide](docs/open-release/IN
 
 <a id="models"></a>
 ## Build the daisy edition
+
+**CNY 53.92 for the listed materials**: CNY 22.42 for electronics and wiring, plus CNY 31.50 for 3D printing (210 g × CNY 0.15/g). Prices shared on November 6, 2026; USB cable, tools, glue, tape and shipping are extra. [Cost breakdown and parts list](docs/diy-guide/BOM.md#costs)
 
 **10 printed parts · 9 print projects · 13 color-separated STL meshes**
 

@@ -6,6 +6,26 @@
 
 ![整机正面和背面 / Front and rear](visuals/assembled.png)
 
+<a id="animation"></a>
+
+## 3D 功能与组成介绍 / 3D feature and parts explainer
+
+这支 72 秒 3D 介绍片展示小花的功能、10 件组成与装配关系，配有原创音乐。想看实物运行，回到[首页实拍视频](../../README.zh-CN.md#watch)。
+
+This 72-second 3D explainer shows the flower’s behavior, ten parts and how they fit, with original music. Watch the [real flower on the homepage](../../README.md#watch).
+
+### 中文配乐版 / Chinese edition
+
+https://github.com/user-attachments/assets/a38f9855-469f-46ad-a9b5-1f78d493e84b
+
+### English edition
+
+https://github.com/user-attachments/assets/debc0f6c-ad6e-49d3-a212-e0ad689b4f36
+
+[下载中文片 / Download Chinese](visuals/feature-dsh-zh-music.mp4) · [Download English](visuals/feature-dsh-en-music.mp4)
+
+片中的 DSH 为 v0.7.0 本地试用功能；公开 v0.6.0 安装包支持 Codex 和 WorkBuddy。 / DSH in the animation is a local v0.7.0 preview; the public v0.6.0 installer supports Codex and WorkBuddy.
+
 ## 下载零件 / Choose your parts
 
 一朵花需要 **10 个打印件**。按下图编号下载对应工程，打印数量见表格。
@@ -34,7 +54,7 @@ The nine print projects include spares and produce 14 parts if printed as suppli
 
 ![零件展开图 / Exploded view](visuals/exploded-overview.png)
 
-[视频中查看零件组成](../../README.zh-CN.md#watch) · [See the parts come together](../../README.md#watch)
+[视频中查看零件组成 / See the parts come together](#animation)
 
 接下来查看[打印设置、分色 STL 与可编辑模型](README.md)，或跟着[图解教程](../../docs/diy-guide/README.md)装配。
 

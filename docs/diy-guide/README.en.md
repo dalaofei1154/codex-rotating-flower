@@ -4,6 +4,8 @@
 
 Build a USB-powered desk flower that rotates with local AI work and lights up when a task needs your response. This guide covers the daisy, ESP32-C3 SuperMini, ULN2003 driver, 5 V 1:16 28BYJ-48 motor and common-cathode KY-016 module.
 
+The listed materials total **CNY 53.92 (about 54 yuan)**; see the [cost breakdown](BOM.md#costs). The USB data cable, tools, consumables and shipping are extra.
+
 Use the combined `FLOWER_COMBINED_V1` firmware and the v0.6.0 Mac installer. My current build uses the L2 lid and P4 clear cap, and both motion and light work. The center, cap and stem-to-lid joint are fitted without glue and are still a little loose. I plan to improve those fits; carry the flower by the pot.
 
 ![Assembled rotating daisy](images/finished-clean-background.png)

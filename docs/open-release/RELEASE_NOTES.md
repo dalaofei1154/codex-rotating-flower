@@ -2,6 +2,9 @@
 
 ## 2026-11-06
 
+- 首页更新为 46 秒实拍成片（英文旁白、中英字幕）；3D 功能与组成介绍片移至[模型展示页](../../hardware/daisy-light/VISUAL_GUIDE.md#animation)。
+- 加入作者提供的[材料参考价格](../diy-guide/BOM.md#costs)，所列项目合计 53.92 元，并在制作教程前提供入口。
+
 - 提供一套 10 件的打印模型：9 个 3MF 工程、13 份分色 STL 和 10 份可编辑 Blender 网格。
 - 加入材料清单、打印说明、实拍装配教程、接线表和装配检查表。
 - 配套提供旋转＋提醒灯固件，以及 v0.6.0 软件源码。安装包支持 Codex 和 WorkBuddy，DSH 支持正在开发中。
@@ -17,6 +20,9 @@
 ## English
 
 ### November 6, 2026
+
+- The homepage now features the approved 46-second live-action demo with English narration and bilingual subtitles. The 3D explainer is on the [model guide](../../hardware/daisy-light/VISUAL_GUIDE.md#animation).
+- Added the author’s [reference material costs](../diy-guide/BOM.md#costs), totaling CNY 53.92 for the listed items, with links before the build steps.
 
 - A complete set of 10 printed parts: 9 print projects, 13 color-separated STL files and 10 editable Blender meshes.
 - Materials list, printing instructions, illustrated assembly guide, wiring table and build checklist.
