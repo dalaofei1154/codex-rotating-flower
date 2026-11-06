@@ -10,9 +10,9 @@
 <a id="watch"></a>
 ## Meet the flower
 
-[![Watch the 72-second English film](docs/media/intro-en.jpg)](hardware/daisy-light/visuals/feature-dsh-en-music.mp4)
+https://github.com/user-attachments/assets/debc0f6c-ad6e-49d3-a212-e0ad689b4f36
 
-**[▶ Watch in English](hardware/daisy-light/visuals/feature-dsh-en-music.mp4)** · [▶ 中文介绍](hardware/daisy-light/visuals/feature-dsh-zh-music.mp4) · [More videos and images](hardware/daisy-light/VISUAL_GUIDE.md)
+**[▶ Watch in English](https://github.com/user-attachments/assets/debc0f6c-ad6e-49d3-a212-e0ad689b4f36)** · [▶ 中文介绍](https://github.com/user-attachments/assets/a38f9855-469f-46ad-a9b5-1f78d493e84b) · [More videos and images](hardware/daisy-light/VISUAL_GUIDE.md)
 
 A 72-second animation made from the printable models, showing how the flower works and how its ten parts fit together. With original music, no voiceover.
 

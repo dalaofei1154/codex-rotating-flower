@@ -1,6 +1,6 @@
 # 旋转花雏菊版公开资料
 
-**[▶ 中文配乐介绍片](../../hardware/daisy-light/visuals/feature-dsh-zh-music.mp4)** · [▶ English film](../../hardware/daisy-light/visuals/feature-dsh-en-music.mp4)
+**[▶ 中文配乐介绍片](https://github.com/user-attachments/assets/a38f9855-469f-46ad-a9b5-1f78d493e84b)** · [▶ English film](https://github.com/user-attachments/assets/debc0f6c-ad6e-49d3-a212-e0ad689b4f36)
 
 72 秒看看小花怎么工作、由哪些零件组成，配上原创音乐《小花慢慢转》。视频也展示了 DSH 的 v0.7.0 本地试用版；目前可下载的 v0.6.0 支持 Codex 和 WorkBuddy。
 

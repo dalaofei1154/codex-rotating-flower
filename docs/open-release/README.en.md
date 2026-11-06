@@ -1,6 +1,6 @@
 # Rotating Flower Daisy DIY materials
 
-**[▶ Watch the English film](../../hardware/daisy-light/visuals/feature-dsh-en-music.mp4)** · [▶ 中文配乐版](../../hardware/daisy-light/visuals/feature-dsh-zh-music.mp4)
+**[▶ Watch the English film](https://github.com/user-attachments/assets/debc0f6c-ad6e-49d3-a212-e0ad689b4f36)** · [▶ 中文配乐版](https://github.com/user-attachments/assets/a38f9855-469f-46ad-a9b5-1f78d493e84b)
 
 See how the flower works and fits together in 72 seconds, with the original soundtrack “Little Things Turning.” The film also shows DSH in the local v0.7.0 preview. The current v0.6.0 download supports Codex and WorkBuddy.
 
