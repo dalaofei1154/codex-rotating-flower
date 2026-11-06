@@ -43,3 +43,9 @@ m0/codex_bridge.py
 *.blend1
 *.gcode
 *.zip
+
+# Public daisy models and editable animation scenes.
+!/hardware/daisy-light/stl/*.stl
+!/hardware/daisy-light/print/*.3mf
+!/hardware/daisy-light/source/*.blend
+!/hardware/daisy-light/visuals/*.blend

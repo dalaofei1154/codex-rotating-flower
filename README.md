@@ -1,52 +1,124 @@
-# Rotating Flower
+<div align="center">
+  <img src="docs/media/flower-mark.svg" width="64" alt="Rotating Flower" />
+  <h1>Rotating Flower</h1>
+  <p><strong>A little flower that moves with your AI.</strong></p>
+  <p>It spins while your AI is working and lights up when it needs you.<br />Plug it into your Mac over USB, then get on with something else.</p>
+  <p><strong>English</strong> · <a href="README.zh-CN.md">简体中文</a></p>
+  <p><a href="#watch">Watch</a> · <a href="#start">Get started</a> · <a href="#compatibility">Supported apps</a> · <a href="#models">Models</a> · <a href="#faq">FAQ</a></p>
+</div>
 
-**English** · [简体中文](README.zh-CN.md)
+<a id="watch"></a>
+## Meet the flower
 
-A USB desk flower that rotates with local **Codex and WorkBuddy** tasks and breathes light when your input is needed. Formerly `codex-rotating-flower`.
+[![Watch the 72-second English film](docs/media/intro-en.jpg)](hardware/daisy-light/visuals/feature-dsh-en-music.mp4)
 
-## Install v0.6.0
+**[▶ Watch in English](hardware/daisy-light/visuals/feature-dsh-en-music.mp4)** · [▶ 中文介绍](hardware/daisy-light/visuals/feature-dsh-zh-music.mp4) · [More videos and images](hardware/daisy-light/VISUAL_GUIDE.md)
 
-**[Download the Mac installer](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.6.0/RotatingFlower-Mac-v0.6.0.zip)** · [Installation guide / 安装说明](docs/install-macos.md) · [Release](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0)
+A 72-second animation made from the printable models, showing how the flower works and how its ten parts fit together. With original music, no voiceover.
 
-Requires an **Apple silicon Mac with macOS 12+**, Codex and/or WorkBuddy installed, and an assembled flower already flashed with combined rotation + attention-light firmware.
+The video features **Codex, WorkBuddy and DeepSeek Harness (DSH)**. See [which versions you can use below](#compatibility).
 
-1. Connect the flower with a USB data cable.
-2. Extract the ZIP and double-click **安装小花.command**.
-3. Open and sign in to your AI app, then start a task.
+## What it tells you
 
-New installations and upgrades detect Codex, WorkBuddy, or both. If you install the other app later, run the installer again. Python is included; no system Python, Homebrew or Node is required. The installer does not install AI apps or flash firmware. It starts the background service at Mac login.
+| Your AI task | Your flower |
+| --- | --- |
+| Working | The flower head spins |
+| Paused for your answer or approval | The light pulses; the flower pauses too, unless another task is working |
+| Some tasks work while another waits | The flower spins with the light on |
+| Everything is done, with nothing waiting for you | The flower stops and the light turns off |
 
-You can install before opening or initializing an app. Exit code **5** means “installed, waiting for the app”; open it and begin a task. The service retries automatically, so no reinstall is needed. Damaged or incompatible data produces an explicit error. The package is unsigned and unnotarized; macOS may require confirmation.
+Each mode has a speed preset. When several tasks run together, the flower uses the fastest active preset. Some questions let work continue while you answer, so the light can come on while the flower keeps turning.
 
-The [guide](docs/install-macos.md) also provides a pinned network installer that downloads to disk before execution and verifies the release ZIP's SHA256:
+<a id="start"></a>
+## Start with what you have
 
-```text
-a82b64865092d03672e4340752c0c574078149b9dbcfa028f9f3e3e995dd0c01
+| Already have a flower? | Want to make one? |
+| --- | --- |
+| Connect it to your Mac and install the software. | Print the parts, add the electronics and follow the build guide. |
+| **[Install Mac software](#install)** | **[Build the daisy edition](docs/diy-guide/README.en.md)** |
+| Start with an assembled flower running the combined motor + light firmware. | [Materials list](docs/diy-guide/BOM.md) · [Model downloads](#models) · [Wiring](docs/diy-guide/WIRING.md) |
+
+<a id="compatibility"></a>
+## Supported apps and versions
+
+| App | Flower software | Mac support |
+| --- | --- | --- |
+| Codex | [v0.6.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | Apple silicon · macOS 12+ |
+| WorkBuddy | [v0.6.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | Apple silicon · macOS 12+ |
+| DeepSeek Harness (DSH) | **v0.7.0 — testing locally**, download coming later | Apple silicon · DSH needs macOS 13+ |
+
+The downloadable v0.6.0 installer supports Codex and WorkBuddy. DSH support was developed with DSH 0.2.1-rc.5; progress and mode mappings are in the [DSH notes](docs/dsh-macos.md).
+
+<a id="install"></a>
+### Install on your Mac
+
+**[Download v0.6.0 for Apple silicon](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.6.0/RotatingFlower-Mac-v0.6.0.zip)** · [Release notes](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0)
+
+1. Connect the flower with a USB data cable and extract the ZIP.
+2. Double-click **安装小花.command** and follow the prompts.
+3. Open and sign in to Codex or WorkBuddy, then start a task.
+
+The package includes Python and needs no API key of its own. Install your AI apps beforehand; the [build guide](docs/diy-guide/README.en.md) covers wiring and firmware. macOS may show a security prompt because the installer is unsigned. [Installation, upgrades and checksums](docs/open-release/INSTALL.md#en)
+
+<a id="models"></a>
+## Build the daisy edition
+
+**10 printed parts · 9 print projects · 13 color-separated STL meshes**
+
+[![The ten parts and their matching model files](hardware/daisy-light/visuals/parts-and-files.png)](hardware/daisy-light/VISUAL_GUIDE.md)
+
+**[Choose models by picture](hardware/daisy-light/VISUAL_GUIDE.md)** · [Print settings and editable meshes](hardware/daisy-light/README.en.md) · [Complete DIY materials](docs/open-release/README.en.md)
+
+| Step | What to do |
+| --- | --- |
+| 1. Prepare | Check the [materials list](docs/diy-guide/BOM.md) and [print guide](docs/diy-guide/PRINTING.md) |
+| 2. Assemble | Follow the [illustrated tutorial](docs/diy-guide/README.en.md) and [wiring table](docs/diy-guide/WIRING.md) |
+| 3. Connect | Flash the [combined motor + light firmware](firmware/README.md), then install the Mac software |
+| 4. Check | Run through the [build checklist](docs/diy-guide/CHECKLIST.md) |
+
+You'll need to buy the electronics separately. Some 3MF plates have spare copies, so use the parts list to pick one complete set and slice it for your printer. Ten editable Blender mesh scenes are included if you'd like to change the design.
+
+My current build uses the L2 pot lid and P4 clear cap, and both rotation and lighting work. The flower center, clear cap and stem-to-lid connections are fitted without glue and are still a little loose. I'll keep improving those fits; for now, pick it up by the pot. [Build notes](docs/diy-guide/README.en.md)
+
+## How it works
+
+```mermaid
+flowchart LR
+    A[Codex / WorkBuddy / DSH] --> B[Mac bridge: local task state]
+    B -->|USB| C[ESP32: combined firmware]
+    C --> D[Motor + attention light]
 ```
 
-## Behavior
+The Mac software reads local task status and sends commands to the ESP32 over USB. The controller runs the motor and the reminder light.
 
-| State | Flower |
+| Explore | Entry |
 | --- | --- |
-| Working | Rotates at the selected mode's preset |
-| Blocked waiting for an answer or approval | Reminds with breathing light; that task stops contributing speed |
-| One task waits while another works | Rotates and lights up together |
-| All tasks finish, no pending input | Stops and turns the light off |
+| Source for the download | [v0.6.0 source snapshot](software/release-v0.6.0/README.md) |
+| DSH progress | [Adapter notes](docs/dsh-macos.md) |
+| Hardware and firmware | [Model files](hardware/README.md) · [Combined firmware](firmware/README.md) |
+| Build updates | [DIY release notes](docs/open-release/RELEASE_NOTES.md) |
 
-Working tasks across both apps use the highest preset; reminders stay on while a connected source reports pending input. An asynchronous Codex question can leave the same task working and the light on; a disconnected source stops contributing outputs while its pending-state cache is retained. WorkBuddy Fast / Balanced / Deep map to LOW / HIGH / ULTRA. Independent or unknown models use HIGH; missing model metadata uses LOW. Codex retains its five reasoning-effort presets. These are selected-mode mappings, not measurements of cloud compute or physical RPM.
+<a id="faq"></a>
+## A few practical questions
 
-Double-click **卸载小花.command** to remove the entire background service for both apps. Backups and logs remain.
+**Does the flower play the music in the video?** The music is just for the video. The flower communicates through movement and light.
 
-## Verified scope
+**Does it need an internet connection or an API key?** The flower connects over USB and uses your apps' local task status. It needs no separate API key and sends no task records to a project server. Use your usual account to sign in to each AI app. [More about local data](docs/open-release/INSTALL.md#data)
 
-Tested on one Mac with **Codex 26.1027.61615** and **WorkBuddy 5.9.3**: double-click installation, concurrent-task arbitration, a real waiting question card, and clearing the light after answering. The user visually confirmed the breathing light.
+**Can I change the design?** Yes. You can adapt the models for noncommercial use. Credit the project and share your modified models under the same license. [License details](LICENSES.md)
 
-This package does not support Intel Macs. Every app version and a second Mac installation have not been verified. Real permission-approval prompts and long continuous use remain unverified. The bridge follows local tasks and depends on application data formats; retest after app updates. No API key is required, and the bridge does not send data to a project server.
+## Share your build
 
-## Source and hardware reference
+If you make one, I'd love to see it. Post a photo in [Issues](https://github.com/dalaofei1154/rotating-flower/issues), along with your printer and filament. Fit improvements and bug reports are welcome too. [Contribution guide](CONTRIBUTING.md)
 
-The bridge, installer and ESP32 firmware use the [MIT license](LICENSE); guide text uses CC BY 4.0. See [LICENSES.md](LICENSES.md) for media and other terms. Current 3D models and manufacturing files are not published.
+Made by **Flynn**, with help from AI tools for modeling and code. [Inspiration and acknowledgements](docs/open-release/ATTRIBUTION.md). This is a personal project. Formerly `codex-rotating-flower`.
 
-The historical motor-only build guides remain available in [English](docs/build-guide-en.md) and [中文](docs/从零搭建.md). Their older firmware and installation commands are not the combined light-enabled setup required by this release.
+## License
 
-This is an independent project, not affiliated with or endorsed by OpenAI or WorkBuddy.
+| Material | License |
+| --- | --- |
+| Software and firmware | MIT |
+| Written guides | CC BY 4.0 |
+| Selected models, DIY photos, renders, videos and original soundtrack | CC BY-NC-SA 4.0 |
+
+See [LICENSES.md](LICENSES.md) for the scope of each license and third-party credits. Please contact me about commercial use of the models or media.

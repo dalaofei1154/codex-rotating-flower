@@ -1,0 +1,123 @@
+{
+  "version": "0.6.0",
+  "origin_zip_sha256": "a82b64865092d03672e4340752c0c574078149b9dbcfa028f9f3e3e995dd0c01",
+  "firmware_sha256": "04ae4a1f6bda1e1e24e8ea6288690fdaffb8a1a1c0cac1c14083c451f9ccd26a",
+  "files": [
+    {
+      "path": "m1/integrated_setup.py",
+      "origin_zip_member": "RotatingFlower-Mac-v0.6.0/安装资源/integrated_setup.py",
+      "sha256": "d5795e540aa4bb1a5db55bd01bfc8cdc9ebeb41d3b38368f556352c7235b04b7"
+    },
+    {
+      "path": "m1/integrated_install.sh",
+      "origin_zip_member": "RotatingFlower-Mac-v0.6.0/安装资源/integrated_install.sh",
+      "sha256": "db9cfbac2e00848953e1ad02a855ec348bebbae0459482a594ec39e7e33f5994"
+    },
+    {
+      "path": "m1/integrated/integrated_bridge.py",
+      "origin_zip_member": "RotatingFlower-Mac-v0.6.0/安装资源/integrated/integrated_bridge.py",
+      "sha256": "8a7605687320cb2af948929c1d52dc2a9dff33ba5ae853c02eccbd0f89b2bb3a"
+    },
+    {
+      "path": "m1/integrated/attention_state.py",
+      "origin_zip_member": "RotatingFlower-Mac-v0.6.0/安装资源/integrated/attention_state.py",
+      "sha256": "3fc19eee47b75a3673d321469946359e94a48c56dc43ec84a3069c18171fe4c7"
+    },
+    {
+      "path": "m1/integrated/motor_bridge_base.py",
+      "origin_zip_member": "RotatingFlower-Mac-v0.6.0/安装资源/integrated/motor_bridge_base.py",
+      "sha256": "6a27c9d4a8e02fc4c47f19c9ab122a77a0e19998ee3e940f7e89b1df76156717"
+    },
+    {
+      "path": "m1/integrated/runtime_feed.py",
+      "origin_zip_member": "RotatingFlower-Mac-v0.6.0/安装资源/integrated/runtime_feed.py",
+      "sha256": "023b9c7dbbba8268bd977ae646f59ff44d619a0d12a8c4393df55fa8d4497465"
+    },
+    {
+      "path": "m1/integrated/state_reducer.py",
+      "origin_zip_member": "RotatingFlower-Mac-v0.6.0/安装资源/integrated/state_reducer.py",
+      "sha256": "6244c84e69e2a126e9bfbca49dadfd96035f3bdc0a3aab73316c104ea86f0110"
+    },
+    {
+      "path": "m1/integrated/root_catalog.py",
+      "origin_zip_member": "RotatingFlower-Mac-v0.6.0/安装资源/integrated/root_catalog.py",
+      "sha256": "24e60c028f2c644363f76e37795433deb009a6d4aa9c4cb85d23985514d19bfc"
+    },
+    {
+      "path": "m1/integrated/workbuddy_adapter.py",
+      "origin_zip_member": "RotatingFlower-Mac-v0.6.0/安装资源/integrated/workbuddy_adapter.py",
+      "sha256": "e5973245a810756d2dd032036e19a23645ba9fcf6596102820936fe85f6b6a81"
+    },
+    {
+      "path": "LICENSE",
+      "origin": "v0.6.0 ZIP",
+      "sha256": "65bd16448af9c65a90091bf52a6569b01693871592acd0662ba80d9903c3d1e4"
+    },
+    {
+      "path": "m1/package_workbuddy_integrated.py",
+      "origin": "m1/package_workbuddy_integrated.py",
+      "note": "build or verification support from working tree; runtime files are ZIP snapshot",
+      "sha256": "a53eedd7b15dd645b08786db94c31863a8fdf020788dfd94d5b9b8c4dd1e36b3"
+    },
+    {
+      "path": "m1/test_integrated_setup.py",
+      "origin": "m1/test_integrated_setup.py",
+      "note": "build or verification support from working tree; runtime files are ZIP snapshot",
+      "sha256": "f9ae30eaf850e5b6bc51665c53fb8b442b983acf2b91d70cda450afa84ca89fe"
+    },
+    {
+      "path": "m1/test_workbuddy_integrated_package.py",
+      "origin": "m1/test_workbuddy_integrated_package.py",
+      "note": "build or verification support from working tree; runtime files are ZIP snapshot",
+      "sha256": "7714ba73a2af2762ece69aa48d493136edf7f628e29fc1ef1c8b07f4776a7583"
+    },
+    {
+      "path": "m1/integrated/test_attention_state.py",
+      "origin": "m1/integrated/test_attention_state.py",
+      "note": "build or verification support from working tree; runtime files are ZIP snapshot",
+      "sha256": "209a0ad8f21b0392413c3388682036f68c65339c68d0852bac2fbaeef27eaf1c"
+    },
+    {
+      "path": "m1/integrated/test_direct_reply.py",
+      "origin": "m1/integrated/test_direct_reply.py",
+      "note": "build or verification support from working tree; runtime files are ZIP snapshot",
+      "sha256": "8c449975011b325539c0c78c19d3afe5b365a42c0055045b3c150a398bb5ada6"
+    },
+    {
+      "path": "m1/integrated/test_integrated_bridge.py",
+      "origin": "m1/integrated/test_integrated_bridge.py",
+      "note": "build or verification support from working tree; runtime files are ZIP snapshot",
+      "sha256": "2c62fd6a0a85d6a698c7385cf0826a5521720623b765665a533de78c9c0a8b6a"
+    },
+    {
+      "path": "m1/integrated/test_readiness_recovery.py",
+      "origin": "m1/integrated/test_readiness_recovery.py",
+      "note": "build or verification support from working tree; runtime files are ZIP snapshot",
+      "sha256": "6f5eb6991cf687ee8afe17705ceaad97603d5dc056a57d3d4012be63c370f3ab"
+    },
+    {
+      "path": "m1/integrated/test_runtime_feed.py",
+      "origin": "m1/integrated/test_runtime_feed.py",
+      "note": "build or verification support from working tree; runtime files are ZIP snapshot",
+      "sha256": "4c8815e7f486d09c16585a4d2157dfa8beaafc782acd99e46ae990af38265ba4"
+    },
+    {
+      "path": "m1/integrated/test_sources.py",
+      "origin": "m1/integrated/test_sources.py",
+      "note": "build or verification support from working tree; runtime files are ZIP snapshot",
+      "sha256": "4f3fc568d7e6d21d4ac64cce75fca4435e430e213751618f967f148602263d95"
+    },
+    {
+      "path": "m1/integrated/test_state_reducer.py",
+      "origin": "m1/integrated/test_state_reducer.py",
+      "note": "build or verification support from working tree; runtime files are ZIP snapshot",
+      "sha256": "454ccf00259489b9e5f1eee752bf1130328082cd22bf09e0de4933c59488e5b2"
+    },
+    {
+      "path": "m1/integrated/test_workbuddy_adapter.py",
+      "origin": "m1/integrated/test_workbuddy_adapter.py",
+      "note": "build or verification support from working tree; runtime files are ZIP snapshot",
+      "sha256": "1dd014ee42c697c7dedfe8bbb81445593a7629778eaef845e2541c40238d50d2"
+    }
+  ]
+}
