@@ -19,6 +19,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import process_lock
+import process_probe
 import serial_link
 
 
@@ -299,9 +300,9 @@ class WorkBuddyDatabaseAdapter:
                         or not isinstance(session_id, str) or not session_id):
                     continue
                 try:
-                    os.kill(pid, 0)
-                except PermissionError:
-                    # A sandbox may deny the probe even when the worker exists.
+                    if not process_probe.process_alive(pid):
+                        continue
+                except OSError:
                     continue
                 sessions.setdefault(session_id, set()).add(pid)
             except (OSError, ValueError):

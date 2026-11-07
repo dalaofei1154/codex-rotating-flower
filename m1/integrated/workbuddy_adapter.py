@@ -16,7 +16,13 @@ import os
 from pathlib import Path
 import re
 import sqlite3
+import sys
 import time
+
+# process_probe lives one directory up, shared with the other bridges.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+import process_probe
 
 RANK = {"LOW": 1, "MEDIUM": 2, "HIGH": 3, "XHIGH": 4, "ULTRA": 5}
 WORKING = frozenset(("working", "planning"))
@@ -297,7 +303,8 @@ class WorkBuddyAdapter:
                 pid, sid = data.get('pid'), data.get('sessionId')
                 if type(pid) is not int or pid <= 0 or str(pid) != path.stem or not isinstance(sid, str) or not sid:
                     continue
-                os.kill(pid, 0)
+                if not process_probe.process_alive(pid):
+                    continue
                 started = data.get('startedAt')
                 if not isinstance(started, (str, int, float)):
                     started = None

@@ -32,7 +32,7 @@ class WorkBuddyAdapterTests(unittest.TestCase):
             connection.close()
         self.adapter = WorkBuddyAdapter(self.root)
         self.now = 1800000000
-        self.kill = patch('workbuddy_adapter.os.kill').start()
+        self.kill = patch('process_probe.process_alive', return_value=True).start()
         self.addCleanup(patch.stopall)
 
     def task(self, sid='one', status='working', model='fast-model', at=None, pid=123, started=1):

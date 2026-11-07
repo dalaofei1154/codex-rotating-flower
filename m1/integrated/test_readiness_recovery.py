@@ -24,6 +24,10 @@ class ReadinessRecoveryTests(unittest.TestCase):
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
         self.now = time.time()
+        # Worker liveness is a real OS probe; the fixtures use fake PIDs.
+        liveness = patch('process_probe.process_alive', return_value=True)
+        liveness.start()
+        self.addCleanup(liveness.stop)
 
     def codex(self):
         feed = Mock()

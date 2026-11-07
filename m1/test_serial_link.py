@@ -103,12 +103,17 @@ class WindowsInstallerTests(unittest.TestCase):
         self.folder.cleanup()
 
     def test_task_command_quotes_every_path(self):
+        target = self.support / "global_bridge.py"
         command = self.installer.task_command(
-            self.support / "global_bridge.py", Path("C:/sessions"), "COM3",
-            "codex", None)
-        self.assertIn('--sessions-root "C:\\sessions"'.replace("\\\\", "\\"), command)
+            target, Path("C:/sessions"), "COM3", "codex", None)
+        # Path separators differ per platform, so assert on quoting and flags
+        # rather than on a literal string.
+        self.assertIn(f'--sessions-root "', command)
+        self.assertIn(f'"{Path("C:/sessions")}"', command)
         self.assertIn('--port "COM3"', command)
-        self.assertIn('--source codex', command)
+        self.assertIn("--source codex", command)
+        self.assertIn(f'"{target}"', command)
+        self.assertTrue(command.startswith('"'))
 
     def test_uninstall_keeps_logs_and_removes_runtime(self):
         self.support.mkdir(parents=True)

@@ -77,10 +77,11 @@ class WorkBuddyTests(unittest.TestCase):
         self.adapter.poll(self.now)
         self.assertEqual(self.adapter.selected(self.now)[0], "STOP")
         self.worker()
-        with patch.object(bridge.os, "kill", side_effect=ProcessLookupError):
+        with patch.object(bridge.process_probe, "process_alive", return_value=False):
             self.adapter.poll(self.now)
         self.assertEqual(self.adapter.selected(self.now)[0], "STOP")
-        with patch.object(bridge.os, "kill", side_effect=PermissionError):
+        with patch.object(bridge.process_probe, "process_alive",
+                          side_effect=PermissionError):
             self.adapter.poll(self.now)
         self.assertEqual(self.adapter.selected(self.now)[0], "STOP")
 
@@ -161,7 +162,7 @@ class WorkBuddyTests(unittest.TestCase):
         self.model("deep-model", "deep")
         self.worker("fast")
         self.worker("deep", pid=os.getpid() + 10000)
-        with patch.object(bridge.os, "kill", return_value=None):
+        with patch.object(bridge.process_probe, "process_alive", return_value=True):
             self.adapter.poll(self.now)
             self.assertEqual(self.adapter.selected(self.now), ("RUN ULTRA", "deep", 2))
             self.task("deep", status="completed")
@@ -200,7 +201,7 @@ class WorkBuddyTests(unittest.TestCase):
         self.model("deep-model")
         old_worker.unlink()
         self.worker(pid=os.getpid() + 10000)
-        with patch.object(bridge.os, "kill", return_value=None):
+        with patch.object(bridge.process_probe, "process_alive", return_value=True):
             self.adapter.poll(self.now)
         self.assertEqual(self.adapter.selected(self.now)[0], "RUN ULTRA")
 
