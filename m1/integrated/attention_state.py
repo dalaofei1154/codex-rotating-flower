@@ -290,7 +290,10 @@ class AttentionAdapter:
                                    dir=self.state_path.parent)
         try:
             with os.fdopen(fd, 'w', encoding='utf-8') as stream:
-                os.fchmod(stream.fileno(), 0o600)
+                # os.fchmod does not exist on Windows; the file inherits the
+                # directory ACL there, which is the platform's equivalent.
+                if hasattr(os, 'fchmod'):
+                    os.fchmod(stream.fileno(), 0o600)
                 json.dump(data, stream, ensure_ascii=True, separators=(',', ':'))
                 stream.flush()
                 os.fsync(stream.fileno())
