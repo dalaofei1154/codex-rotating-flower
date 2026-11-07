@@ -102,68 +102,78 @@ def _root_id(record: dict) -> str | None:
 
 
 class _Rollout:
+    """Track one rollout by byte offset, opening it only while reading.
+
+    Holding the handle open for the process lifetime blocks deletion on
+    Windows, where Codex removes old rollouts while the bridge is running.
+    """
+
     def __init__(self, path: Path):
         self.path = path
-        self.file = path.open('rb')
         stat = path.stat()
         self.inode = stat.st_ino
         self.mtime_ns = stat.st_mtime_ns
         self.buffer = b''
         self.skip_long = False
         self.turn = None
-        first = self.file.readline(_MAX_LINE + 1)
-        if not first.endswith(b'\n'):
-            self.file.close()
-            raise ValueError('Incomplete session metadata')
+        with path.open('rb') as file:
+            first = file.readline(_MAX_LINE + 1)
+            if not first.endswith(b'\n'):
+                raise ValueError('Incomplete session metadata')
+            self.offset = file.tell()
         try:
             meta = json.loads(first)
             self.session = _root_id(meta) if isinstance(meta, dict) else None
         except (ValueError, UnicodeDecodeError):
             self.session = None
-        self.offset = self.file.tell()
 
     def close(self):
-        self.file.close()
+        """Nothing stays open between polls; kept for the adapter's cleanup."""
 
     def replaced(self, stat) -> bool:
-        return (stat.st_ino != self.inode or stat.st_size < self.offset
+        same_inode = bool(stat.st_ino) and bool(self.inode) and stat.st_ino == self.inode
+        if self.inode and stat.st_ino and not same_inode:
+            return True
+        return (stat.st_size < self.offset
                 or (stat.st_size == self.offset and stat.st_mtime_ns != self.mtime_ns))
 
     def read(self, stat):
         """Yield only fresh relevant records, retaining incomplete trailing lines."""
         self.mtime_ns = stat.st_mtime_ns
-        while True:
-            chunk = self.file.read(65536)
-            if not chunk:
-                return
-            self.offset += len(chunk)
-            parts = (self.buffer + chunk).split(b'\n')
-            self.buffer = parts.pop()
-            for line in parts:
-                if self.skip_long:
-                    self.skip_long = False
-                    continue
-                if len(line) > _MAX_LINE or not any(m in line for m in _MARKERS):
-                    continue
-                try:
-                    record = json.loads(line)
-                except (ValueError, UnicodeDecodeError):
-                    continue
-                if not isinstance(record, dict):
-                    continue
-                p = record.get('payload')
-                if not isinstance(p, dict):
-                    continue
-                if record.get('type') == 'event_msg' and p.get('type') == 'task_started':
-                    turn = p.get('turn_id')
-                    self.turn = turn if isinstance(turn, str) else None
-                    continue
-                meta = p.get('internal_chat_message_metadata_passthrough')
-                turn = meta.get('turn_id') if isinstance(meta, dict) else None
-                yield record, turn if isinstance(turn, str) else self.turn
-            if len(self.buffer) > _MAX_LINE:
-                self.buffer = b''
-                self.skip_long = True
+        with self.path.open('rb') as file:
+            file.seek(self.offset)
+            while True:
+                chunk = file.read(65536)
+                if not chunk:
+                    return
+                self.offset += len(chunk)
+                parts = (self.buffer + chunk).split(b'\n')
+                self.buffer = parts.pop()
+                for line in parts:
+                    if self.skip_long:
+                        self.skip_long = False
+                        continue
+                    if len(line) > _MAX_LINE or not any(m in line for m in _MARKERS):
+                        continue
+                    try:
+                        record = json.loads(line)
+                    except (ValueError, UnicodeDecodeError):
+                        continue
+                    if not isinstance(record, dict):
+                        continue
+                    p = record.get('payload')
+                    if not isinstance(p, dict):
+                        continue
+                    if record.get('type') == 'event_msg' and p.get('type') == 'task_started':
+                        turn = p.get('turn_id')
+                        self.turn = turn if isinstance(turn, str) else None
+                        continue
+                    meta = p.get('internal_chat_message_metadata_passthrough')
+                    turn = meta.get('turn_id') if isinstance(meta, dict) else None
+                    yield record, turn if isinstance(turn, str) else self.turn
+                if len(self.buffer) > _MAX_LINE:
+                    self.buffer = b''
+                    self.skip_long = True
 
 
 @dataclass(frozen=True)

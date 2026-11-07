@@ -19,7 +19,7 @@ from pathlib import Path
 
 
 LABEL = "com.rotatingflower.codex-motor"
-RUNTIME_FILES = ("global_bridge.py", "launch_bridge.sh")
+RUNTIME_FILES = ("global_bridge.py", "launch_bridge.sh", "serial_link.py", "process_lock.py")
 
 
 def locations() -> tuple[Path, Path, Path]:

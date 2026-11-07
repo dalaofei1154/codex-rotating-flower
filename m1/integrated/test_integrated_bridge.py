@@ -64,40 +64,61 @@ class IntegrationStateTests(unittest.TestCase):
         self.assertEqual(state.motor_command,'STOP')
 
 
-class TransportTests(unittest.TestCase):
-    def ready(self):
-        f=Flower(); f.fd=42; f.path='test'; return f
+class FakePort:
+    """Minimal stand-in for serial_link.SerialPort that records writes."""
 
-    @patch('integrated_bridge.select.select',return_value=([],[],[]))
-    def test_motor_and_light_share_one_frame_and_heartbeat(self,_):
+    def __init__(self, short_write=False):
+        self.writes=[]
+        self.short_write=short_write
+        self.closed=False
+
+    def write(self,data):
+        if self.short_write:
+            self.writes.append(data)
+            raise OSError('short write')
+        self.writes.append(data)
+
+    def read(self,limit=4096):
+        return b''
+
+    def close(self):
+        self.closed=True
+
+
+class TransportTests(unittest.TestCase):
+    def ready(self, **kwargs):
+        f=Flower(); f.serial=FakePort(**kwargs); f.path='test'
+        f.capabilities=['motor','attention']; return f
+
+    def test_motor_and_light_share_one_frame_and_heartbeat(self):
         f=self.ready()
-        with patch('integrated_bridge.os.write',side_effect=lambda fd,data:len(data)) as write:
-            with patch('integrated_bridge.time.monotonic',return_value=10):
-                self.assertTrue(f.send('RUN HIGH',False))
-                self.assertTrue(f.send('RUN HIGH',False))
-            self.assertEqual(write.call_count,1)
-            self.assertEqual(write.call_args.args,(42,b'RUN HIGH\nATTENTION OFF\n'))
-            with patch('integrated_bridge.time.monotonic',return_value=10.1):
-                f.send('RUN HIGH',True)
-            self.assertEqual(write.call_args.args[1],b'RUN HIGH\nATTENTION ON\n')
-            with patch('integrated_bridge.time.monotonic',return_value=12):
-                f.send('RUN HIGH',True)
-            self.assertEqual(write.call_count,3)
+        with patch('integrated_bridge.time.monotonic',return_value=10):
+            self.assertTrue(f.send('RUN HIGH',False))
+            self.assertTrue(f.send('RUN HIGH',False))
+        self.assertEqual(len(f.serial.writes),1)
+        self.assertEqual(f.serial.writes[0],b'RUN HIGH\nATTENTION OFF\n')
+        with patch('integrated_bridge.time.monotonic',return_value=10.1):
+            f.send('RUN HIGH',True)
+        self.assertEqual(f.serial.writes[-1],b'RUN HIGH\nATTENTION ON\n')
+        with patch('integrated_bridge.time.monotonic',return_value=12):
+            f.send('RUN HIGH',True)
+        self.assertEqual(len(f.serial.writes),3)
 
     def test_short_write_discards_connection_for_reprobe(self):
-        f=self.ready()
-        with patch('integrated_bridge.os.write',return_value=2),patch.object(f,'close') as close:
+        f=self.ready(short_write=True)
+        with patch.object(f,'close') as close:
             self.assertFalse(f.send('STOP',False));close.assert_called_once()
 
     def test_shutdown_sends_both_off(self):
         f=self.ready()
-        with patch('integrated_bridge.os.write') as write,patch.object(f,'close') as close:
-            f.stop();write.assert_called_once_with(42,b'STOP\nATTENTION OFF\n');close.assert_called_once()
+        with patch.object(f,'close') as close:
+            f.stop()
+        self.assertEqual(f.serial.writes,[b'STOP\nATTENTION OFF\n'])
+        close.assert_called_once()
 
     def test_unrecognized_speed_never_written(self):
         f=self.ready()
-        with patch('integrated_bridge.os.write') as write:
-            with self.assertRaises(ValueError):f.send('TEST FAST',True)
-            write.assert_not_called()
+        with self.assertRaises(ValueError):f.send('TEST FAST',True)
+        self.assertEqual(f.serial.writes,[])
 
 if __name__=='__main__':unittest.main()

@@ -56,7 +56,7 @@ Uninstalling keeps the logs. The bridge looks for sessions in your `CODEX_HOME` 
 2. While it is still running, start another local task at HIGH. The motor should switch to HIGH.
 3. When HIGH ends, the motor should return to LOW. It should stop after both tasks finish.
 
-The bridge reads Codex's local task files. That file format can change, so retest after Codex updates. It currently handles local and worktree tasks on a Mac; it does not handle cloud tasks or Windows. If a task record disappears, the bridge removes it on the next poll. A record that still exists but has not been updated for 10 minutes also stops contributing an active state. The ESP32 stops the motor after 30 seconds without a `RUN` command.
+The bridge reads Codex's local task files. That file format can change, so retest after Codex updates. It handles local and worktree tasks; the Windows serial path is new and has not been tried against a real board yet. It does not handle cloud tasks. If a task record disappears, the bridge removes it on the next poll. A record that still exists but has not been updated for 10 minutes also stops contributing an active state. The ESP32 stops the motor after 30 seconds without a `RUN` command.
 
 ## 中文说明
 
@@ -85,4 +85,4 @@ python3 m1/install_macos.py install
 
 测试跨窗口时，可以先启动 LOW 任务，再启动 HIGH 任务：电机应切到 HIGH；HIGH 结束而 LOW 仍在运行时，应回到 LOW；全部结束后停转。
 
-程序依赖 Codex 的本地任务文件格式，Codex 更新后可能需要调整。当前只支持 Mac 上的本地和 worktree 任务，不支持云端任务或 Windows。任务记录如果消失，会在下一次轮询时移除；记录仍存在但连续 10 分钟无更新，也会停止贡献运行状态。ESP32 收不到新的 `RUN` 命令满 30 秒会停机。
+程序依赖 Codex 的本地任务文件格式，Codex 更新后可能需要调整。它支持本地和 worktree 任务；Windows 串口路径是新加的，还没有对着实物开发板试过。不支持云端任务。任务记录如果消失，会在下一次轮询时移除；记录仍存在但连续 10 分钟无更新，也会停止贡献运行状态。ESP32 收不到新的 `RUN` 命令满 30 秒会停机。
