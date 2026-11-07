@@ -35,3 +35,9 @@ jobs:
         run: python -m unittest discover -s m1/integrated -t m1/integrated -p "test_*.py" -v
       - name: Check the state-only snapshot runs
         run: python m1/global_bridge.py --once
+      - name: Exercise the Win32 serial path over a loopback pipe
+        if: runner.os == 'Windows'
+        run: python m1/verify_windows_serial.py
+      - name: Install and run the installed copy
+        if: runner.os == 'Windows'
+        run: python m1/verify_windows_install.py

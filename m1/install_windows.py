@@ -21,7 +21,8 @@ from pathlib import Path
 
 
 TASK_NAME = "RotatingFlowerCodexMotor"
-RUNTIME_FILES = ("global_bridge.py", "serial_link.py", "process_lock.py")
+RUNTIME_FILES = ("global_bridge.py", "serial_link.py", "process_lock.py",
+                 "process_probe.py")
 
 
 def locations() -> tuple[Path, Path]:
