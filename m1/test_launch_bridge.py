@@ -1,10 +1,13 @@
 import shlex
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
 
+# The launcher is a /bin/bash script that probes macOS Python locations.
+@unittest.skipUnless(sys.platform == "darwin", "macOS launcher tests")
 class RuntimeSelectionTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="小花 launcher with spaces ")

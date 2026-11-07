@@ -12,6 +12,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 import package_workbuddy_integrated as package
 
 
+# The packager builds a /bin/bash launcher and records POSIX file modes.
+@unittest.skipUnless(sys.platform == "darwin", "macOS package tests")
 class IntegratedPackageTests(unittest.TestCase):
     def test_build_allowlist_excludes_private_and_stale_files_and_preserves_modes(self):
         with tempfile.TemporaryDirectory(prefix='小花 package ') as temp:

@@ -14,6 +14,8 @@ import install_macos as installer
 import workbuddy_setup as setup
 
 
+# install_macos.py drives launchctl and os.getuid(), so these only apply to macOS.
+@unittest.skipUnless(sys.platform == "darwin", "macOS LaunchAgent installer tests")
 class InstallerTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()

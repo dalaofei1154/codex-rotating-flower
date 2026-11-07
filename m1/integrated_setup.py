@@ -5,7 +5,6 @@ from __future__ import annotations
 import argparse
 from contextlib import closing
 import datetime as dt
-import fcntl
 import json
 import os
 from pathlib import Path
@@ -17,6 +16,11 @@ import sys
 import tempfile
 import time
 import uuid
+
+if sys.platform == "darwin":
+    import fcntl
+else:  # This installer drives launchctl and only exists for macOS.
+    fcntl = None
 
 VERSION = '0.6.0'
 LABEL = 'com.rotatingflower.codex-motor'

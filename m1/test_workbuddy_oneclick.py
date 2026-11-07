@@ -13,6 +13,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 import package_workbuddy_oneclick as package
 
 
+# The one-click package wraps a /bin/bash installer, so it only applies to macOS.
+@unittest.skipUnless(sys.platform == "darwin", "macOS one-click package tests")
 class SelfContainedInstallerTests(unittest.TestCase):
     def run_fixture(self, result=0, arguments=()):
         # Exercise extraction, quoting, default flags, error propagation and

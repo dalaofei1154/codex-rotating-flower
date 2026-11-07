@@ -19,8 +19,8 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Run bridge tests
-        run: python -m unittest discover -s m1 -p "test_*.py" -v
+        run: python -m unittest discover -s m1 -t m1 -p "test_*.py" -v
       - name: Run integrated bridge tests
-        run: python -m unittest discover -s m1/integrated -p "test_*.py" -v
+        run: python -m unittest discover -s m1/integrated -t m1/integrated -p "test_*.py" -v
       - name: Check the state-only snapshot runs
         run: python m1/global_bridge.py --once

@@ -15,6 +15,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 import integrated_setup as setup
 
 
+# integrated_setup.py installs a launchctl LaunchAgent, so these need macOS.
+@unittest.skipUnless(sys.platform == "darwin", "macOS integrated setup tests")
 class IntegratedSetupTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='小花 integrated with spaces ')
@@ -207,6 +209,7 @@ class IntegratedSetupTests(unittest.TestCase):
             self.assertEqual(setup.verify(receipt, 0), 0)
 
 
+@unittest.skipUnless(sys.platform == "darwin", "macOS app bundle detection tests")
 class SourceDetectionTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='小花 apps ')
@@ -314,6 +317,7 @@ class SourceDetectionTests(unittest.TestCase):
         self.assertEqual(setup.preflight(config)['workbuddy']['readiness'], 'error')
 
 
+@unittest.skipUnless(sys.platform == "darwin", "macOS readiness verification tests")
 class ReadinessVerificationTests(unittest.TestCase):
     def test_waiting_requires_installed_service_fresh_hardware_and_explicit_states(self):
         with tempfile.TemporaryDirectory() as temp:
