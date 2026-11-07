@@ -1,0 +1,26 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        python: ["3.9", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Run bridge tests
+        run: python -m unittest discover -s m1 -p "test_*.py" -v
+      - name: Run integrated bridge tests
+        run: python -m unittest discover -s m1/integrated -p "test_*.py" -v
+      - name: Check the state-only snapshot runs
+        run: python m1/global_bridge.py --once
