@@ -1,12 +1,20 @@
-# DeepSeek Harness 支持（尚未发版）
+# DeepSeek Harness 支持 · v0.7.0
 
-当前源码新增了 DSH 适配：小花会跟着 DSH 的任务转动，等待你回答或授权时亮起提醒灯。**v0.7.0 尚未发布**；目前可下载的 [v0.6.0 安装包](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0)只支持 Codex 和 WorkBuddy。使用 DSH 请按下方源码步骤安装。
+[v0.7.0 安装包](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.7.0/RotatingFlower-Mac-v0.7.0.zip)已包含 DSH 适配，同时支持 Codex 和 WorkBuddy。小花会跟着 DSH 的任务转动，等待你回答或授权时亮起提醒灯。
 
-当前适配对象为 **DeepSeek Harness 0.2.1-rc.5**，运行于 **Apple 芯片 Mac、macOS 13+**。本次完善了源码与打包工具，没有发布新的安装包。
+当前适配对象为 **DeepSeek Harness 0.2.1-rc.5**，运行于 **Apple 芯片 Mac、macOS 13+**。本版于 **2026 年 11 月 9 日**发布；[查看版本说明](open-release/RELEASE_NOTES.md)。
 
-## 从源码安装
+## 使用安装包
 
-准备好已烧录[旋转＋提醒灯组合固件](../firmware/README.md)的小花和 USB 数据线。源码安装需要 Python 3.9 或更新版本；安装后仍需保留该 Python，因为后台使用同一个解释器运行。
+1. 先安装并打开一次 DSH，让它生成本机配置，然后退出应用。
+2. 下载并解压 v0.7.0，连接已烧录旋转＋提醒灯固件的小花，双击 `安装小花.command`。安装器会自动识别已安装的应用并注册 DSH 插件，包内自带 Python。
+3. 退出并重新打开 DSH，开始一个任务，检查工作时转动、等待问卡时停转亮灯、完成后停转灭灯。
+
+升级、卸载、下载校验和常见退出码见[统一安装指南](open-release/INSTALL.md)。
+
+## 从源码安装（可选）
+
+本版源码在 [v0.7.0 标签的 m1 目录](https://github.com/dalaofei1154/rotating-flower/tree/v0.7.0/m1)。准备好已烧录[旋转＋提醒灯组合固件](../firmware/README.md)的小花和 USB 数据线。源码安装需要 Python 3.9 或更新版本；安装后仍需保留该 Python，因为后台使用同一个解释器运行。
 
 1. 安装并至少打开一次 DeepSeek Harness，使其生成本机配置；随后退出应用。
 2. 连接小花，在当前源码仓库根目录运行：
@@ -34,6 +42,8 @@ python3 m1/dsh_setup.py uninstall
 独立插件命令不安装小花后台服务。安装或卸载插件后，退出并重新打开 DSH。默认使用 `desktop` profile；其他 profile 的操作选项见 `python3 m1/dsh_setup.py --help`。
 
 ## 卸载
+
+安装包用户双击 `卸载小花.command`。从源码安装的用户也可运行：
 
 ```sh
 python3 m1/integrated_setup.py uninstall
@@ -71,20 +81,29 @@ python3 m1/integrated_setup.py uninstall
 - 状态变化时立即写入，否则每 1 秒刷新心跳；心跳超过 3 秒没有更新就按“DSH 未运行”处理。
 - 读取接口偶发失败会沿用上一次正常状态，连续 3 次失败才判定为不兼容；失败的事件会在恢复后重新读取。
 - 该适配假设本机只运行一个 DSH 实例。
-- 自动化测试使用模拟任务、临时配置与模拟设备，覆盖状态判断、安装回滚和打包内容；测试通过不代表已完成真实 DSH 到 USB 控制板的端到端验收。
-- 本次变更以 macOS 主分支为基础，未合入 Windows PR #3，也没有完成 Windows 实机验证。Windows 合并时需另行处理安装流程、串口接口和 CI 的衔接。
+- 2026 年 11 月 9 日，在 Apple 芯片 Mac（arm64、macOS 26.6.2）上连接真实控制板验证了 DSH 链路。用户目视确认：工作时转动、等待问卡时停转亮灯、任务结束后停转灭灯；本次验证未观察到错误或断连。
+- 自动化测试另覆盖状态判断、授权事件、安装回滚和打包内容。授权弹窗仍未做实机验证。
+- 本版不包含 Windows 支持，也未做 Windows 实机验证。
 
 [返回中文首页](../README.zh-CN.md) · [English home](../README.md)
 
 ## English
 
-DSH support is included in the **unreleased source**. The flower spins while a DSH task runs and lights up when a question or approval needs attention. **v0.7.0 has not been released**; the downloadable v0.6.0 installer supports Codex and WorkBuddy only.
+The [v0.7.0 installer](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.7.0/RotatingFlower-Mac-v0.7.0.zip), released on **November 9, 2026**, includes DSH alongside Codex and WorkBuddy. The flower spins while a DSH task runs and lights up when a question or approval needs attention.
 
-The adapter targets **DeepSeek Harness 0.2.1-rc.5**, **Apple silicon Macs and macOS 13+**, with one DSH instance per machine. The package builder includes DSH, but no new installer download is published with this change.
+The adapter targets **DeepSeek Harness 0.2.1-rc.5**, **Apple silicon Macs and macOS 13+**, with one DSH instance per machine.
 
-### Install from source
+### Install the package
 
-Use a flower with the [combined motor-and-light firmware](../firmware/README.md) and a USB data cable. Python 3.9 or newer is required and must remain installed: the background service uses the same interpreter.
+1. Install and open DSH at least once to create its local profile, then quit it.
+2. Download and extract v0.7.0, connect a flower running the combined motor-and-light firmware, and double-click `安装小花.command`. The installer includes Python, detects installed apps and registers the local DSH plugin.
+3. Quit and reopen DSH to load the plugin, then start a task and check rotation, attention lights and stopping.
+
+See the [installation guide](open-release/INSTALL.md#en) for upgrades, removal, checksums and exit codes.
+
+### Install from source (optional)
+
+Use the [v0.7.0 source](https://github.com/dalaofei1154/rotating-flower/tree/v0.7.0/m1), a flower with the [combined motor-and-light firmware](../firmware/README.md) and a USB data cable. Python 3.9 or newer is required and must remain installed: the background service uses the same interpreter.
 
 1. Install and open DSH at least once to create its local profile, then quit it.
 2. Connect the flower and run this from the current source checkout:
@@ -103,7 +122,7 @@ The installer backs up changes and manages its marked block in `cordis.patch.yml
 
 `python3 m1/dsh_setup.py status` checks plugin registration. Its `install` and `uninstall` actions maintain the plugin alone; they do not install the bridge. See `--help` for profile options.
 
-To uninstall the bridge and plugin registration together:
+Package users can double-click `卸载小花.command`. For a source installation, remove the bridge and plugin registration together with:
 
 ```sh
 python3 m1/integrated_setup.py uninstall
@@ -119,4 +138,6 @@ The plugin processes local DSH events and projections and writes `~/Library/Appl
 
 Changed state is written immediately; otherwise a heartbeat is written once a second. A heartbeat older than three seconds is treated as DSH not running. Transient read failures retain the last good state; three consecutive failures report an unsupported interface, and failed events are retried on recovery.
 
-Automated tests use simulated data and devices and do not replace end-to-end physical USB acceptance testing. This change does not include Windows PR #3 or Windows hardware validation; its installer, serial interface and CI need separate integration when that work is merged.
+On November 9, 2026, the DSH path was tested with a real controller on an Apple silicon Mac (arm64, macOS 26.6.2). The user visually confirmed rotation while working, stopping with the light on while a question card waited, and stopping with the light off after completion. No errors or disconnections were observed during this check.
+
+Automated tests also cover state handling, approval events, installer rollback and package contents. Approval dialogs have not yet been tested with physical hardware. This release does not include Windows support or Windows hardware validation.

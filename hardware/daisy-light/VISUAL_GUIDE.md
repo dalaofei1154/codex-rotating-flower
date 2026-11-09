@@ -24,7 +24,7 @@ https://github.com/user-attachments/assets/debc0f6c-ad6e-49d3-a212-e0ad689b4f36
 
 [下载中文片 / Download Chinese](visuals/feature-dsh-zh-music.mp4) · [Download English](visuals/feature-dsh-en-music.mp4)
 
-片中的 DSH 联动现已整理到[尚未发版的源码](../../docs/dsh-macos.md)；已发布的 v0.6.0 安装包支持 Codex 和 WorkBuddy。 / DSH support is in the [unreleased source](../../docs/dsh-macos.md#english); the released v0.6.0 installer supports Codex and WorkBuddy.
+片中的 DSH 联动已包含在 [v0.7.0 安装包](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0)中，同时支持 Codex 和 WorkBuddy；详见 [DSH 说明](../../docs/dsh-macos.md)。 / The [v0.7.0 installer](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) includes DSH alongside Codex and WorkBuddy; see the [DSH notes](../../docs/dsh-macos.md#english).
 
 ## 下载零件 / Choose your parts
 

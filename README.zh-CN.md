@@ -43,7 +43,7 @@ https://github.com/user-attachments/assets/f6ea34b5-76c4-4571-9aa7-4811f79ccf80
 
 | 你现在的情况 | 下一步 |
 | --- | --- |
-| 已经有装好的小花 | [安装 Mac 软件](#install)，连接 Codex 或 WorkBuddy |
+| 已经有装好的小花 | [安装 Mac 软件](#install)，连接 Codex、WorkBuddy 或 DSH |
 | 想从零做一朵 | 从[图解制作教程](docs/diy-guide/README.md)开始，准备材料、打印和装配 |
 
 <a id="compatibility"></a>
@@ -52,9 +52,9 @@ https://github.com/user-attachments/assets/f6ea34b5-76c4-4571-9aa7-4811f79ccf80
 
 | 应用 | 当前版本入口 | 状态 |
 | --- | --- | --- |
-| Codex | [v0.6.0](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | 已提供下载 |
-| WorkBuddy | [v0.6.0](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | 已提供下载 |
-| DeepSeek Harness（DSH） | [当前源码安装说明](docs/dsh-macos.md) | 尚未发版，需从源码安装 |
+| Codex | [v0.7.0](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) | 已提供下载 |
+| WorkBuddy | [v0.7.0](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) | 已提供下载 |
+| DeepSeek Harness（DSH） | [v0.7.0](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) | 已提供下载 · [适配说明](docs/dsh-macos.md) |
 
 小花软件支持 **Apple 芯片 Mac、macOS 12+**；DSH 自身需要 **macOS 13+**。
 
@@ -62,15 +62,15 @@ https://github.com/user-attachments/assets/f6ea34b5-76c4-4571-9aa7-4811f79ccf80
 
 ## 已有小花：安装 Mac 软件
 
-**[下载 v0.6.0 安装包](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.6.0/RotatingFlower-Mac-v0.6.0.zip)** · [完整安装与升级说明](docs/open-release/INSTALL.md)
+**[下载 v0.7.0 安装包](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.7.0/RotatingFlower-Mac-v0.7.0.zip)** · [完整安装与升级说明](docs/open-release/INSTALL.md)
 
-先装好小花，烧录[旋转＋提醒灯组合固件](firmware/README.md)，并安装好 Codex 或 WorkBuddy。小花安装包自带 Python，不需要单独填写 API Key。
+先装好小花，烧录[旋转＋提醒灯组合固件](firmware/README.md)，并安装好 Codex、WorkBuddy 或 DSH。使用 DSH 时，安装小花前先打开一次 DSH，让它生成本机配置。小花安装包自带 Python，不需要单独填写 API Key。
 
 1. 用 USB **数据线**连接小花，解压安装包。
 2. 双击 `安装小花.command`，跟着提示安装。
-3. 打开并登录 Codex 或 WorkBuddy，开始一个任务。
+3. 打开并登录所用应用，开始一个任务。DSH 需要在安装后退出并重新打开，以加载插件。
 
-安装、升级和卸载的具体步骤见[安装说明](docs/open-release/INSTALL.md)。DSH 目前请按[源码安装说明](docs/dsh-macos.md)操作；尚未发布 v0.7.0 安装包。
+安装器会自动启用已安装的应用；安装、升级和卸载的具体步骤见[安装说明](docs/open-release/INSTALL.md)。DSH 的适配版本、行为与实测范围见[适配说明](docs/dsh-macos.md)。
 
 <a id="models"></a>
 
@@ -104,8 +104,8 @@ Mac 上的小花软件读取本机任务状态，通过 USB 把指令发给 ESP3
 
 | 想了解什么 | 从这里看 |
 | --- | --- |
-| 下载包对应的源码 | [v0.6.0 源码快照](software/release-v0.6.0/README.md) |
-| DSH 适配进展 | [适配说明](docs/dsh-macos.md) |
+| 下载包对应的源码 | [v0.7.0 源码](https://github.com/dalaofei1154/rotating-flower/tree/v0.7.0/m1) |
+| DSH 适配与安装 | [适配说明](docs/dsh-macos.md) |
 | 硬件与固件 | [模型文件](hardware/README.md) · [组合固件](firmware/README.md) |
 | 制作资料更新 | [更新记录](docs/open-release/RELEASE_NOTES.md) |
 

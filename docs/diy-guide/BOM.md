@@ -42,6 +42,6 @@
 
 购买灯板时选择预焊直角公排针、带限流电阻的共阴 KY-016，为排针和杜邦母头留出空间。 / Choose a common-cathode KY-016 with onboard resistors and pre-soldered right-angle male headers. Leave space for the headers and jumper connectors.
 
-准备一台 Apple 芯片 Mac（macOS 12+）运行 v0.6.0 联动软件，以及带 Arduino-ESP32 支持包的 Arduino IDE 烧录主控。安装包自带 Python，烧录工具须另外准备。 / Use an Apple silicon Mac with macOS 12+ for the v0.6.0 bridge, and Arduino IDE with Arduino-ESP32 support for flashing. The bridge installer includes Python, but does not include the flashing tools.
+准备一台 Apple 芯片 Mac（小花后台需要 macOS 12+，DSH 适配需要 macOS 13+）运行 v0.7.0 联动软件，以及带 Arduino-ESP32 支持包的 Arduino IDE 烧录主控。安装包自带 Python，烧录工具须另外准备。 / Use an Apple silicon Mac with macOS 12+ for the v0.7.0 bridge (macOS 13+ for DSH support), and Arduino IDE with Arduino-ESP32 support for flashing. The bridge installer includes Python, but does not include the flashing tools.
 
 返回 [中文教程](README.md) · [English guide](README.en.md)

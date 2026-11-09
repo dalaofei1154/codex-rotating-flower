@@ -6,7 +6,7 @@ Build a USB-powered desk flower that rotates with local AI work and lights up wh
 
 The listed materials total **CNY 53.92 (about 54 yuan)**; see the [cost breakdown](BOM.md#costs). The USB data cable, tools, consumables and shipping are extra.
 
-Use the combined `FLOWER_COMBINED_V1` firmware and the v0.6.0 Mac installer. My current build uses the L2 lid and P4 clear cap, and both motion and light work. The center, cap and stem-to-lid joint are fitted without glue and are still a little loose. I plan to improve those fits; carry the flower by the pot.
+Use the combined `FLOWER_COMBINED_V1` firmware and the v0.7.0 Mac installer. My current build uses the L2 lid and P4 clear cap, and both motion and light work. The center, cap and stem-to-lid joint are fitted without glue and are still a little loose. I plan to improve those fits; carry the flower by the pot.
 
 ![Assembled rotating daisy](images/finished-clean-background.png)
 
@@ -93,17 +93,17 @@ After the bare-shaft tests pass, assemble the rotor and repeat LOW. Then briefly
 
 ## Install the Mac bridge
 
-Use an **Apple silicon Mac with macOS 12 or later** and local Codex or WorkBuddy tasks. Assemble, flash and test the flower before installing the bridge.
+Use an **Apple silicon Mac with macOS 12 or later** and local Codex, WorkBuddy or DSH tasks; DSH support requires **macOS 13 or later**. Assemble, flash and test the flower before installing the bridge. Open DSH at least once before installation to create its local profile.
 
 1. Close Serial Monitor and any old foreground bridge. Only one process should control the USB serial port.
-2. Download the [v0.6.0 Mac installer](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0), extract it and double-click **安装小花.command**. It includes Python and needs no API key. It does not flash firmware.
-3. The installer detects installed Codex and WorkBuddy applications and enables either or both. Open and sign in to the application yourself, then start a task. Run the installer again if you later add the other app.
+2. Download the [v0.7.0 Mac installer](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0), extract it and double-click **安装小花.command**. It includes Python and needs no API key. It does not flash firmware.
+3. The installer detects installed Codex, WorkBuddy and DSH applications. Open and sign in to your app, then start a task; quit and reopen DSH after installation to load its plugin. Run the installer again if you later add another app.
 4. If macOS shows a security prompt, follow the [installation guide](../open-release/INSTALL.md#en) to allow the installer script to open.
 5. Check task start, completion, cancellation and a structured question card. The flower should rotate during work, stop when all work ends, light for a recognized pending question and clear that reminder after it is answered. If another task is working, rotation and the light can coexist.
 
-WorkBuddy Fast / Balanced / Deep use LOW / HIGH / ULTRA. Codex uses five speed presets based on the selected reasoning effort. The light indicates questions waiting for your response.
+WorkBuddy Fast / Balanced / Deep use LOW / HIGH / ULTRA. Codex uses five speed presets based on the selected reasoning effort; see the [DSH notes](../dsh-macos.md#english) for its mapping. The light indicates pending questions or approvals.
 
-The bridge starts at Mac login. To remove it, double-click **卸载小花.command** from an extracted installer. This removes all flower background integration, retaining logs and backups.
+The bridge starts at Mac login. To remove it, double-click **卸载小花.command** from an extracted installer. This removes all flower background integration and DSH plugin registration, retaining logs and backups. Restart DSH afterwards.
 
 ## Finish and troubleshoot
 

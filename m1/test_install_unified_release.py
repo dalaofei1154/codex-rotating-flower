@@ -12,8 +12,8 @@ import zipfile
 
 
 SCRIPT = Path(__file__).with_name('install_unified_release.sh')
-PINNED_SHA = 'a82b64865092d03672e4340752c0c574078149b9dbcfa028f9f3e3e995dd0c01'
-RELEASE_URL = 'https://github.com/dalaofei1154/rotating-flower/releases/download/v0.6.0/RotatingFlower-Mac-v0.6.0.zip'
+PINNED_SHA = 'ede5370522558ab2a2bc49f4c9c4afded89d20d04c55a48263457e13923dbf3b'
+RELEASE_URL = 'https://github.com/dalaofei1154/rotating-flower/releases/download/v0.7.0/RotatingFlower-Mac-v0.7.0.zip'
 PROXY_VARIABLES = ('HTTPS_PROXY', 'https_proxy', 'ALL_PROXY', 'all_proxy')
 
 
@@ -38,7 +38,7 @@ class ReleaseInstallerTests(unittest.TestCase):
                        + 'exit ' + str(result) + '\n')
             with zipfile.ZipFile(archive, 'w') as zipped:
                 name = ('unexpected.txt' if missing_entry else
-                        'RotatingFlower-Mac-v0.6.0/安装资源/integrated_install.sh')
+                        'RotatingFlower-Mac-v0.7.0/安装资源/integrated_install.sh')
                 zipped.writestr(name, payload)
             expected = hashlib.sha256(archive.read_bytes()).hexdigest()
             if corrupt:

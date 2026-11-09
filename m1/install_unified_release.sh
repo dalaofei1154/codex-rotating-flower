@@ -4,12 +4,12 @@ set -euo pipefail
 
 if [[ $# == 1 && ( "$1" == --help || "$1" == -h ) ]]; then
   echo '用法：/bin/bash install_unified_release.sh'
-  echo '安装小花 v0.6.0（Apple 芯片 Mac）；自动识别已安装的 Codex / WorkBuddy。'
+  echo '安装小花 v0.7.0（Apple 芯片 Mac）；自动识别已安装的 Codex / WorkBuddy / DeepSeek Harness。'
   echo '退出码：0 已就绪；5 已安装、等待应用；3 自检未通过；4 控制板缺少提醒灯能力；其他值为未完成。'
   exit 0
 fi
 if [[ $# != 0 ]]; then
-  echo '此入口只安装固定版本 v0.6.0，不接受额外参数。使用 --help 查看说明。' >&2
+  echo '此入口只安装固定版本 v0.7.0，不接受额外参数。使用 --help 查看说明。' >&2
   exit 2
 fi
 if [[ "$(/usr/bin/uname -s)" != Darwin || "$(/usr/bin/uname -m)" != arm64 ]]; then
@@ -21,10 +21,10 @@ if [[ "$(/usr/bin/id -u)" == 0 ]]; then
   exit 1
 fi
 
-flower_version='0.6.0'
+flower_version='0.7.0'
 flower_name="RotatingFlower-Mac-v$flower_version"
 flower_url="https://github.com/dalaofei1154/rotating-flower/releases/download/v$flower_version/$flower_name.zip"
-flower_expected_sha='a82b64865092d03672e4340752c0c574078149b9dbcfa028f9f3e3e995dd0c01'
+flower_expected_sha='ede5370522558ab2a2bc49f4c9c4afded89d20d04c55a48263457e13923dbf3b'
 flower_work=''
 flower_cleanup() {
   if [[ -n "$flower_work" ]]; then /bin/rm -rf -- "$flower_work"; fi

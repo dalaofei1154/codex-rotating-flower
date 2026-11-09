@@ -41,21 +41,21 @@ Each mode has a speed preset. When several tasks run together, the flower uses t
 
 | App | Flower software | Mac support |
 | --- | --- | --- |
-| Codex | [v0.6.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | Apple silicon · macOS 12+ |
-| WorkBuddy | [v0.6.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | Apple silicon · macOS 12+ |
-| [DeepSeek Harness (DSH)](docs/dsh-macos.md) | Unreleased — install from current source | Apple silicon · macOS 13+ |
+| Codex | [v0.7.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) | Apple silicon · macOS 12+ |
+| WorkBuddy | [v0.7.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) | Apple silicon · macOS 12+ |
+| [DeepSeek Harness (DSH)](docs/dsh-macos.md) | [v0.7.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) | Apple silicon · macOS 13+ |
 
 
 <a id="install"></a>
 ### Install on your Mac
 
-**[Download v0.6.0 for Apple silicon](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.6.0/RotatingFlower-Mac-v0.6.0.zip)** · [Release notes](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0)
+**[Download v0.7.0 for Apple silicon](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.7.0/RotatingFlower-Mac-v0.7.0.zip)** · [Release notes](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0)
 
 1. Connect the flower with a USB data cable and extract the ZIP.
 2. Double-click **安装小花.command** and follow the prompts.
-3. Open and sign in to Codex or WorkBuddy, then start a task.
+3. Open and sign in to Codex, WorkBuddy or DSH, then start a task. Restart DSH after installation to load its plugin.
 
-The installer includes Python. See the [installation guide](docs/open-release/INSTALL.md#en) for setup, upgrades and uninstalling. DSH is available in the current source only; follow the [DSH source installation steps](docs/dsh-macos.md#english). No v0.7.0 installer has been released.
+The installer includes Python and automatically enables installed apps. Open DSH at least once before installing so that it creates its profile. See the [installation guide](docs/open-release/INSTALL.md#en) for setup, upgrades and uninstalling, and the [DSH notes](docs/dsh-macos.md#english) for its tested version and behavior.
 
 <a id="models"></a>
 ## Build the daisy edition
@@ -92,8 +92,8 @@ The Mac software reads local task status and sends commands to the ESP32 over US
 
 | Explore | Entry |
 | --- | --- |
-| Source for the download | [v0.6.0 source snapshot](software/release-v0.6.0/README.md) |
-| DSH progress | [Adapter notes](docs/dsh-macos.md) |
+| Source for the download | [v0.7.0 source](https://github.com/dalaofei1154/rotating-flower/tree/v0.7.0/m1) |
+| DSH setup | [Adapter notes](docs/dsh-macos.md) |
 | Hardware and firmware | [Model files](hardware/README.md) · [Combined firmware](firmware/README.md) |
 | Build updates | [DIY release notes](docs/open-release/RELEASE_NOTES.md) |
 

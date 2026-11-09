@@ -22,9 +22,9 @@
 
 ## 软件与源码
 
-[v0.6.0 安装包](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0)支持 Apple 芯片 Mac 上的 Codex 和 WorkBuddy，包内自带 Python。当前源码另含尚未发版的 DSH 适配，需按[源码安装说明](../dsh-macos.md)操作；尚未发布新的安装包。
+[v0.7.0 安装包](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0)支持 Apple 芯片 Mac 上的 Codex、WorkBuddy 和 DSH，包内自带 Python。小花后台需要 macOS 12+，DSH 适配需要 macOS 13+。使用 DSH 时先打开一次应用，安装后再退出重开；详见[安装指南](INSTALL.md)和 [DSH 说明](../dsh-macos.md)。
 
-[软件源码](../../software/release-v0.6.0/README.md) · [固件源码](../../firmware/README.md) · [可编辑模型](../../hardware/daisy-light/README.md) · [制作资料更新](RELEASE_NOTES.md)
+[v0.7.0 软件源码](https://github.com/dalaofei1154/rotating-flower/tree/v0.7.0/m1) · [固件源码](../../firmware/README.md) · [可编辑模型](../../hardware/daisy-light/README.md) · [制作资料更新](RELEASE_NOTES.md)
 
 ## 分享你做的小花
 

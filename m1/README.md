@@ -1,12 +1,12 @@
 # Current Mac installer / 当前 Mac 安装器
 
-Use the [v0.6.0 unified installer](../docs/install-macos.md) for Codex + WorkBuddy rotation and attention lights. It includes Python and detects installed apps. The commands below are the historical motor-only implementation and must not replace the unified service.
+Use the [v0.7.0 unified installer](../docs/install-macos.md) for Codex, WorkBuddy and DSH rotation and attention lights. It includes Python and detects installed apps. The commands below are the historical motor-only implementation and must not replace the unified service.
 
 旋转与提醒灯请使用 [统一安装说明](../docs/install-macos.md)。下方保留旧版纯旋转程序的文档；不要用旧安装命令覆盖统一后台。
 
-Unreleased DSH support uses the integrated bridge and its source installer; see the [DSH setup notes](../docs/dsh-macos.md#english). The v0.6.0 download does not include DSH.
+DSH support is included in v0.7.0. Open DSH once before installation and restart it afterwards; see the [DSH setup notes](../docs/dsh-macos.md#english). [Source for this release](https://github.com/dalaofei1154/rotating-flower/tree/v0.7.0/m1).
 
-尚未发版的 DSH 适配使用统一后台及其源码安装器，步骤见 [DSH 适配说明](../docs/dsh-macos.md)。v0.6.0 下载包不包含 DSH。
+v0.7.0 已包含 DSH 适配。安装前先打开一次 DSH，安装后再退出重开；详见 [DSH 适配说明](../docs/dsh-macos.md)。[本版源码](https://github.com/dalaofei1154/rotating-flower/tree/v0.7.0/m1)。
 
 ---
 
