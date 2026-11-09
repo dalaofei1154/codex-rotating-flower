@@ -4,6 +4,10 @@ Use the [v0.6.0 unified installer](../docs/install-macos.md) for Codex + WorkBud
 
 旋转与提醒灯请使用 [统一安装说明](../docs/install-macos.md)。下方保留旧版纯旋转程序的文档；不要用旧安装命令覆盖统一后台。
 
+Unreleased DSH support uses the integrated bridge and its source installer; see the [DSH setup notes](../docs/dsh-macos.md#english). The v0.6.0 download does not include DSH.
+
+尚未发版的 DSH 适配使用统一后台及其源码安装器，步骤见 [DSH 适配说明](../docs/dsh-macos.md)。v0.6.0 下载包不包含 DSH。
+
 ---
 
 # Mac bridge: Codex + WorkBuddy

@@ -17,6 +17,8 @@ from root_catalog import RootCatalog
 from runtime_feed import DesktopRuntimeFeed
 from state_reducer import RolloutSnapshot, RuntimeSnapshot, reduce_state, SPEED_RANK
 from workbuddy_adapter import WorkBuddyAdapter
+from dsh_adapter import DshAdapter
+from source_config import CHOICES, enabled_sources
 
 
 def select_outputs(known_rollouts, snapshot, pending, now):
@@ -249,7 +251,7 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--sessions-root',type=Path,default=Path.home()/'.codex/sessions')
     parser.add_argument('--workbuddy-root',type=Path,default=Path.home()/'.workbuddy')
-    parser.add_argument('--source',choices=('codex','workbuddy','both'),default='workbuddy')
+    parser.add_argument('--source',choices=CHOICES,default='workbuddy')
     parser.add_argument('--port',default='auto')
     parser.add_argument('--once',action='store_true')
     parser.add_argument('--launch-id',default='')
@@ -266,10 +268,12 @@ def main():
         running=False
     signal.signal(signal.SIGTERM,stop); signal.signal(signal.SIGINT,stop)
     sources={}
-    if args.source in ('codex','both'):
+    if 'codex' in enabled_sources(args.source):
         sources['codex']=RecoveringSource(lambda:CodexSource(args.sessions_root,None if args.once else args.attention_cache))
-    if args.source in ('workbuddy','both'):
+    if 'workbuddy' in enabled_sources(args.source):
         sources['workbuddy']=RecoveringSource(lambda:WorkBuddyAdapter(args.workbuddy_root))
+    if 'dsh' in enabled_sources(args.source):
+        sources['dsh']=RecoveringSource(DshAdapter)
     flower=Flower(args.port);previous=None;last_status=0
     once_deadline=time.monotonic()+5
     try:

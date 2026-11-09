@@ -24,7 +24,7 @@ https://github.com/user-attachments/assets/debc0f6c-ad6e-49d3-a212-e0ad689b4f36
 
 [下载中文片 / Download Chinese](visuals/feature-dsh-zh-music.mp4) · [Download English](visuals/feature-dsh-en-music.mp4)
 
-片中的 DSH 为 v0.7.0 本地试用功能；公开 v0.6.0 安装包支持 Codex 和 WorkBuddy。 / DSH in the animation is a local v0.7.0 preview; the public v0.6.0 installer supports Codex and WorkBuddy.
+片中的 DSH 联动现已整理到[尚未发版的源码](../../docs/dsh-macos.md)；已发布的 v0.6.0 安装包支持 Codex 和 WorkBuddy。 / DSH support is in the [unreleased source](../../docs/dsh-macos.md#english); the released v0.6.0 installer supports Codex and WorkBuddy.
 
 ## 下载零件 / Choose your parts
 

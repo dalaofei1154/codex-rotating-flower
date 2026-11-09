@@ -26,6 +26,7 @@ class IntegratedPackageTests(unittest.TestCase):
             for name in ('attention-cache.json', 'status.json', 'test_private.py', 'obsolete.py'):
                 (integrated / name).write_text('private fixture')
             for name in package.RUNTIME_FILES:
+                (source / name).parent.mkdir(parents=True, exist_ok=True)
                 (source / name).write_text('# fixture ' + name)
             runtime = root / 'python.tar.gz'
             runtime.write_bytes(b'fixture runtime')
@@ -37,9 +38,12 @@ class IntegratedPackageTests(unittest.TestCase):
                  patch.object(package, 'PYTHON_SHA256', hashlib.sha256(runtime.read_bytes()).hexdigest()):
                 archive = package.build(output, runtime)
             manifest = json.loads((output / 'package_manifest.json').read_text())
+            self.assertEqual(manifest['supported_sources'], ['codex', 'workbuddy', 'dsh'])
             self.assertEqual(manifest['zip_sha256'], hashlib.sha256(archive.read_bytes()).hexdigest())
             with zipfile.ZipFile(archive) as zipped:
                 contents = zipped.namelist()
+                self.assertIn(package.NAME + '/安装资源/dsh_setup.py', contents)
+                self.assertIn(package.NAME + '/安装资源/dsh/flower-observer.mjs', contents)
                 self.assertEqual({Path(n).name for n in contents if '/integrated/' in n}, set(package.BRIDGE_FILES))
                 for n in contents:
                     self.assertNotIn(b'private', zipped.read(n))

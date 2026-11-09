@@ -3,6 +3,7 @@ name: macOS tests
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
   workflow_dispatch:
 
@@ -29,10 +30,15 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
       - name: Test unified bridge
         run: python -B -m unittest discover -s m1/integrated -p 'test_*.py' -v
       - name: Test installers and standalone bridge
         run: python -B -m unittest discover -s m1 -p 'test_*.py' -v
+      - name: Test the DeepSeek Harness observer
+        run: node --test m1/dsh/*.test.mjs
       - name: Check state-only startup with empty task data
         shell: bash
         run: |

@@ -10,7 +10,7 @@
 
 **[下载 v0.6.0 安装包](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.6.0/RotatingFlower-Mac-v0.6.0.zip)** · [版本说明](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0)
 
-v0.6.0 支持 Codex 和 WorkBuddy，可以启用其中一个或两个。DSH 支持正在开发中，见[适配进展](../dsh-macos.md)。
+v0.6.0 支持 Codex 和 WorkBuddy，可以启用其中一个或两个。当前源码另含尚未发版的 DSH 适配；v0.6.0 安装包不包含它，使用前请按[源码安装说明](../dsh-macos.md)操作。
 
 ### 安装前准备
 
@@ -81,7 +81,7 @@ a82b64865092d03672e4340752c0c574078149b9dbcfa028f9f3e3e995dd0c01
 
 **[Download v0.6.0](https://github.com/dalaofei1154/rotating-flower/releases/download/v0.6.0/RotatingFlower-Mac-v0.6.0.zip)** · [Release notes](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0)
 
-v0.6.0 supports Codex, WorkBuddy, or both. DSH support is in development; see the [adapter notes](../dsh-macos.md).
+v0.6.0 supports Codex, WorkBuddy, or both. The current source also includes unreleased DSH support. It is not included in the v0.6.0 installer; follow the [source installation steps](../dsh-macos.md#english).
 
 ### Before installing
 

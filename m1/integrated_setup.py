@@ -18,7 +18,12 @@ import tempfile
 import time
 import uuid
 
-VERSION = '0.6.0'
+from dsh_setup import DshPluginChange, dsh_home
+
+sys.path.insert(0, str(Path(__file__).resolve().parent / 'integrated'))
+from source_config import CHOICES, LABELS, enabled_sources, selection_for
+
+VERSION = '0.7.0'
 LABEL = 'com.rotatingflower.codex-motor'
 REVISION = 'integrated-v' + VERSION
 
@@ -64,7 +69,7 @@ def existing():
     valid = ((entry == support / 'global_bridge.py') or
              (entry.name == 'integrated_bridge.py' and entry.parent in (
                  support / 'software_adapt_20261103', support / 'integrated_20261103',
-                 support / 'integrated-v0.5.0', support / REVISION)))
+                 support / 'integrated-v0.5.0', support / 'integrated-v0.6.0', support / REVISION)))
     if not valid:
         raise RuntimeError(f'现有小花版本不是本包可升级的版本：{entry}。已停止，避免覆盖更新版本。')
     options = {}
@@ -75,13 +80,14 @@ def existing():
                 raise RuntimeError('现有服务参数不完整，未更改服务。')
             options[key] = args[index + 1]
     options.setdefault('--source', 'codex')
-    if options['--source'] not in ('codex', 'workbuddy', 'both'):
+    if options['--source'] not in CHOICES:
         raise RuntimeError('现有服务来源不识别，未更改服务。')
     return {'payload': payload, 'options': options, 'entry': entry, 'plist_bytes': plist.read_bytes()}
 
 
 # Match actual application identity, not data directories left after uninstall.
-APP_IDS = {'codex': 'com.openai.codex', 'workbuddy': 'com.tencent.workbuddy.mac'}
+APP_IDS = {'codex': 'com.openai.codex', 'workbuddy': 'com.tencent.workbuddy.mac',
+           'dsh': 'com.deepseek.dsh'}
 
 
 def application_roots():
@@ -151,15 +157,14 @@ def configuration(previous, requested_source=None, workbuddy_root=None):
     apps = detect_apps()
     if requested_source:
         source = requested_source
-        enabled = ('codex', 'workbuddy') if source == 'both' else (source,)
+        enabled = enabled_sources(source)
         if any(name not in apps for name in enabled):
             raise RuntimeError('没有找到所选应用的有效安装，请先安装并打开所选应用。')
-    elif set(apps) == {'codex', 'workbuddy'}:
-        source = 'both'
-    elif len(apps) == 1:
-        source = next(iter(apps))
     else:
-        raise RuntimeError('没有检测到已安装的 Codex 或 WorkBuddy。请先安装其中一个应用，再双击安装小花。')
+        if not apps:
+            raise RuntimeError('没有检测到已安装的 Codex、WorkBuddy 或 DeepSeek Harness。'
+                               '请先安装其中一个应用，再双击安装小花。')
+        source = selection_for(apps)
     home = Path.home()
     roots = [home / '.workbuddy', home / '.workbuddy-ai']
     default_wb = next((p for p in roots if (p / 'workbuddy.db').is_file()), roots[0])
@@ -176,7 +181,7 @@ def preflight(config):
     data nor a bad source prevents the other configured source being installed;
     verify() must not report a broken source as ready.
     """
-    enabled = ('codex', 'workbuddy') if config['source'] == 'both' else (config['source'],)
+    enabled = enabled_sources(config['source'])
     result = {}
     if 'codex' in enabled:
         path = config['sessions_root']
@@ -198,10 +203,15 @@ def preflight(config):
                 result['workbuddy'] = {'readiness': 'ready'}
             except (OSError, sqlite3.Error, ValueError) as exc:
                 result['workbuddy'] = {'readiness': 'error', 'error': str(exc)}
+    if 'dsh' in enabled:
+        status_file = Path.home() / 'Library/Application Support/RotatingFlower/dsh/status.json'
+        result['dsh'] = {'readiness': 'ready'} if status_file.is_file() else {'readiness': 'not_initialized'}
     config['preflight'] = result
     for name, state in result.items():
-        label = {'codex': 'Codex', 'workbuddy': 'WorkBuddy'}[name]
-        if state['readiness'] == 'not_initialized':
+        label = LABELS[name]
+        if state['readiness'] == 'not_initialized' and name == 'dsh':
+            print('DeepSeek Harness 尚未初始化；本次会安装插件，请在安装后退出并重新打开 DeepSeek Harness。')
+        elif state['readiness'] == 'not_initialized':
             print(f'{label} 尚未初始化；小花服务将等待应用打开，随后自动连接。')
         elif state['readiness'] == 'error':
             print(f'{label} 数据检查异常：{state["error"]}；不会标记为已就绪。')
@@ -246,10 +256,18 @@ def install(config, previous=None):
     moved_target = False
     placed_target = False
     old_was_running = running()
+    stopped_previous = False
+    dsh_change = None
     try:
+        if 'dsh' in enabled_sources(config['source']):
+            dsh_change = DshPluginChange(dsh_home(), support / 'dsh',
+                Path(__file__).parent / 'dsh' / 'flower-observer.mjs', backup=backup)
+            dsh_change.apply()
+            print('DSH 本地插件已注册；请退出并重新打开 DeepSeek Harness。')
         if previous:
             if not launchctl('bootout', domain, str(plist), check=False) and running():
                 raise RuntimeError('旧服务仍在运行，已停止升级，避免两个程序同时控制小花。')
+            stopped_previous = True
         if previous:
             caches = {'attention-cache.json': Path(previous['options'].get('--attention-cache',
                                                       previous['entry'].parent / 'attention-cache.json')),
@@ -269,6 +287,8 @@ def install(config, previous=None):
         started_at = time.time()
         launchctl('bootstrap', domain, str(plist))
     except BaseException:
+        if dsh_change:
+            dsh_change.rollback()
         if placed_target:
             launchctl('bootout', domain, str(plist), check=False)
             shutil.rmtree(target)
@@ -276,7 +296,7 @@ def install(config, previous=None):
             (backup / 'previous-runtime').rename(target)
         if previous:
             plist.write_bytes(previous['plist_bytes'])
-            if old_was_running:
+            if old_was_running and stopped_previous:
                 restored = launchctl('bootstrap', domain, str(plist), check=False)
                 if not restored:
                     print('原配置已恢复，但原服务未能自动启动；请保留此日志联系提供者。', file=sys.stderr)
@@ -287,8 +307,7 @@ def install(config, previous=None):
         if stage.exists():
             shutil.rmtree(stage)
     print(f'已设置登录自启；来源：{config["source"]}；备份：{backup}')
-    labels = {'codex': 'Codex', 'workbuddy': 'WorkBuddy', 'both': 'Codex + WorkBuddy'}
-    print('已启用联动：' + labels[config['source']])
+    print('已启用联动：' + ' + '.join(LABELS[name] for name in enabled_sources(config['source'])))
     return {'launch_id': launch_id, 'started_at': started_at, 'status_file': target / 'status.json',
             'source': config['source']}
 
@@ -311,7 +330,7 @@ def verify(receipt, seconds=12):
         if not isinstance(sources, dict):
             sources = {}
         source = receipt.get('source', 'workbuddy')
-        enabled = ('codex', 'workbuddy') if source == 'both' else (source,)
+        enabled = enabled_sources(source)
         waiting, errors = {}, {}
         for name in enabled:
             state = sources.get(name)
@@ -340,14 +359,14 @@ def verify(receipt, seconds=12):
             if complete_device and waiting and not errors:
                 print('小花后台已安装，旋转和提醒灯已连接；以下应用待打开或初始化：')
                 for name, detail in waiting.items():
-                    label = {'codex': 'Codex', 'workbuddy': 'WorkBuddy'}.get(name, name)
+                    label = LABELS.get(name, name)
                     print(f'等待应用：{label} — {detail}')
                 print('打开相应应用并开始使用后会自动连接，不需要重新安装。')
                 return 5
             if current and (errors or waiting):
                 print('后台设置已保存，可用来源继续运行；尚未完成全部适配自检。')
                 for name, reason in {**waiting, **errors}.items():
-                    label = {'codex': 'Codex', 'workbuddy': 'WorkBuddy'}.get(name, name)
+                    label = LABELS.get(name, name)
                     print(f'{label} 状态：{reason}')
                     if name in errors:
                         print('请保留此日志联系小花提供者，不要将该应用当作已就绪。')
@@ -361,25 +380,33 @@ def verify(receipt, seconds=12):
 
 
 def uninstall(previous):
-    if previous is None:
-        print('当前没有小花后台服务。')
-        return 0
     support, plist, _ = locations()
     backup = support / 'backups' / ('uninstall-' + dt.datetime.now().strftime('%Y%m%d-%H%M%S-%f'))
     backup.mkdir(parents=True, exist_ok=True)
-    (backup / 'service.plist').write_bytes(previous['plist_bytes'])
-    if not launchctl('bootout', f'gui/{os.getuid()}', str(plist), check=False) and running():
+    if previous:
+        (backup / 'service.plist').write_bytes(previous['plist_bytes'])
+    was_running = running() if previous else False
+    if previous and not launchctl('bootout', f'gui/{os.getuid()}', str(plist), check=False) and running():
         raise RuntimeError('服务仍在运行，卸载已停止。')
-    plist.unlink(missing_ok=True)
-    # Keep versioned files/caches as rollback material. No source is left active.
-    print('小花后台服务与登录自启已全部移除；Codex 和 WorkBuddy 均不再联动。备份和日志保留。')
+    change = DshPluginChange(dsh_home(), support / 'dsh', backup=backup)
+    try:
+        change.apply()
+        plist.unlink(missing_ok=True)
+    except BaseException:
+        change.rollback()
+        if previous and was_running:
+            launchctl('bootstrap', f'gui/{os.getuid()}', str(plist), check=False)
+        raise
+    print('小花后台服务与登录自启已全部移除；Codex、WorkBuddy 和 DSH 均不再联动。备份和日志保留。')
+    if change.removed:
+        print('DSH 插件配置已移除，请退出并重新打开 DeepSeek Harness。')
     return 0
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=['install', 'uninstall', 'status'])
-    parser.add_argument('--source', choices=['workbuddy', 'codex', 'both'])
+    parser.add_argument('--source', choices=CHOICES)
     parser.add_argument('--workbuddy-root', type=Path)
     parser.add_argument('--verify-seconds', type=float, default=12)
     args = parser.parse_args(argv)

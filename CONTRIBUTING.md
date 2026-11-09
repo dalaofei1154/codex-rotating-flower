@@ -21,7 +21,10 @@ Describe what you changed and how you checked it. For Mac software changes, run:
 ```sh
 python3 -m unittest discover -s m1/integrated -p 'test_*.py' -v
 python3 -m unittest discover -s m1 -p 'test_*.py' -v
+node --test m1/dsh/*.test.mjs
 ```
+
+The observer tests require a current Node.js LTS release. These automated checks use simulated task and device data; report physical USB testing separately, including the app version and board used.
 
 For firmware changes, include the board and motor you used and the behavior you observed. For model changes, include the part ID, dimensions you changed, and a photo of a test print if available.
 
@@ -43,6 +46,6 @@ Code uses MIT, written guides use CC BY 4.0, and the models and media use CC BY-
 
 ### 修改代码或模型
 
-提交时说明改了什么、怎么检查的。修改 Mac 程序后，运行上面的测试命令。修改固件时，写明使用的控制板、电机和实际表现。修改模型时，写明零件编号、调整的尺寸，有试打照片的话也一起附上。
+提交时说明改了什么、怎么检查的。修改 Mac 程序后，运行上面的 Python 和 Node 测试命令（observer 测试使用当前 Node.js LTS）。自动化测试使用模拟任务和设备数据；实机 USB 验证请另外记录应用版本、控制板和观察到的行为。修改固件时，写明使用的控制板、电机和实际表现。修改模型时，写明零件编号、调整的尺寸，有试打照片的话也一起附上。
 
 代码采用 MIT，教程文字采用 CC BY 4.0，模型与图片、视频采用 CC BY-NC-SA 4.0。使用其他来源的内容时保留署名，并说明自己的修改。[查看许可范围](LICENSES.md)

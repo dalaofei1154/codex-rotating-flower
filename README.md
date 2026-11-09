@@ -43,7 +43,7 @@ Each mode has a speed preset. When several tasks run together, the flower uses t
 | --- | --- | --- |
 | Codex | [v0.6.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | Apple silicon · macOS 12+ |
 | WorkBuddy | [v0.6.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | Apple silicon · macOS 12+ |
-| [DeepSeek Harness (DSH)](docs/dsh-macos.md) | v0.7.0 in development | Apple silicon · macOS 13+ |
+| [DeepSeek Harness (DSH)](docs/dsh-macos.md) | Unreleased — install from current source | Apple silicon · macOS 13+ |
 
 
 <a id="install"></a>
@@ -55,7 +55,7 @@ Each mode has a speed preset. When several tasks run together, the flower uses t
 2. Double-click **安装小花.command** and follow the prompts.
 3. Open and sign in to Codex or WorkBuddy, then start a task.
 
-The installer includes Python. See the [installation guide](docs/open-release/INSTALL.md#en) for setup, upgrades and uninstalling.
+The installer includes Python. See the [installation guide](docs/open-release/INSTALL.md#en) for setup, upgrades and uninstalling. DSH is available in the current source only; follow the [DSH source installation steps](docs/dsh-macos.md#english). No v0.7.0 installer has been released.
 
 <a id="models"></a>
 ## Build the daisy edition
