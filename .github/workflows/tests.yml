@@ -1,0 +1,41 @@
+name: macOS tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: macos-tests-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: macOS / Python ${{ matrix.python }}
+    runs-on: macos-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.9", "3.13"]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Test unified bridge
+        run: python -B -m unittest discover -s m1/integrated -p 'test_*.py' -v
+      - name: Test installers and standalone bridge
+        run: python -B -m unittest discover -s m1 -p 'test_*.py' -v
+      - name: Check state-only startup with empty task data
+        shell: bash
+        run: |
+          flower_test_sessions="$RUNNER_TEMP/flower-empty-sessions"
+          mkdir -p "$flower_test_sessions"
+          python -B m1/global_bridge.py --once --source codex --sessions-root "$flower_test_sessions"
