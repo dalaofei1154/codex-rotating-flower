@@ -10,24 +10,28 @@ import shutil
 import tempfile
 import zipfile
 
-VERSION = "0.6.0"
+VERSION = "0.7.0"
 NAME = f"RotatingFlower-Mac-v{VERSION}"
 PYTHON_SHA256 = "fdf98aad59d6fb99a0fc42a0392956bd7f246793003c1789b798f20e38b8ae75"
 PYTHON_URL = "https://github.com/astral-sh/python-build-standalone/releases/download/20260211/cpython-3.13.12%2B20260211-aarch64-apple-darwin-install_only_stripped.tar.gz"
-RUNTIME_FILES = ("integrated_setup.py", "integrated_install.sh")
+RUNTIME_FILES = ("integrated_setup.py", "integrated_install.sh", "dsh_setup.py",
+                 "dsh/flower-observer.mjs")
 BRIDGE_FILES = ("integrated_bridge.py", "attention_state.py", "motor_bridge_base.py",
-                "runtime_feed.py", "state_reducer.py", "root_catalog.py", "workbuddy_adapter.py")
+                "runtime_feed.py", "state_reducer.py", "root_catalog.py", "workbuddy_adapter.py",
+                "dsh_adapter.py", "source_config.py")
 
 GUIDE = """小花 · Mac 统一安装
 
 1. 用 USB 数据线连接已经烧录好的小花。
 2. 解压后双击「安装小花.command」，弹出的窗口会自动安装，不用输入命令。
-3. 按窗口提示打开你使用的 Codex 或 WorkBuddy，登录后开始一次任务。
+3. 按窗口提示打开你使用的 Codex、WorkBuddy 或 DeepSeek Harness，登录后开始一次任务。
+   DSH 需要先打开一次完成初始化；安装后退出并重新打开 DSH 以加载插件。
 
 自动识别电脑上已安装的桌面应用：
-只有 Codex → 联动 Codex；只有 WorkBuddy → 联动 WorkBuddy；两个都有 → 同时联动。
-应用还没打开或首次登录尚未完成，也可以先装好；后台会自动等待，无需重新安装。
-本包不包含 Codex、WorkBuddy 本身；若两者都没安装，请先安装你要使用的应用。
+支持 Codex、WorkBuddy 和 DeepSeek Harness；检测到多个应用时同时联动。
+Codex 或 WorkBuddy 还没打开时，后台会等待。DSH 插件需要已有的本地配置，
+若提示找不到 DSH 配置，请先打开 DSH，再运行本安装器。
+本包不包含这些应用本身；请先安装你要使用的应用。
 以后新增另一个应用，再双击安装一次即可重新识别。平时登录 Mac 后自动运行。
 
 任意一个应用工作，小花就转；同时工作取较高档位，全部结束才停。
@@ -42,9 +46,11 @@ Apple 官方说明：https://support.apple.com/zh-cn/102445
 若提示未连接，请检查数据线后重新双击安装；异常时窗口会显示原因和日志位置。
 不需要让 AI 帮忙安装，不需要额外安装 Python、Node、Arduino 或填写 API Key。
 安装完成后可以删除此文件夹。若要卸载，重新解压后双击「卸载小花.command」。
-卸载会移除小花的 Codex 与 WorkBuddy 全部后台联动，不卸载这两个应用；备份和日志保留。
+卸载会移除全部后台联动及 DSH 插件配置，不卸载应用本身；备份和日志保留。
+卸载后退出并重新打开 DSH。若其他 DSH profile 仍引用插件，会保留共享插件文件。
 
-适用于 Apple 芯片 Mac（包含 M3），macOS 12 及以上。安装到当前用户目录，无需管理员密码。
+适用于 Apple 芯片 Mac（包含 M3），小花后台支持 macOS 12 及以上；DSH 适配需要 macOS 13 及以上。
+安装到当前用户目录，无需管理员密码。
 仅跟随本机任务。硬件由提供者预先烧录，本包不会烧录固件。
 程序和独立 Python 均随包提供，安装时不下载程序，不包含赠送者的账户、聊天或配置。
 """
@@ -53,7 +59,7 @@ Apple 官方说明：https://support.apple.com/zh-cn/102445
 def launcher(action: str) -> str:
     title = "安装" if action == "install" else "卸载"
     confirm = '' if action == "install" else '''
-printf '确认卸载小花的 Codex 和 WorkBuddy 全部联动？输入 y 后回车，其他输入取消：'
+printf '确认卸载小花的 Codex、WorkBuddy 和 DSH 全部联动？输入 y 后回车，其他输入取消：'
 read -r flower_answer
 if [[ "$flower_answer" != y && "$flower_answer" != Y ]]; then exit 0; fi
 '''
@@ -68,7 +74,7 @@ echo '正在{title}，请稍候…'
 /bin/bash "$flower_directory/安装资源/integrated_install.sh" {action} > "$flower_log" 2>&1
 flower_result=$?
 echo
-/usr/bin/grep '^已启用联动：' "$flower_log" || true
+/usr/bin/grep -E '^(已启用联动：|DSH )' "$flower_log" || true
 case "$flower_result" in
   0) printf '%s\\n' '{success}' ;;
   5) echo '安装已完成。打开下方应用后，小花会自动联动。'
@@ -94,8 +100,9 @@ def build(output: Path, python_archive: Path) -> Path:
         raise ValueError("Python archive differs from the pinned official SHA256")
     root = Path(__file__).parent
     missing = [name for name in BRIDGE_FILES if not (root / 'integrated' / name).is_file()]
+    missing += [name for name in RUNTIME_FILES if not (root / name).is_file()]
     if missing:
-        raise ValueError('Missing bridge sources: ' + ', '.join(missing))
+        raise ValueError('Missing package sources: ' + ', '.join(missing))
     output.mkdir(parents=True, exist_ok=True)
     # Fresh staging prevents old caches, bytecode or obsolete source from leaking
     # into a rebuild. The package only includes an explicit source allowlist.
@@ -105,6 +112,7 @@ def build(output: Path, python_archive: Path) -> Path:
         bridge = resources / 'integrated'
         bridge.mkdir(parents=True)
         for name in RUNTIME_FILES:
+            (resources / name).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(root / name, resources / name)
         for name in BRIDGE_FILES:
             shutil.copy2(root / 'integrated' / name, bridge / name)
@@ -134,7 +142,7 @@ def build(output: Path, python_archive: Path) -> Path:
         shutil.copytree(folder, final_folder)
     (output / 'package_manifest.json').write_text(json.dumps({
         'version': VERSION, 'architecture': 'arm64', 'source_selection': 'installed-apps',
-        'supported_sources': ['codex', 'workbuddy'], 'python_source': PYTHON_URL,
+        'supported_sources': ['codex', 'workbuddy', 'dsh'], 'python_source': PYTHON_URL,
         'python_sha256': digest, 'resources': checksums,
         'zip_sha256': hashlib.sha256(archive.read_bytes()).hexdigest(),
         'apple_developer_signed': False, 'notarized': False,

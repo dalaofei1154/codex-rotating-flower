@@ -54,7 +54,7 @@ https://github.com/user-attachments/assets/f6ea34b5-76c4-4571-9aa7-4811f79ccf80
 | --- | --- | --- |
 | Codex | [v0.6.0](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | 已提供下载 |
 | WorkBuddy | [v0.6.0](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) | 已提供下载 |
-| DeepSeek Harness（DSH） | [v0.7.0 适配进展](docs/dsh-macos.md) | 开发中 |
+| DeepSeek Harness（DSH） | [当前源码安装说明](docs/dsh-macos.md) | 尚未发版，需从源码安装 |
 
 小花软件支持 **Apple 芯片 Mac、macOS 12+**；DSH 自身需要 **macOS 13+**。
 
@@ -70,7 +70,7 @@ https://github.com/user-attachments/assets/f6ea34b5-76c4-4571-9aa7-4811f79ccf80
 2. 双击 `安装小花.command`，跟着提示安装。
 3. 打开并登录 Codex 或 WorkBuddy，开始一个任务。
 
-安装、升级和卸载的具体步骤见[安装说明](docs/open-release/INSTALL.md)。
+安装、升级和卸载的具体步骤见[安装说明](docs/open-release/INSTALL.md)。DSH 目前请按[源码安装说明](docs/dsh-macos.md)操作；尚未发布 v0.7.0 安装包。
 
 <a id="models"></a>
 

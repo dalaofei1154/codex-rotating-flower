@@ -30,6 +30,7 @@ class IntegratedSetupTests(unittest.TestCase):
         self.config = {'source': 'workbuddy', 'sessions_root': self.root / 'codex',
                        'workbuddy_root': self.root / 'workbuddy', 'port': 'auto'}
         for name, value in [('locations', (self.support, self.plist, self.logs)),
+                            ('dsh_home', self.root / '.dsh'),
                             ('source_directory', self.sources), ('preflight', None), ('running', True),
                             ('detect_apps', {'workbuddy': {'path': '/Applications/WorkBuddy.app'}})]:
             p = patch.object(setup, name, return_value=value)
@@ -66,6 +67,64 @@ class IntegratedSetupTests(unittest.TestCase):
     def test_v05_revision_is_supported_for_migration(self):
         entry = self.prior(source='workbuddy', revision='integrated-v0.5.0')
         self.assertEqual(setup.existing()['entry'], entry)
+
+    def test_v06_revision_is_supported_for_migration(self):
+        entry = self.prior(source='both', revision='integrated-v0.6.0')
+        self.assertEqual(setup.existing()['entry'], entry)
+
+    def dsh_profile(self):
+        profile = self.root / '.dsh/profiles/desktop/cordis.patch.yml'
+        profile.parent.mkdir(parents=True)
+        profile.write_bytes(b'# own settings\n[]\n')
+        return profile
+
+    def test_dsh_installs_and_uninstalls_with_bridge(self):
+        profile = self.dsh_profile()
+        original = profile.read_bytes()
+        self.config['source'] = 'dsh'
+        with patch.object(setup, 'launchctl', return_value=True):
+            setup.install(self.config)
+            self.assertIn('rotating-flower-observer', profile.read_text())
+            self.assertTrue((self.support / 'dsh/flower-observer.mjs').exists())
+            setup.uninstall(setup.existing())
+        self.assertEqual(profile.read_bytes(), original)
+        self.assertFalse((self.support / 'dsh/flower-observer.mjs').exists())
+        self.assertFalse(self.plist.exists())
+
+    def test_dsh_plugin_rolls_back_when_service_bootstrap_fails(self):
+        profile = self.dsh_profile()
+        original = profile.read_bytes()
+        self.config['source'] = 'dsh'
+        def fail_bootstrap(*args, **kwargs):
+            if args[0] == 'bootstrap':
+                raise RuntimeError('fixture bootstrap failure')
+            return True
+        with patch.object(setup, 'launchctl', side_effect=fail_bootstrap):
+            with self.assertRaisesRegex(RuntimeError, 'fixture bootstrap'):
+                setup.install(self.config)
+        self.assertEqual(profile.read_bytes(), original)
+        self.assertFalse((self.support / 'dsh/flower-observer.mjs').exists())
+        self.assertFalse(self.plist.exists())
+
+    def test_uninitialized_dsh_keeps_existing_service_running(self):
+        self.prior(source='both', revision='integrated-v0.6.0')
+        original = self.plist.read_bytes()
+        self.config['source'] = 'all'
+        with patch.object(setup, 'launchctl', return_value=True) as launch:
+            with self.assertRaisesRegex(RuntimeError, '请先打开一次'):
+                setup.install(self.config, setup.existing())
+        launch.assert_not_called()
+        self.assertEqual(self.plist.read_bytes(), original)
+
+    def test_uninstall_removes_standalone_plugin_without_bridge(self):
+        profile = self.dsh_profile()
+        setup.DshPluginChange(self.root / '.dsh', self.support / 'dsh',
+            Path(setup.__file__).parent / 'dsh/flower-observer.mjs').apply()
+        with patch.object(setup, 'launchctl', return_value=True) as launch:
+            self.assertEqual(setup.uninstall(None), 0)
+        launch.assert_not_called()
+        self.assertEqual(profile.read_bytes(), b'# own settings\n[]\n')
+        self.assertFalse((self.support / 'dsh/flower-observer.mjs').exists())
 
     def test_future_revision_is_not_downgraded(self):
         self.prior(revision='integrated-v1.0.0')

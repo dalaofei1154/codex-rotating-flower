@@ -22,7 +22,7 @@ The flower center, clear cap and stem-to-lid joint are fitted without glue and a
 
 ## Software and source
 
-The [v0.6.0 installer](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) supports Codex and WorkBuddy on Apple silicon Macs and includes Python. DSH support is in development; see the [adapter notes](../dsh-macos.md).
+The [v0.6.0 installer](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.6.0) supports Codex and WorkBuddy on Apple silicon Macs and includes Python. Unreleased DSH support is included in the current source; follow the [source installation steps](../dsh-macos.md#english). No new installer has been released.
 
 [Software source](../../software/release-v0.6.0/README.md) · [Firmware source](../../firmware/README.md) · [Editable models](../../hardware/daisy-light/README.en.md) · [Build updates](RELEASE_NOTES.md#english)
 
