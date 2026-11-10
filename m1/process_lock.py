@@ -1,5 +1,9 @@
 """Keep one bridge instance per user on macOS, Linux, and Windows.
 
+POSIX keeps the original ``os.getuid()`` lock path so an existing installation
+and the bridge agree on the same lock file. Windows has no ``getuid``, so the
+lock name falls back to a sanitised account name there.
+
 ``fcntl`` does not exist on Windows, so the lock is taken with ``msvcrt``
 there and with ``fcntl`` everywhere else. Both release the lock when the
 returned file object is closed, which lets the caller keep the existing
@@ -15,7 +19,11 @@ import tempfile
 from pathlib import Path
 
 
-def _user_token() -> str:
+def _posix_user_token() -> str:
+    return str(os.getuid())
+
+
+def _windows_user_token() -> str:
     try:
         user = getpass.getuser()
     except (OSError, KeyError):
@@ -27,8 +35,12 @@ def _user_token() -> str:
 
 
 def singleton_path(name: str) -> Path:
-    """Return a per-user lock path that Windows file names also accept."""
-    return Path(tempfile.gettempdir()) / f"{name}-{_user_token()}.lock"
+    """Return the per-user lock path, matching the original POSIX naming."""
+    if sys.platform == "win32":
+        token = _windows_user_token()
+    else:
+        token = _posix_user_token()
+    return Path(tempfile.gettempdir()) / f"{name}-{token}.lock"
 
 
 def acquire(path: Path):

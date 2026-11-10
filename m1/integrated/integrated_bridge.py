@@ -298,7 +298,7 @@ def main():
                 if now-last_status>=1:
                     status={'updated_at':now,'launch_id':args.launch_id,'source':args.source,
                             'sources':snapshots,'motor':command,'light':light,
-                            'device_connected':flower.fd is not None,
+                            'device_connected':flower.connected,
                             'device_port':flower.path,'device_capabilities':flower.capabilities,
                             'last_device_line':flower.last_device_line}
                     tmp=args.status_file.with_suffix('.tmp')

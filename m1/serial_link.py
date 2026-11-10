@@ -80,9 +80,21 @@ class PosixSerialPort(SerialPort):
         except (subprocess.SubprocessError, OSError) as error:
             raise OSError(f"could not configure {path}: {error}") from error
         self.fd = os.open(path, os.O_RDWR | os.O_NOCTTY | os.O_NONBLOCK)
+        self.exclusive = False
+        try:
+            import fcntl
+            import termios
+            # Exclusive ownership: refuse to share the port with another owner
+            # such as a serial monitor, matching the previous behaviour.
+            fcntl.ioctl(self.fd, termios.TIOCEXCL)
+            self.exclusive = True
+        except (ImportError, OSError):
+            pass
 
     def write(self, data: bytes) -> None:
-        os.write(self.fd, data)
+        written = os.write(self.fd, data)
+        if written != len(data):
+            raise OSError(f"serial write sent {written} of {len(data)} bytes")
 
     def read(self, limit: int = 4096) -> bytes:
         import select
@@ -92,6 +104,14 @@ class PosixSerialPort(SerialPort):
         return os.read(self.fd, limit)
 
     def close(self) -> None:
+        if self.exclusive:
+            try:
+                import fcntl
+                import termios
+                fcntl.ioctl(self.fd, termios.TIOCNXCL)
+            except (ImportError, OSError):
+                pass
+            self.exclusive = False
         os.close(self.fd)
 
 

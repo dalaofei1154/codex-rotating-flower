@@ -14,7 +14,8 @@ VERSION = "0.6.0"
 NAME = f"RotatingFlower-Mac-v{VERSION}"
 PYTHON_SHA256 = "fdf98aad59d6fb99a0fc42a0392956bd7f246793003c1789b798f20e38b8ae75"
 PYTHON_URL = "https://github.com/astral-sh/python-build-standalone/releases/download/20260211/cpython-3.13.12%2B20260211-aarch64-apple-darwin-install_only_stripped.tar.gz"
-RUNTIME_FILES = ("integrated_setup.py", "integrated_install.sh")
+RUNTIME_FILES = ("integrated_setup.py", "integrated_install.sh",
+                 "serial_link.py", "process_lock.py", "process_probe.py")
 BRIDGE_FILES = ("integrated_bridge.py", "attention_state.py", "motor_bridge_base.py",
                 "runtime_feed.py", "state_reducer.py", "root_catalog.py", "workbuddy_adapter.py")
 
@@ -94,6 +95,7 @@ def build(output: Path, python_archive: Path) -> Path:
         raise ValueError("Python archive differs from the pinned official SHA256")
     root = Path(__file__).parent
     missing = [name for name in BRIDGE_FILES if not (root / 'integrated' / name).is_file()]
+    missing += [name for name in RUNTIME_FILES if not (root / name).is_file()]
     if missing:
         raise ValueError('Missing bridge sources: ' + ', '.join(missing))
     output.mkdir(parents=True, exist_ok=True)

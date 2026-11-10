@@ -25,6 +25,8 @@ else:  # This installer drives launchctl and only exists for macOS.
 VERSION = '0.6.0'
 LABEL = 'com.rotatingflower.codex-motor'
 REVISION = 'integrated-v' + VERSION
+# Modules shared with the standalone bridge; imported by integrated_bridge.py.
+SHARED_MODULES = ('serial_link.py', 'process_lock.py', 'process_probe.py')
 
 
 def locations():
@@ -222,6 +224,14 @@ def install(config, previous=None):
     support, plist, logs = locations()
     source = source_directory()
     files = sorted(p for p in source.glob('*.py') if not p.name.startswith('test_'))
+    # serial_link / process_lock / process_probe live one level up and are
+    # imported by the bridge, so they have to be staged with it.
+    shared = source.parent
+    for name in SHARED_MODULES:
+        candidate = shared / name
+        if not candidate.is_file():
+            raise RuntimeError(f'安装文件不完整，缺少 {name}，请重新解压完整安装包。')
+        files.append(candidate)
     if not (source / 'integrated_bridge.py').is_file() or not files:
         raise RuntimeError('安装文件不完整，请重新解压完整安装包。')
     support.mkdir(parents=True, exist_ok=True)
