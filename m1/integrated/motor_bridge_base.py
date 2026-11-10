@@ -9,19 +9,22 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
-import fcntl
-import glob
 import json
 import os
-import select
 import signal
 import sqlite3
-import subprocess
 import sys
-import tempfile
 import time
 from dataclasses import dataclass
 from pathlib import Path
+
+# serial_link and process_lock live one directory up, shared with the
+# standalone bridge; make them importable when this module is run directly.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+import process_lock
+import process_probe
+import serial_link
 
 
 EFFORT_SPEED = {
@@ -107,64 +110,84 @@ def is_root_meta(record: dict) -> bool:
 
 
 class RolloutFile:
+    """Track one rollout file by byte offset.
+
+    The file is opened for each poll instead of staying open: Windows refuses
+    to delete a file that another process still holds open, and Codex removes
+    old rollout files while the bridge is running.
+    """
+
     def __init__(self, path: Path):
         self.path = path
-        self.file = path.open("rb")
-        first = self.file.readline()
+        self.state = TaskState("")
+        self.pending = b""
+        self.skip_long_line = False
+        self.size = 0
+        self.inode = None
+        self.mtime = 0.0
+        self.is_root = False
+        self._read_header()
+
+    def _read_header(self) -> None:
+        stat = self.path.stat()
+        self.inode = stat.st_ino or None
+        self.mtime = stat.st_mtime
+        with self.path.open("rb") as file:
+            first = file.readline()
+            self.size = file.tell()
         try:
             meta = json.loads(first)
         except (UnicodeDecodeError, json.JSONDecodeError):
             meta = {}
         self.is_root = is_root_meta(meta)
         self.state = TaskState((meta.get("payload") or {}).get("id", ""))
-        self.pending = b""
-        self.skip_long_line = False
-        self.size = self.file.tell()
-        stat = path.stat()
-        self.mtime = stat.st_mtime
-        self.inode = stat.st_ino
         if self.is_root:
             self.poll()
 
     def close(self) -> None:
-        self.file.close()
+        """Nothing stays open between polls; kept for the adapter's cleanup."""
+
+    def _was_replaced(self, stat) -> bool:
+        if stat.st_size < self.size:
+            return True
+        return bool(stat.st_ino) and bool(self.inode) and stat.st_ino != self.inode
 
     def poll(self) -> bool:
         # Let the adapter remove this task immediately if its rollout vanishes.
         # Keeping its old active state would continue refreshing the motor watchdog.
         stat = self.path.stat()
-        if stat.st_ino != self.inode or stat.st_size < self.size:
-            self.file.close()
-            self.file = self.path.open("rb")
-            self.inode = stat.st_ino
-            self.file.seek(0)
+        self.mtime = stat.st_mtime
+        if self._was_replaced(stat):
             self.pending = b""
             self.skip_long_line = False
             self.size = 0
             self.state = TaskState(self.state.session_id)
-        self.mtime = stat.st_mtime
+            self.inode = stat.st_ino or None
         changed = False
-        while True:
-            chunk = self.file.read(65536)
-            if not chunk:
-                break
-            self.size += len(chunk)
-            data = self.pending + chunk
-            parts = data.split(b"\n")
-            self.pending = parts.pop()
-            for line in parts:
-                if self.skip_long_line:
-                    self.skip_long_line = False
-                    continue
-                if not any(marker in line for marker in INTERESTING_EVENTS):
-                    continue
-                try:
-                    changed = self.state.consume(json.loads(line)) or changed
-                except (UnicodeDecodeError, json.JSONDecodeError):
-                    continue
-            if len(self.pending) > 8_000_000:
-                self.pending = b""
-                self.skip_long_line = True
+        with self.path.open("rb") as file:
+            file.seek(self.size)
+            while True:
+                chunk = file.read(65536)
+                if not chunk:
+                    break
+                self.size += len(chunk)
+                data = self.pending + chunk
+                parts = data.split(b"\n")
+                self.pending = parts.pop()
+                for line in parts:
+                    if self.skip_long_line:
+                        self.skip_long_line = False
+                        continue
+                    if not any(marker in line for marker in INTERESTING_EVENTS):
+                        continue
+                    try:
+                        changed = self.state.consume(json.loads(line)) or changed
+                    except (UnicodeDecodeError, json.JSONDecodeError):
+                        continue
+                if len(self.pending) > 8_000_000:
+                    self.pending = b""
+                    self.skip_long_line = True
+        return changed
         return changed
 
 
@@ -282,7 +305,8 @@ class WorkBuddyDatabaseAdapter:
                         or not isinstance(session_id, str) or not session_id):
                     continue
                 try:
-                    os.kill(pid, 0)
+                    if not process_probe.process_alive(pid):
+                        continue
                 except PermissionError:
                     # A sandbox may deny the probe even when the worker exists.
                     continue
@@ -403,58 +427,64 @@ class CombinedAdapter:
 
 
 def serial_candidates() -> list[str]:
-    patterns = ["/dev/cu.usbmodem*", "/dev/cu.usbserial*",
-                "/dev/serial/by-id/*", "/dev/ttyACM*", "/dev/ttyUSB*"]
-    return sorted({path for pattern in patterns for path in glob.glob(pattern)})
+    return serial_link.list_serial_ports()
 
 
 class MotorSerial:
     def __init__(self, requested_port: str = "auto"):
         self.requested_port = requested_port
-        self.fd: int | None = None
+        self.port: serial_link.SerialPort | None = None
         self.path: str | None = None
         self.last_command: str | None = None
         self.last_sent_at = 0.0
         self.last_probe_at = -float("inf")
 
+    @property
+    def connected(self) -> bool:
+        return self.port is not None
+
     def close(self) -> None:
-        if self.fd is not None:
-            os.close(self.fd)
-        self.fd = None
+        if self.port is not None:
+            try:
+                self.port.close()
+            except OSError:
+                pass
+        self.port = None
         self.path = None
         self.last_command = None
 
     def _probe(self, path: str) -> bool:
-        fd = None
+        port = None
         try:
-            stty_flag = "-f" if sys.platform == "darwin" else "-F"
-            subprocess.run(["stty", stty_flag, path, "115200", "raw", "-echo"],
-                           check=True, capture_output=True, timeout=2)
-            fd = os.open(path, os.O_RDWR | os.O_NOCTTY | os.O_NONBLOCK)
+            port = serial_link.open_port(path)
             time.sleep(0.6)
-            os.write(fd, b"PING\n")
+            port.write(b"PING\n")
             deadline = time.monotonic() + 1.5
             reply = b""
             while time.monotonic() < deadline:
-                ready, _, _ = select.select([fd], [], [], 0.2)
-                if ready:
-                    reply += os.read(fd, 4096)
+                time.sleep(0.05)
+                chunk = port.read()
+                if chunk:
+                    reply += chunk
                     if b"PONG" in reply:
-                        self.fd = fd
+                        self.port = port
                         self.path = path
                         self.last_command = None
                         print(f"Motor connected: {path}", flush=True)
                         return True
-        except (OSError, subprocess.SubprocessError):
+        except OSError:
             pass
-        if fd is not None:
-            os.close(fd)
+        if port is not None:
+            try:
+                port.close()
+            except OSError:
+                pass
         return False
 
     def connect(self) -> bool:
-        if self.fd is not None and self.path and os.path.exists(self.path):
+        if self.port is not None and self.path and serial_link.port_still_present(self.path):
             return True
-        if self.fd is not None:
+        if self.port is not None:
             self.close()
         now = time.monotonic()
         if now - self.last_probe_at < 2:
@@ -474,14 +504,12 @@ class MotorSerial:
         if command == self.last_command and now - self.last_sent_at < 2:
             return True
         try:
-            os.write(self.fd, (command + "\n").encode("ascii"))
+            self.port.write((command + "\n").encode("ascii"))
             if command != self.last_command:
                 print(f"Motor [{self.path}]: {command}", flush=True)
             self.last_command = command
             self.last_sent_at = now
-            ready, _, _ = select.select([self.fd], [], [], 0)
-            if ready:
-                os.read(self.fd, 4096)
+            self.port.read()
             return True
         except OSError:
             print(f"Motor disconnected: {self.path}; scanning USB ports", flush=True)
@@ -511,11 +539,11 @@ class MotorGroup:
         # port per cycle so an unresponsive device cannot starve heartbeats.
         sent = False
         for motor in self.motors.values():
-            if motor.fd is not None:
+            if motor.connected:
                 sent = motor.send(command) or sent
         now = time.monotonic()
         pending = [motor for motor in self.motors.values()
-                   if motor.fd is None and now - motor.last_probe_at >= 2]
+                   if not motor.connected and now - motor.last_probe_at >= 2]
         if pending:
             motor = min(pending, key=lambda item: item.last_probe_at)
             sent = motor.send(command) or sent
@@ -523,7 +551,7 @@ class MotorGroup:
 
     def close(self) -> None:
         for motor in self.motors.values():
-            if motor.fd is not None:
+            if motor.connected:
                 motor.send("STOP")
             motor.close()
         self.motors.clear()
@@ -546,13 +574,10 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("--stale-seconds must be positive")
     lock_file = None
     if not args.once and not args.no_motor:
-        lock_path = Path(tempfile.gettempdir()) / f"codex-motor-bridge-{os.getuid()}.lock"
-        lock_file = lock_path.open("a+")
-        try:
-            fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError:
+        lock_path = process_lock.singleton_path("codex-motor-bridge")
+        lock_file = process_lock.acquire(lock_path)
+        if lock_file is None:
             print("Another global motor bridge is already running", file=sys.stderr)
-            lock_file.close()
             return 2
     adapters = {}
     if args.source in ("codex", "both"):

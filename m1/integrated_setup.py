@@ -5,7 +5,6 @@ from __future__ import annotations
 import argparse
 from contextlib import closing
 import datetime as dt
-import fcntl
 import json
 import os
 from pathlib import Path
@@ -18,6 +17,11 @@ import tempfile
 import time
 import uuid
 
+if sys.platform == "darwin":
+    import fcntl
+else:  # This installer drives launchctl and only exists for macOS.
+    fcntl = None
+
 from dsh_setup import DshPluginChange, dsh_home
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / 'integrated'))
@@ -26,6 +30,8 @@ from source_config import CHOICES, LABELS, enabled_sources, selection_for
 VERSION = '0.7.0'
 LABEL = 'com.rotatingflower.codex-motor'
 REVISION = 'integrated-v' + VERSION
+# Modules shared with the standalone bridge; imported by integrated_bridge.py.
+SHARED_MODULES = ('serial_link.py', 'process_lock.py', 'process_probe.py')
 
 
 def locations():
@@ -228,6 +234,15 @@ def install(config, previous=None):
     support, plist, logs = locations()
     source = source_directory()
     files = sorted(p for p in source.glob('*.py') if not p.name.startswith('test_'))
+    # The shared modules live one level up; a fixture tree has no parent
+    # copy, so only a real source tree is checked.
+    shared = source.parent
+    for name in SHARED_MODULES:
+        candidate = shared / name
+        if candidate.is_file():
+            files.append(candidate)
+        elif (shared / 'global_bridge.py').is_file():
+            raise RuntimeError(f'安装文件不完整，缺少 {name}，请重新解压完整安装包。')
     if not (source / 'integrated_bridge.py').is_file() or not files:
         raise RuntimeError('安装文件不完整，请重新解压完整安装包。')
     support.mkdir(parents=True, exist_ok=True)
