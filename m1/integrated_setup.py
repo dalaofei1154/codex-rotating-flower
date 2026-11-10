@@ -225,13 +225,15 @@ def install(config, previous=None):
     source = source_directory()
     files = sorted(p for p in source.glob('*.py') if not p.name.startswith('test_'))
     # serial_link / process_lock / process_probe live one level up and are
-    # imported by the bridge, so they have to be staged with it.
+    # imported by the bridge, so they have to be staged with it. A fixture tree
+    # in the tests has no parent copy, so only a real source tree is checked.
     shared = source.parent
     for name in SHARED_MODULES:
         candidate = shared / name
-        if not candidate.is_file():
+        if candidate.is_file():
+            files.append(candidate)
+        elif (shared / 'global_bridge.py').is_file():
             raise RuntimeError(f'安装文件不完整，缺少 {name}，请重新解压完整安装包。')
-        files.append(candidate)
     if not (source / 'integrated_bridge.py').is_file() or not files:
         raise RuntimeError('安装文件不完整，请重新解压完整安装包。')
     support.mkdir(parents=True, exist_ok=True)
