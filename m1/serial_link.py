@@ -84,12 +84,19 @@ class PosixSerialPort(SerialPort):
         try:
             import fcntl
             import termios
+        except ImportError:
+            # Not a POSIX build: there is no ioctl to take.
+            return
+        try:
             # Exclusive ownership: refuse to share the port with another owner
-            # such as a serial monitor, matching the previous behaviour.
+            # such as a serial monitor. A failure here (EIO when the device
+            # cannot be claimed) must reject the connection, not continue on a
+            # port someone else may own.
             fcntl.ioctl(self.fd, termios.TIOCEXCL)
             self.exclusive = True
-        except (ImportError, OSError):
-            pass
+        except OSError:
+            os.close(self.fd)
+            raise
 
     def write(self, data: bytes) -> None:
         written = os.write(self.fd, data)
