@@ -14,6 +14,8 @@
 
 雏菊版由 Flynn 主导设计和实物迭代，借助 AI 工具完成建模、程序和分析。项目最初受到手动盆栽摆件启发；曾研究参考物的比例及结构，再开发本项目的雏菊、电动结构、走线、电子托盘、旋扣和提醒灯。
 
-灵感参考：秋池飞叶在 MakerWorld 发布的[手动盆栽摆件](https://makerworld.com.cn/zh/models/2834494-openai-chatgpt-jie-ya-pen-zai-ke-an-ya-ke-xuan-zhu)。
+灵感参考：秋池飞叶在 MakerWorld 发布的[手动盆栽摆件](https://makerworld.com.cn/zh/models/2834494-openai-chatgpt-jie-ya-pen-zai-ke-an-ya-ke-xuan-zhu)。这是来源致谢，不表示原作者参与、背书或授予了本项目许可。2026 年 11 月起，旧版雏菊模型已从当前版本撤下，可见外形正在独立重新设计。
 
 The daisy edition was designed and iterated by Flynn with help from AI tools. It was inspired by the manual potted ornament linked above, and developed into this flower with a motor, wiring channels, an electronics tray and a reminder light.
+
+This is a source credit and does not imply the original creator's participation, endorsement or permission. As of November 2026 the previous daisy models are withdrawn from the current version while the visible design is redrawn independently.

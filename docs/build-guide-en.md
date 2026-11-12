@@ -3,7 +3,7 @@
 The current build guide covers the daisy edition, including printed parts, electronics, assembly and the rotation-and-light firmware.
 
 - [Illustrated DIY guide](diy-guide/README.en.md)
-- [Model files and print settings](../hardware/daisy-light/README.en.md)
+- [Model redesign status (downloads paused)](../hardware/README.md)
 - [Wiring](diy-guide/WIRING.md)
 - [Mac installation](open-release/INSTALL.md#en)
 
