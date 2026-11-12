@@ -11,12 +11,12 @@ The listed materials total **CNY 53.92**: CNY 22.42 for electronics and wiring, 
 | Step | Guide |
 | --- | --- |
 | 1. Gather the parts | [Materials list](../diy-guide/BOM.md) |
-| 2. Download and print | [Choose parts by picture](../../hardware/daisy-light/VISUAL_GUIDE.md) · [Printing guide](../diy-guide/PRINTING.md) |
+| 2. Model status and printing notes | [Model redesign status](../../hardware/README.md) · [Printing guide](../diy-guide/PRINTING.md) |
 | 3. Assemble and wire | [Illustrated build guide](../diy-guide/README.en.md) · [Wiring table](../diy-guide/WIRING.md) |
 | 4. Flash the controller | [Motor and light firmware](../../firmware/README.md) |
 | 5. Connect your Mac | [Install the software](INSTALL.md#en) · [Build checklist](../diy-guide/CHECKLIST.md) |
 
-Each flower needs 10 printed parts. The models come as 3MF projects, color-separated STL files and editable Blender meshes. Some 3MF plates include spares; use the parts list to select one set and slice it for your printer.
+**The visible design is being redrawn; model downloads are temporarily unavailable.** The previous daisy models have been withdrawn from the current version. The existing guides remain available; printing notes will be updated when the new models are published.
 
 The flower center, clear cap and stem-to-lid joint are fitted without glue and are still a little loose. Check these fits during assembly, and hold the pot when moving the flower.
 
@@ -24,7 +24,7 @@ The flower center, clear cap and stem-to-lid joint are fitted without glue and a
 
 The [v0.7.0 installer](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) supports Codex, WorkBuddy and DSH on Apple silicon Macs and includes Python. The bridge requires macOS 12+; DSH support requires macOS 13+. Open DSH once before installation and restart it afterwards. See the [installation guide](INSTALL.md#en) and [DSH notes](../dsh-macos.md#english).
 
-[v0.7.0 software source](https://github.com/dalaofei1154/rotating-flower/tree/v0.7.0/m1) · [Firmware source](../../firmware/README.md) · [Editable models](../../hardware/daisy-light/README.en.md) · [Build updates](RELEASE_NOTES.md#english)
+[v0.7.0 software source](https://github.com/dalaofei1154/rotating-flower/tree/v0.7.0/m1) · [Firmware source](../../firmware/README.md) · [Model status (downloads paused)](../../hardware/README.md) · [Build updates](RELEASE_NOTES.md#english)
 
 ## Share your flower
 

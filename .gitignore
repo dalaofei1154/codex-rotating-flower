@@ -44,20 +44,9 @@ m0/codex_bridge.py
 *.gcode
 *.zip
 
-# Public daisy models.
-!/hardware/daisy-light/stl/*.stl
-!/hardware/daisy-light/print/*.3mf
-!/hardware/daisy-light/source/*.blend
-
 # Keep the public presentation focused on the finished project.
 /debug_log.md
 /publish-assets/
 /docs/diy-guide/REVIEW.md
 /docs/diy-guide/PHOTO_INDEX.md
 /docs/media/intro-*.jpg
-/hardware/daisy-light/visuals/*
-!/hardware/daisy-light/visuals/assembled.png
-!/hardware/daisy-light/visuals/parts-and-files.png
-!/hardware/daisy-light/visuals/exploded-overview.png
-!/hardware/daisy-light/visuals/feature-dsh-en-music.mp4
-!/hardware/daisy-light/visuals/feature-dsh-zh-music.mp4

@@ -1,12 +1,7 @@
-# 雏菊模型与打印文件
+# 3D 模型 · 3D models
 
-一朵花需要 **10 个打印件**。这里提供 9 个 3MF 打印工程、13 个分色 STL 和 10 个可编辑 Blender 网格文件。
+**外观正在重新设计中，暂不提供下载。** 电动结构（电机舱、走线、电子托盘、旋扣、提醒灯）保持不变，只有茎、叶、花盆的可见外形会独立重新设计。新版完成后会在这里发布。旧版文件仍保留在 git 历史中，但已不再作为当前版本分发。
 
-- [按图选择模型](daisy-light/VISUAL_GUIDE.md)
-- [打印说明](daisy-light/README.md) · [English printing guide](daisy-light/README.en.md)
-- [图解制作教程](../docs/diy-guide/README.md) · [English build guide](../docs/diy-guide/README.en.md)
-- [零件与文件清单](daisy-light/manifest.json)
+**The visible design is being redrawn; model files are temporarily unavailable.** The motor housing, wiring, electronics tray, twist lid and status light stay the same; only the stem, leaves and pot are being redesigned from scratch. New files will be published here. The previous version remains in git history but is no longer distributed as current.
 
-我现在的实物使用 L2 带灯盆盖和 P4 透明灯帽，转动、亮灯都正常。花心、灯帽和枝干与盆盖的连接还有些松，后续会继续改进；搬动时托住花盆。
-
-模型采用 [CC BY-NC-SA 4.0](LICENSE.md)，可署名后非商业使用、修改，并以相同许可分享。
+模型许可见 [LICENSE.md](LICENSE.md)。

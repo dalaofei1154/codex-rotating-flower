@@ -1,6 +1,8 @@
+模型正在重新设计，以下打印说明待新版发布后更新 / Models are being redesigned; these notes will be updated.
+
 # 打印与干装 / Printing and dry fitting
 
-下载[雏菊带灯版模型](../../hardware/README.md)。一朵花共 **10 个打印件**，双色 STL 按共同坐标组合导入。 / Download the [daisy model set](../../hardware/README.md). One flower needs **10 printed parts**; import color meshes together, preserving their shared coordinates.
+查看[模型重新设计说明](../../hardware/README.md)。一朵花共 **10 个打印件**，双色 STL 按共同坐标组合导入。 / See the [model redesign status](../../hardware/README.md). One flower needs **10 printed parts**; import color meshes together, preserving their shared coordinates.
 
 ## 打印设置 / Print settings
 

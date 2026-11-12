@@ -11,12 +11,12 @@
 | 步骤 | 资料 |
 | --- | --- |
 | 1. 准备材料 | [材料清单](../diy-guide/BOM.md) |
-| 2. 下载和打印 | [按图选择零件](../../hardware/daisy-light/VISUAL_GUIDE.md) · [打印说明](../diy-guide/PRINTING.md) |
+| 2. 模型状态与打印说明 | [模型重新设计说明](../../hardware/README.md) · [打印说明](../diy-guide/PRINTING.md) |
 | 3. 组装和接线 | [图解制作教程](../diy-guide/README.md) · [接线表](../diy-guide/WIRING.md) |
 | 4. 烧录固件 | [旋转和提醒灯组合固件](../../firmware/README.md) |
 | 5. 连接 Mac | [安装软件](INSTALL.md) · [装配检查表](../diy-guide/CHECKLIST.md) |
 
-一盆需要 10 个打印件。模型提供 3MF、分色 STL 和可编辑 Blender 网格。部分 3MF 打印盘放了备用件，按零件清单取一套，再为自己的打印机切片。
+**外观正在重新设计，暂不提供模型下载。** 旧版雏菊模型已从当前版本撤下；现有教程保留，打印说明待新版发布后更新。
 
 花心、透明灯帽、枝干与盆盖这几处没用胶，目前连接还有些松。装配时留意松紧，搬动时托住花盆。
 
@@ -24,7 +24,7 @@
 
 [v0.7.0 安装包](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0)支持 Apple 芯片 Mac 上的 Codex、WorkBuddy 和 DSH，包内自带 Python。小花后台需要 macOS 12+，DSH 适配需要 macOS 13+。使用 DSH 时先打开一次应用，安装后再退出重开；详见[安装指南](INSTALL.md)和 [DSH 说明](../dsh-macos.md)。
 
-[v0.7.0 软件源码](https://github.com/dalaofei1154/rotating-flower/tree/v0.7.0/m1) · [固件源码](../../firmware/README.md) · [可编辑模型](../../hardware/daisy-light/README.md) · [制作资料更新](RELEASE_NOTES.md)
+[v0.7.0 软件源码](https://github.com/dalaofei1154/rotating-flower/tree/v0.7.0/m1) · [固件源码](../../firmware/README.md) · [模型状态（暂不提供下载）](../../hardware/README.md) · [制作资料更新](RELEASE_NOTES.md)
 
 ## 分享你做的小花
 

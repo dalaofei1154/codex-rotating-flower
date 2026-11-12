@@ -14,7 +14,7 @@ The finished-product photo has a replaced background. The assembly photos below 
 
 ## Prepare the parts
 
-Start with the bilingual [bill of materials](BOM.md), [printing settings](PRINTING.md), [wiring reference](WIRING.md) and [build checklist](CHECKLIST.md). Download the matching [models](../../hardware/README.md).
+Start with the bilingual [bill of materials](BOM.md), [printing settings](PRINTING.md), [wiring reference](WIRING.md) and [build checklist](CHECKLIST.md). Model downloads are paused during the redesign; see [model availability](../../hardware/README.md). This guide preserves the previous assembly notes.
 
 The finished assembly uses ten printed parts: stem with leaves, motor cover, wire cover, daisy rotor, center, shaft adapter, pot, L2 light lid, P4 transparent cap and electronics tray. Colored STL components are not additional finished parts. Keep the black outlines aligned with their main bodies when loading the model project.
 

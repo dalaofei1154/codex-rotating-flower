@@ -26,7 +26,7 @@ https://github.com/user-attachments/assets/f6ea34b5-76c4-4571-9aa7-4811f79ccf80
 
 46 秒实拍：工作时旋转、不同档位的转速、等待输入时亮灯，以及回答后恢复工作。英文旁白，中英双语字幕。
 
-[下载原版视频](docs/media/rotating-flower-demo-en-zh.mp4) · [English page](README.md#watch) · [3D 介绍片与模型](hardware/daisy-light/VISUAL_GUIDE.md#animation)
+[下载原版视频](docs/media/rotating-flower-demo-en-zh.mp4) · [English page](README.md#watch) · [模型重新设计进展](hardware/README.md)
 
 | AI 的状态 | 小花的表现 |
 | --- | --- |
@@ -44,7 +44,7 @@ https://github.com/user-attachments/assets/f6ea34b5-76c4-4571-9aa7-4811f79ccf80
 | 你现在的情况 | 下一步 |
 | --- | --- |
 | 已经有装好的小花 | [安装 Mac 软件](#install)，连接 Codex、WorkBuddy 或 DSH |
-| 想从零做一朵 | 从[图解制作教程](docs/diy-guide/README.md)开始，准备材料、打印和装配 |
+| 想从零做一朵 | 可先阅读[图解制作教程](docs/diy-guide/README.md)；模型重新设计期间暂停下载 |
 
 <a id="compatibility"></a>
 
@@ -78,11 +78,11 @@ https://github.com/user-attachments/assets/f6ea34b5-76c4-4571-9aa7-4811f79ccf80
 
 **本次所列材料合计 53.92 元**：电子配件与线材 22.42 元，3D 打印件 31.50 元（210 g × 0.15 元/g）。这是我在 2026 年 11 月 6 日提供的参考价格，USB 数据线、工具、胶和胶带、运费另计。[查看成本明细与材料清单](docs/diy-guide/BOM.md#costs)
 
-[![10个打印件与对应下载文件](hardware/daisy-light/visuals/parts-and-files.png)](hardware/daisy-light/VISUAL_GUIDE.md)
+**模型重新设计中 / Models being redesigned**
 
-一盆需要 **10 个打印件**。资料包含 **9 个 3MF 打印工程、13 份分色 STL、10 份可编辑 Blender 网格场景**。有些打印盘里放了备用零件，按清单取一套，再按自己的打印机重新切片。
+旧版雏菊模型已从当前版本撤下，暂不提供下载。现有制作与打印说明记录旧版装配过程，待可见外形独立重新设计后更新。
 
-**[按图选择模型](hardware/daisy-light/VISUAL_GUIDE.md)** · [打印参数](hardware/daisy-light/README.md) · [材料清单](docs/diy-guide/BOM.md) · [完整资料入口](docs/open-release/README.md)
+**[模型重新设计说明](hardware/README.md)** · [打印文件暂不可用](hardware/README.md) · [材料清单](docs/diy-guide/BOM.md) · [完整资料入口](docs/open-release/README.md)
 
 1. **准备材料**：按材料清单购买电机、控制板、灯板、线材和紧固件。
 2. **打印与试装**：选择模型、确认颜色与数量，试试各个接口的松紧。
@@ -116,8 +116,8 @@ Mac 上的小花软件读取本机任务状态，通过 USB 把指令发给 ESP3
 **小花需要联网或填写 API Key 吗？会上传我的对话吗？**<br />
 小花通过 USB 连接 Mac，读取应用在本机的任务状态，不需要另填 API Key，也不向本项目服务器上传任务记录。AI 应用照常用你自己的账号登录。[本地数据说明](docs/open-release/INSTALL.md#data)
 
-**可以修改模型，做成自己的样子吗？**<br />
-可以，欢迎拿去做非商业改编。保留署名，分享修改后的模型时使用相同许可就好。[查看许可范围](LICENSES.md)
+**现在还能下载模型吗？**<br />
+外观正在独立重新设计，暂不提供模型下载。新版完成后会在[模型说明页](hardware/README.md)发布。
 
 ## 分享你做的小花
 

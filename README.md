@@ -14,7 +14,7 @@ https://github.com/user-attachments/assets/f6ea34b5-76c4-4571-9aa7-4811f79ccf80
 
 46 seconds with the real flower: spinning, different speeds, a reminder light, and work resuming after a reply. English narration with Chinese and English subtitles.
 
-[Download the original video](docs/media/rotating-flower-demo-en-zh.mp4) · [中文页面](README.zh-CN.md#watch) · [3D explainer and models](hardware/daisy-light/VISUAL_GUIDE.md#animation)
+[Download the original video](docs/media/rotating-flower-demo-en-zh.mp4) · [中文页面](README.zh-CN.md#watch) · [Model redesign status](hardware/README.md)
 
 ## What it tells you
 
@@ -32,9 +32,9 @@ Each mode has a speed preset. When several tasks run together, the flower uses t
 
 | Already have a flower? | Want to make one? |
 | --- | --- |
-| Connect it to your Mac and install the software. | Print the parts, add the electronics and follow the build guide. |
+| Connect it to your Mac and install the software. | Review the build guide; model downloads are paused during the redesign. |
 | **[Install Mac software](#install)** | **[Build the daisy edition](docs/diy-guide/README.en.md)** |
-| Start with an assembled flower running the combined motor + light firmware. | [Materials list](docs/diy-guide/BOM.md) · [Model downloads](#models) · [Wiring](docs/diy-guide/WIRING.md) |
+| Start with an assembled flower running the combined motor + light firmware. | [Materials list](docs/diy-guide/BOM.md) · [Model status](#models) · [Wiring](docs/diy-guide/WIRING.md) |
 
 <a id="compatibility"></a>
 ## Supported apps and versions
@@ -62,11 +62,11 @@ The installer includes Python and automatically enables installed apps. Open DSH
 
 **CNY 53.92 for the listed materials**: CNY 22.42 for electronics and wiring, plus CNY 31.50 for 3D printing (210 g × CNY 0.15/g). Prices shared on November 6, 2026; USB cable, tools, glue, tape and shipping are extra. [Cost breakdown and parts list](docs/diy-guide/BOM.md#costs)
 
-**10 printed parts · 9 print projects · 13 color-separated STL meshes**
+The previous daisy models have been withdrawn from the current version. Model downloads will return after the visible design is redrawn.
 
-[![The ten parts and their matching model files](hardware/daisy-light/visuals/parts-and-files.png)](hardware/daisy-light/VISUAL_GUIDE.md)
+**模型重新设计中 / Models being redesigned**
 
-**[Choose models by picture](hardware/daisy-light/VISUAL_GUIDE.md)** · [Print settings and editable meshes](hardware/daisy-light/README.en.md) · [Complete DIY materials](docs/open-release/README.en.md)
+**[Model availability](hardware/README.md)** · [Print files temporarily unavailable](hardware/README.md) · [Complete DIY materials](docs/open-release/README.en.md)
 
 | Step | What to do |
 | --- | --- |
@@ -75,7 +75,7 @@ The installer includes Python and automatically enables installed apps. Open DSH
 | 3. Connect | Flash the [combined motor + light firmware](firmware/README.md), then install the Mac software |
 | 4. Check | Run through the [build checklist](docs/diy-guide/CHECKLIST.md) |
 
-You'll need to buy the electronics separately. Some 3MF plates have spare copies, so use the parts list to pick one complete set and slice it for your printer. Ten editable Blender mesh scenes are included if you'd like to change the design.
+You'll need to buy the electronics separately. The existing build and printing notes document the previous version and will be updated for the redesigned models.
 
 My current build uses the L2 pot lid and P4 clear cap, and both rotation and lighting work. The flower center, clear cap and stem-to-lid connections are fitted without glue and are still a little loose. I'll keep improving those fits; for now, pick it up by the pot. [Build notes](docs/diy-guide/README.en.md)
 
@@ -102,7 +102,7 @@ The Mac software reads local task status and sends commands to the ESP32 over US
 
 **Does it need an internet connection or an API key?** The flower connects over USB and uses your apps' local task status. It needs no separate API key and sends no task records to a project server. Use your usual account to sign in to each AI app. [More about local data](docs/open-release/INSTALL.md#data)
 
-**Can I change the design?** Yes. You can adapt the models for noncommercial use. Credit the project and share your modified models under the same license. [License details](LICENSES.md)
+**Are model files available?** Model downloads are temporarily unavailable while the visible design is redrawn independently. [Redesign status](hardware/README.md)
 
 ## Share your build
 
