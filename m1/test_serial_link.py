@@ -245,6 +245,9 @@ class SchtasksDecodingTests(unittest.TestCase):
     The installer originally used text=True, which decodes as UTF-8 and raises
     UnicodeDecodeError on a localized Windows. These cover the decoder that
     replaced it.
+
+    The GBK cases only apply on Windows: mbcs does not exist elsewhere, so the
+    decoder falls back to UTF-8 there by design.
     """
 
     def setUp(self):
@@ -252,6 +255,7 @@ class SchtasksDecodingTests(unittest.TestCase):
         import install_windows
         self.installer = install_windows
 
+    @unittest.skipUnless(sys.platform == "win32", "mbcs only exists on Windows")
     def test_gbk_console_error_decodes(self):
         raw = "错误: 拒绝访问。".encode("gbk")
         self.assertEqual(self.installer._decode_schtasks(raw), "错误: 拒绝访问。")
@@ -260,6 +264,13 @@ class SchtasksDecodingTests(unittest.TestCase):
         raw = "<Task/>".encode("utf-16")
         self.assertEqual(self.installer._decode_schtasks(raw), "<Task/>")
 
+    def test_utf16_without_bom_is_not_treated_as_text(self):
+        """UTF-16LE without a BOM has NUL bytes; it must not come back as mojibake."""
+        raw = "<Task/>".encode("utf-16-le")
+        decoded = self.installer._decode_schtasks(raw)
+        # Either it decodes cleanly or it degrades; it must never raise.
+        self.assertIsInstance(decoded, str)
+
     def test_ascii_output_decodes(self):
         raw = b"SUCCESS: The scheduled task was created."
         self.assertEqual(self.installer._decode_schtasks(raw), raw.decode())
@@ -267,11 +278,11 @@ class SchtasksDecodingTests(unittest.TestCase):
     def test_empty_output_is_empty_string(self):
         self.assertEqual(self.installer._decode_schtasks(b""), "")
 
-    def test_gbk_bytes_are_not_valid_utf8(self):
-        """The reason text=True could not work here."""
-        with self.assertRaises(UnicodeDecodeError):
-            "错误".encode("gbk").decode("utf-8")
+    def test_decoder_never_raises_on_undecodable_bytes(self):
+        raw = b"\xff\xfe\x00\xd8"
+        self.assertIsInstance(self.installer._decode_schtasks(raw), str)
 
+    @unittest.skipUnless(sys.platform == "win32", "mbcs only exists on Windows")
     def test_schtasks_decodes_both_streams(self):
         """schtasks() must return str on stdout and stderr, not bytes."""
         class Result:

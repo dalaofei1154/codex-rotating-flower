@@ -47,16 +47,30 @@ def schtasks(*args: str, check: bool = True) -> subprocess.CompletedProcess:
 
 
 def _decode_schtasks(raw: bytes) -> str:
+    """Decode one schtasks stream.
+
+    /XML arrives as UTF-16 with a BOM. Console messages use the OEM code page
+    (mbcs on Windows), which is *not* UTF-8: a GBK byte string often happens to
+    be valid UTF-8, so trying UTF-8 first silently yields mojibake. Only fall
+    back to UTF-8 when the code page is unavailable, as it is off Windows.
+    """
     if not raw:
         return ""
     if raw[:2] in (b"\xff\xfe", b"\xfe\xff"):
-        return raw.decode("utf-16")
-    for encoding in ("utf-8", "mbcs", "cp1252"):
         try:
-            return raw.decode(encoding)
-        except (UnicodeDecodeError, LookupError):
-            continue
-    return raw.decode("utf-8", errors="replace")
+            return raw.decode("utf-16")
+        except UnicodeDecodeError:
+            # Truncated or corrupt UTF-16: fall through to the code page so a
+            # partial message is still readable instead of raising.
+            pass
+    try:
+        return raw.decode("mbcs")
+    except (UnicodeDecodeError, LookupError):
+        pass
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return raw.decode("utf-8", errors="replace")
 
 
 def task_exists() -> bool:
