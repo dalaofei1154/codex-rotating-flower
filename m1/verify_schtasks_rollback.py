@@ -38,7 +38,9 @@ def main() -> int:
         install_windows.TASK_NAME = original
         if "denied" in detail.lower() or "拒绝访问" in detail:
             print("SKIP: this account cannot register scheduled tasks, so the")
-            print("      XML round trip cannot be exercised here.")
+            print("      full round trip cannot be exercised here. The XML")
+            print("      encoding itself is still checked by")
+            print("      verify_schtasks_xml_probe.py.")
             return 0
         return 1
 

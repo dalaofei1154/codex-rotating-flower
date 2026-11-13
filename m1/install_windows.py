@@ -112,9 +112,14 @@ def restore_task(definition: str | None) -> None:
         return
     handle = None
     try:
+        # /Query /XML normally declares UTF-16, which matches the BOM this
+        # writes. If a build declares something else, rewrite the declaration
+        # so the file is self-consistent rather than relying on the parser to
+        # ignore the mismatch.
+        body = _force_xml_declaration(definition, "UTF-16")
         handle = tempfile.NamedTemporaryFile(
             mode="w", suffix=".xml", delete=False, encoding="utf-16")
-        handle.write(definition)
+        handle.write(body)
         handle.close()
         schtasks("/Create", "/TN", TASK_NAME, "/XML", handle.name, "/F", check=False)
     except (OSError, subprocess.SubprocessError):
@@ -125,6 +130,22 @@ def restore_task(definition: str | None) -> None:
                 os.unlink(handle.name)
             except OSError:
                 pass
+
+
+def _force_xml_declaration(text: str, encoding: str) -> str:
+    """Make the XML declaration agree with the encoding used to write it."""
+    stripped = text.lstrip("\ufeff")
+    if stripped.startswith("<?xml"):
+        end = stripped.find("?>")
+        if end != -1:
+            head = stripped[:end + 2]
+            rest = stripped[end + 2:]
+            if "encoding=" in head:
+                import re
+                head = re.sub(r'encoding="[^"]*"', f'encoding="{encoding}"', head, count=1)
+                head = re.sub(r"encoding='[^']*'", f'encoding="{encoding}"', head, count=1)
+            return head + rest
+    return stripped
 
 
 def install(replace: bool, sessions_root: Path, port: str,

@@ -316,6 +316,97 @@ class SchtasksDecodingTests(unittest.TestCase):
         self.assertEqual(result.stderr, "<Task/>")
 
 
+def parse_task_xml(text: str):
+    """Parse task XML after refusing DTDs.
+
+    ElementTree honours internal entity declarations, so a document with
+    <!DOCTYPE ... <!ENTITY ...>> can expand without bound. The input here is
+    text this test just generated, but the guard keeps the helper safe if it is
+    ever pointed at real /Query output.
+    """
+    import xml.etree.ElementTree as ET
+
+    body = text.lstrip("\ufeff")
+    if "<!DOCTYPE" in body or "<!ENTITY" in body:
+        raise ValueError("refusing XML with a DTD")
+    if len(body) > 1_000_000:
+        raise ValueError("refusing oversized XML")
+    return ET.fromstring(body)
+
+
+class RestoreTaskXmlTests(unittest.TestCase):
+    """restore_task must write XML that parses, whatever /Query emitted."""
+
+    def setUp(self):
+        sys.path.insert(0, str(HERE))
+        import install_windows
+        self.installer = install_windows
+        self.folder = tempfile.TemporaryDirectory()
+        self.addCleanup(self.folder.cleanup)
+
+    def _written(self, definition):
+        """Run restore_task and return the text that reached the file."""
+        captured = {}
+
+        def fake_schtasks(*args, check=True):
+            for arg in args:
+                if isinstance(arg, str) and arg.endswith(".xml"):
+                    with open(arg, encoding="utf-16") as handle:
+                        captured["xml"] = handle.read()
+
+            class Done:
+                returncode = 0
+                stdout = ""
+                stderr = ""
+
+            return Done()
+
+        with patch.object(self.installer, "schtasks", side_effect=fake_schtasks):
+            self.installer.restore_task(definition)
+        return captured.get("xml")
+
+    def test_declaration_is_forced_to_match_the_written_encoding(self):
+        definition = '<?xml version="1.0" encoding="UTF-8"?><Task/>'
+        written = self._written(definition)
+        self.assertIsNotNone(written)
+        self.assertIn('encoding="UTF-16"', written)
+        self.assertNotIn('encoding="UTF-8"', written)
+
+    def test_single_quoted_declaration_is_handled(self):
+        definition = "<?xml version='1.0' encoding='utf-8'?><Task/>"
+        written = self._written(definition)
+        self.assertIn('encoding="UTF-16"', written)
+
+    def test_written_xml_parses(self):
+        """The file schtasks receives must be well-formed XML."""
+        definition = '<?xml version="1.0" encoding="UTF-16"?><Task><Actions/></Task>'
+        written = self._written(definition)
+        root = parse_task_xml(written)
+        self.assertEqual(root.tag, "Task")
+
+    def test_missing_declaration_is_left_alone(self):
+        definition = "<Task/>"
+        written = self._written(definition)
+        self.assertEqual(written, "<Task/>")
+
+    def test_none_definition_deletes_instead_of_restoring(self):
+        calls = []
+
+        def fake_schtasks(*args, check=True):
+            calls.append(args)
+
+            class Done:
+                returncode = 0
+                stdout = ""
+                stderr = ""
+
+            return Done()
+
+        with patch.object(self.installer, "schtasks", side_effect=fake_schtasks):
+            self.installer.restore_task(None)
+        self.assertEqual(calls[0][0], "/Delete")
+
+
 class InstallerManifestTests(unittest.TestCase):
     """Every installer must ship the shared modules the bridge imports."""
 
