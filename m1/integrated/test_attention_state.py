@@ -142,7 +142,9 @@ class AttentionTests(unittest.TestCase):
         self.adapter.close();self.adapter=AttentionAdapter(self.root,state_path=cache,start_timestamp=NOW-10)
         self.write('a',meta(),ask());self.check(1)
         content=cache.read_text();self.assertNotIn('Test question',content)
-        self.assertEqual(cache.stat().st_mode & 0o777,0o600)
+        if os.name != 'nt':
+            # Windows has no POSIX permission bits; the file inherits the ACL.
+            self.assertEqual(cache.stat().st_mode & 0o777,0o600)
         self.write('a',reply(),append=True);self.check(0)
         content=cache.read_text();self.assertNotIn('answer',content);self.assertNotIn('Test question',content)
         self.assertFalse(list(self.root.glob('attention-state.json.*.tmp')))

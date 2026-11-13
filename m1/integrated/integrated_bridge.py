@@ -1,15 +1,19 @@
 """One serial owner for independent work mapping and persistent attention."""
 import argparse
-import fcntl
 import json
 import os
-from pathlib import Path
-import select
 import signal
-import subprocess
-import tempfile
-import termios
+import sys
 import time
+from pathlib import Path
+
+# serial_link and process_lock live one directory up, shared with the
+# standalone bridge; make them importable when this module is run directly.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+import process_lock
+import process_probe
+import serial_link
 
 from motor_bridge_base import CodexRolloutAdapter, serial_candidates
 from attention_state import AttentionAdapter
@@ -60,66 +64,65 @@ def log(message):
 
 class Flower:
     def __init__(self, port='auto'):
-        self.port=port; self.fd=None; self.path=None
+        self.port=port; self.serial=None; self.path=None
         self.last_probe=-100; self.last_send=-100; self.last_state=None
         self.buffer=b''
         self.last_device_line=None
         self.capabilities=[]
 
+    @property
+    def connected(self):
+        return self.serial is not None
+
     def close(self):
-        if self.fd is not None:
-            try: fcntl.ioctl(self.fd,termios.TIOCNXCL)
+        if self.serial is not None:
+            try: self.serial.close()
             except OSError: pass
-            try: os.close(self.fd)
-            except OSError: pass
-        self.fd=None; self.path=None; self.last_state=None; self.buffer=b''
+        self.serial=None; self.path=None; self.last_state=None; self.buffer=b''
         self.capabilities=[]
 
     def connect(self):
-        if self.fd is not None:
+        if self.serial is not None:
             return True
         now=time.monotonic()
         if now-self.last_probe<2:
             return False
         self.last_probe=now
         for path in serial_candidates() if self.port=='auto' else [self.port]:
-            fd=None
+            serial=None
             try:
-                subprocess.run(['stty','-f',path,'115200','raw','-echo'],check=True,capture_output=True,timeout=2)
-                fd=os.open(path,os.O_RDWR|os.O_NOCTTY|os.O_NONBLOCK)
-                fcntl.ioctl(fd,termios.TIOCEXCL)
-                os.write(fd,b'DEVICE INFO\nPING\n')
+                serial=serial_link.open_port(path)
+                serial.write(b'DEVICE INFO\nPING\n')
                 data=b''; deadline=time.monotonic()+1.2
                 while time.monotonic()<deadline:
-                    if select.select([fd],[],[],.1)[0]:
-                        chunk=os.read(fd,4096)
-                        if not chunk: raise OSError('Serial EOF')
+                    chunk=serial.read()
+                    if chunk:
                         data+=chunk
                         if b'FLOWER_COMBINED_V1 PWM=OK ' in data:
-                            self.fd=fd; self.path=path; self.last_send=-100
+                            self.serial=serial; self.path=path; self.last_send=-100
                             self.last_state=None
                             self.capabilities=['motor','attention']
                             log('Connected integrated flower: '+path)
                             return True
+                    else:
+                        time.sleep(0.05)
                 if b'PONG' in data:
-                    self.fd=fd; self.path=path; self.capabilities=['motor']
+                    self.serial=serial; self.path=path; self.capabilities=['motor']
                     self.last_state=None; self.last_send=-100
                     log('Connected legacy motor-only flower: '+path)
                     return True
-            except (OSError,subprocess.SubprocessError):
+            except OSError:
                 pass
-            if fd is not None:
-                try: fcntl.ioctl(fd,termios.TIOCNXCL)
+            if serial is not None:
+                try: serial.close()
                 except OSError: pass
-                os.close(fd)
         return False
 
     def drain(self):
         # Nonblocking and bounded: no serial response should stall heartbeats.
         for _ in range(4):
-            if not select.select([self.fd],[],[],0)[0]: break
-            chunk=os.read(self.fd,4096)
-            if not chunk: raise OSError('Serial EOF')
+            chunk=self.serial.read()
+            if not chunk: break
             self.buffer+=chunk
             lines=self.buffer.split(b'\n');self.buffer=lines.pop()[-4096:]
             for line in lines:
@@ -137,14 +140,13 @@ class Flower:
                 # Report an incompatible board to setup without attempting light
                 # commands or starting motion on an unverified protocol.
                 if time.monotonic()-self.last_send>=1.5:
-                    os.write(self.fd,b'STOP\n');self.last_send=time.monotonic()
+                    self.serial.write(b'STOP\n');self.last_send=time.monotonic()
                 self.drain()
                 return False
             now=time.monotonic(); state=(motor,bool(light))
             if state!=self.last_state or now-self.last_send>=1.5:
                 data=(motor+'\nATTENTION '+('ON' if light else 'OFF')+'\n').encode()
-                written=os.write(self.fd,data)
-                if written!=len(data): raise OSError('Short serial write')
+                self.serial.write(data)
                 if state!=self.last_state:
                     log(f'SENT {motor}; LIGHT={"ON" if light else "OFF"}')
                 self.last_send=now; self.last_state=state
@@ -156,8 +158,8 @@ class Flower:
             return False
 
     def stop(self):
-        if self.fd is not None:
-            try: os.write(self.fd,b'STOP\nATTENTION OFF\n')
+        if self.serial is not None:
+            try: self.serial.write(b'STOP\nATTENTION OFF\n')
             except OSError: pass
         self.close()
 
@@ -260,8 +262,10 @@ def main():
     args=parser.parse_args()
     lock=None
     if not args.once:
-        lock=(Path(tempfile.gettempdir())/f'codex-motor-bridge-{os.getuid()}.lock').open('a+')
-        fcntl.flock(lock.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
+        lock=process_lock.acquire(process_lock.singleton_path('codex-motor-bridge'))
+        if lock is None:
+            print('Another global motor bridge is already running', file=sys.stderr)
+            return 2
     running=True
     def stop(*_):
         nonlocal running
@@ -300,7 +304,7 @@ def main():
                 if now-last_status>=1:
                     status={'updated_at':now,'launch_id':args.launch_id,'source':args.source,
                             'sources':snapshots,'motor':command,'light':light,
-                            'device_connected':flower.fd is not None,
+                            'device_connected':flower.connected,
                             'device_port':flower.path,'device_capabilities':flower.capabilities,
                             'last_device_line':flower.last_device_line}
                     tmp=args.status_file.with_suffix('.tmp')

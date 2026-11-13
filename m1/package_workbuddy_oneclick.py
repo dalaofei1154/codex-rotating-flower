@@ -14,7 +14,8 @@ import zipfile
 
 VERSION = "0.3.0"
 NAME = f"rotating-flower-workbuddy-macos-v{VERSION}"
-RUNTIME_FILES = ("global_bridge.py", "install_macos.py", "workbuddy_setup.py", "launch_bridge.sh")
+RUNTIME_FILES = ("global_bridge.py", "install_macos.py", "workbuddy_setup.py", "launch_bridge.sh",
+                 "serial_link.py", "process_lock.py", "process_probe.py")
 
 PROMPT = f"""请帮我安装 USB 小花，我已连接硬件。只使用本次附上的“{NAME}.zip”，不要搜索或使用桌面、下载目录里的其他同名或旧版安装包。解压后先确认 INSTALL.md 标题为 {VERSION}，再按说明直接执行同目录的“{NAME}.sh”，自动设置登录自启并验证本次启动的后台服务与 USB 握手。保留当前已启用的联动来源；不要根据历史备份恢复已停用的 Codex，也不要手改服务配置。请报告实际安装退出码及两项验证结果；需要系统授权时告诉我该点哪里。
 """

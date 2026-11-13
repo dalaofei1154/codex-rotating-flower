@@ -1,10 +1,12 @@
 import shlex
 import subprocess
 import tempfile
+import sys
 import unittest
 from pathlib import Path
 
 
+@unittest.skipUnless(sys.platform == "darwin", "macOS launcher tests")
 class RuntimeSelectionTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="小花 launcher with spaces ")

@@ -24,6 +24,10 @@ class ReadinessRecoveryTests(unittest.TestCase):
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
         self.now = time.time()
+        # Worker liveness is a real OS probe; the fixtures use fake PIDs.
+        liveness = patch('process_probe.process_alive', return_value=True)
+        liveness.start()
+        self.addCleanup(liveness.stop)
 
     def codex(self):
         feed = Mock()
@@ -126,11 +130,15 @@ class ReadinessRecoveryTests(unittest.TestCase):
         (root / 'sessions').mkdir(parents=True, exist_ok=True)
         (root / 'logs').mkdir(exist_ok=True)
         (root / 'logs/daemon.log').write_text('')
-        with sqlite3.connect(root / 'workbuddy.db') as db:
+        db = sqlite3.connect(root / 'workbuddy.db')
+        try:
             db.execute('CREATE TABLE sessions(id TEXT,status TEXT,updated_at INTEGER,'
                        'model TEXT,transport TEXT,deleted_at INTEGER)')
             db.execute('INSERT INTO sessions VALUES(?,?,?,?,?,NULL)',
                        (CHAT, 'working', int(self.now * 1000), 'balanced-model', 'local'))
+            db.commit()
+        finally:
+            db.close()
         (root / 'sessions/123.json').write_text(json.dumps({
             'pid': 123, 'sessionId': CHAT, 'startedAt': int((self.now - 1) * 1000),
             'kind': 'interactive'}))
@@ -172,8 +180,12 @@ class ReadinessRecoveryTests(unittest.TestCase):
     def test_existing_workbuddy_database_without_expected_schema_is_error(self):
         root = self.root / 'workbuddy'
         root.mkdir()
-        with sqlite3.connect(root / 'workbuddy.db') as db:
+        db = sqlite3.connect(root / 'workbuddy.db')
+        try:
             db.execute('CREATE TABLE unrelated(id TEXT)')
+            db.commit()
+        finally:
+            db.close()
         state = WorkBuddyAdapter(root).poll(self.now)
         self.assertEqual(state['readiness'], 'error')
         self.assertTrue(state['error'])

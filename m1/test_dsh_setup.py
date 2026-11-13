@@ -1,3 +1,4 @@
+import os
 import json
 from pathlib import Path
 import sys
@@ -132,8 +133,10 @@ class DshSetupTests(unittest.TestCase):
         self.assertIn(json.dumps(str(self.support / 'flower-observer.mjs')), text)
         self.assertIn('- id: agent-default-model', text)
         self.assertEqual(result['observer'].read_text(), self.source.read_text())
-        self.assertEqual(result['observer'].stat().st_mode & 0o777, 0o600)
-        self.assertEqual(self.support.stat().st_mode & 0o777, 0o700)
+        if os.name != 'nt':
+            # Windows has no POSIX permission bits; the file inherits the ACL.
+            self.assertEqual(result['observer'].stat().st_mode & 0o777, 0o600)
+            self.assertEqual(self.support.stat().st_mode & 0o777, 0o700)
 
     def test_installing_twice_changes_nothing(self):
         self.patch.write_text('- id: agent-default-model\n  name: "x"\n')
@@ -245,7 +248,9 @@ class DshSetupTests(unittest.TestCase):
         self.patch.write_text('')
         install(self.home, 'desktop', spaced.parent, self.source)
         text = self.patch.read_text()
-        self.assertIn(f'name: "{spaced}"', text)
+        # managed_block writes the path through json.dumps, which escapes
+        # backslashes, so compare against the same encoding.
+        self.assertIn(f'name: {json.dumps(str(spaced), ensure_ascii=False)}', text)
         self.assertTrue(has_block(text))
 
 

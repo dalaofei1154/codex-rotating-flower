@@ -17,6 +17,7 @@ RELEASE_URL = 'https://github.com/dalaofei1154/rotating-flower/releases/download
 PROXY_VARIABLES = ('HTTPS_PROXY', 'https_proxy', 'ALL_PROXY', 'all_proxy')
 
 
+@unittest.skipUnless(sys.platform == "darwin", "macOS release installer tests")
 class ReleaseInstallerTests(unittest.TestCase):
     def run_installer(self, *, result=0, output='', corrupt=False, download_error=False,
                       missing_entry=False, platform='Darwin', architecture='arm64', uid='501', args=(),

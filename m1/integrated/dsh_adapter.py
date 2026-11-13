@@ -4,21 +4,25 @@ import json
 import math
 import os
 from pathlib import Path
+import sys
+
+# process_probe lives one directory up, shared with the other bridges.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+import process_probe
 
 RANK = {'LOW': 1, 'MEDIUM': 2, 'HIGH': 3, 'XHIGH': 4, 'ULTRA': 5}
 
 def process_alive(pid):
-    # os.kill(pid, 0) is the POSIX liveness probe. On Windows it would terminate
-    # the process instead, so there the heartbeat is the only liveness signal.
-    if os.name == 'nt':
-        return True
+    """POSIX uses os.kill(pid, 0); Windows uses OpenProcess via process_probe.
+
+    os.kill maps to TerminateProcess on Windows, so probing there would kill
+    the process instead of checking it.
+    """
     try:
-        os.kill(pid, 0)
-    except ProcessLookupError:
-        return False
+        return process_probe.process_alive(pid)
     except PermissionError:
         return True
-    return True
 
 def speed_for_effort(effort):
     if effort is None:

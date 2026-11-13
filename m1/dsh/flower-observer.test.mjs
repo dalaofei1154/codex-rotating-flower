@@ -197,7 +197,10 @@ test('the observer writes a bounded snapshot next to the bridge', () => {
   assert.equal(payload.error, null);
   assert.equal(payload.tasks.length, 1);
   assert.equal(payload.tasks[0].questions, 1);
-  assert.equal(statSync(observer.file).mode & 0o777, 0o600);
+  if (process.platform !== 'win32') {
+    // Windows has no POSIX permission bits; the file inherits the ACL.
+    assert.equal(statSync(observer.file).mode & 0o777, 0o600);
+  }
 });
 
 test('an unchanged snapshot is written only when the heartbeat is due', t => {

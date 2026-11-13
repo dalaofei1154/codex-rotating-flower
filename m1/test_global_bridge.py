@@ -1,6 +1,7 @@
 import importlib.util
 import json
 import os
+import sys
 import tempfile
 import time
 import unittest
@@ -9,9 +10,9 @@ from unittest.mock import patch
 
 
 SCRIPT = Path(__file__).with_name("global_bridge.py")
+sys.path.insert(0, str(SCRIPT.parent))
 spec = importlib.util.spec_from_file_location("global_bridge", SCRIPT)
 bridge = importlib.util.module_from_spec(spec)
-import sys
 sys.modules[spec.name] = bridge
 spec.loader.exec_module(bridge)
 
@@ -146,26 +147,30 @@ class GlobalBridgeTests(unittest.TestCase):
 class FakeMotorSerial:
     def __init__(self, path):
         self.path = path
-        self.fd = None
+        self.port = None
         self.last_probe_at = -float("inf")
         self.commands = []
         self.available = True
         self.probes = 0
         self.closed = False
 
+    @property
+    def connected(self):
+        return self.port is not None
+
     def send(self, command):
-        if self.fd is None:
+        if self.port is None:
             self.probes += 1
             self.last_probe_at = time.monotonic()
             if not self.available:
                 return False
-            self.fd = 1
+            self.port = object()
         self.commands.append(command)
         return True
 
     def close(self):
         self.closed = True
-        self.fd = None
+        self.port = None
 
 
 class MotorGroupTests(unittest.TestCase):
@@ -202,14 +207,14 @@ class MotorGroupTests(unittest.TestCase):
 
     def test_unresponsive_ports_do_not_block_heartbeats_or_later_flowers(self):
         first = FakeMotorSerial("one")
-        first.fd = 1
+        first.port = object()
         bad = FakeMotorSerial("bad")
         bad.available = False
         self.group.motors = {"one": first, "bad": bad}
         with patch.object(bridge, "serial_candidates", return_value=["one", "bad", "two"]):
             self.group.send("RUN HIGH")
             self.assertEqual(first.commands, ["RUN HIGH"])
-            self.assertIsNone(self.group.motors["two"].fd)
+            self.assertIsNone(self.group.motors["two"].port)
             self.group.send("RUN LOW")
         self.assertEqual(first.commands, ["RUN HIGH", "RUN LOW"])
         self.assertEqual(self.group.motors["two"].commands, ["RUN LOW"])
