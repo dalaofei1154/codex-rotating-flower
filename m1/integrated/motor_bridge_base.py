@@ -9,7 +9,10 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
-import fcntl
+try:
+    import fcntl
+except ImportError:  # Windows: imported only for tests, never for driving USB.
+    fcntl = None
 import glob
 import json
 import os
@@ -546,6 +549,10 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("--stale-seconds must be positive")
     lock_file = None
     if not args.once and not args.no_motor:
+        if fcntl is None:
+            print("USB control requires macOS or Linux; --once shows state without opening USB",
+                  file=sys.stderr)
+            return 2
         lock_path = Path(tempfile.gettempdir()) / f"codex-motor-bridge-{os.getuid()}.lock"
         lock_file = lock_path.open("a+")
         try:

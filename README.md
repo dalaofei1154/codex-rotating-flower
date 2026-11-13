@@ -44,6 +44,7 @@ Each mode has a speed preset. When several tasks run together, the flower uses t
 | Codex | [v0.7.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) | Apple silicon · macOS 12+ |
 | WorkBuddy | [v0.7.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) | Apple silicon · macOS 12+ |
 | [DeepSeek Harness (DSH)](docs/dsh-macos.md) | [v0.7.0 — available now](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) | Apple silicon · macOS 13+ |
+| [Qoder CN](docs/qodercn.md) | Source build / Windows trial package | Windows · macOS (source) |
 
 
 <a id="install"></a>
@@ -94,6 +95,7 @@ The Mac software reads local task status and sends commands to the ESP32 over US
 | --- | --- |
 | Source for the download | [v0.7.0 source](https://github.com/dalaofei1154/rotating-flower/tree/v0.7.0/m1) |
 | DSH setup | [Adapter notes](docs/dsh-macos.md) |
+| Qoder CN setup | [Adapter notes](docs/qodercn.md) |
 | Hardware and firmware | [Model files](hardware/README.md) · [Combined firmware](firmware/README.md) |
 | Build updates | [DIY release notes](docs/open-release/RELEASE_NOTES.md) |
 
