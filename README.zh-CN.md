@@ -55,6 +55,7 @@ https://github.com/user-attachments/assets/f6ea34b5-76c4-4571-9aa7-4811f79ccf80
 | Codex | [v0.7.0](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) | 已提供下载 |
 | WorkBuddy | [v0.7.0](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) | 已提供下载 |
 | DeepSeek Harness（DSH） | [v0.7.0](https://github.com/dalaofei1154/rotating-flower/releases/tag/v0.7.0) | 已提供下载 · [适配说明](docs/dsh-macos.md) |
+| Qoder CN | 源码安装 / Windows 试用包 | 新增适配 · [适配说明](docs/qodercn.md) |
 
 小花软件支持 **Apple 芯片 Mac、macOS 12+**；DSH 自身需要 **macOS 13+**。
 

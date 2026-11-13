@@ -18,17 +18,18 @@ RUNTIME_FILES = ("integrated_setup.py", "integrated_install.sh", "dsh_setup.py",
                  "dsh/flower-observer.mjs")
 BRIDGE_FILES = ("integrated_bridge.py", "attention_state.py", "motor_bridge_base.py",
                 "runtime_feed.py", "state_reducer.py", "root_catalog.py", "workbuddy_adapter.py",
-                "dsh_adapter.py", "source_config.py")
+                "dsh_adapter.py", "qodercn_adapter.py", "source_config.py")
 
 GUIDE = """小花 · Mac 统一安装
 
 1. 用 USB 数据线连接已经烧录好的小花。
 2. 解压后双击「安装小花.command」，弹出的窗口会自动安装，不用输入命令。
-3. 按窗口提示打开你使用的 Codex、WorkBuddy 或 DeepSeek Harness，登录后开始一次任务。
+3. 按窗口提示打开你使用的 Codex、WorkBuddy、DeepSeek Harness 或 Qoder CN，登录后开始一次任务。
    DSH 需要先打开一次完成初始化；安装后退出并重新打开 DSH 以加载插件。
+   Qoder CN 会按本机任务记录联动，不需要安装插件。
 
 自动识别电脑上已安装的桌面应用：
-支持 Codex、WorkBuddy 和 DeepSeek Harness；检测到多个应用时同时联动。
+支持 Codex、WorkBuddy、DeepSeek Harness 和 Qoder CN；检测到多个应用时同时联动。
 Codex 或 WorkBuddy 还没打开时，后台会等待。DSH 插件需要已有的本地配置，
 若提示找不到 DSH 配置，请先打开 DSH，再运行本安装器。
 本包不包含这些应用本身；请先安装你要使用的应用。

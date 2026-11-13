@@ -5,7 +5,10 @@ from __future__ import annotations
 import argparse
 from contextlib import closing
 import datetime as dt
-import fcntl
+try:
+    import fcntl
+except ImportError:  # Non-macOS: importable for tests; install still requires macOS.
+    fcntl = None
 import json
 import os
 from pathlib import Path
@@ -73,7 +76,8 @@ def existing():
     if not valid:
         raise RuntimeError(f'现有小花版本不是本包可升级的版本：{entry}。已停止，避免覆盖更新版本。')
     options = {}
-    for key in ('--source', '--sessions-root', '--workbuddy-root', '--port', '--attention-cache'):
+    for key in ('--source', '--sessions-root', '--workbuddy-root', '--qoder-root', '--port',
+                '--attention-cache'):
         if key in args:
             index = args.index(key)
             if index + 1 >= len(args):
@@ -86,8 +90,10 @@ def existing():
 
 
 # Match actual application identity, not data directories left after uninstall.
-APP_IDS = {'codex': 'com.openai.codex', 'workbuddy': 'com.tencent.workbuddy.mac',
-           'dsh': 'com.deepseek.dsh'}
+APP_IDS = {'codex': ('com.openai.codex',), 'workbuddy': ('com.tencent.workbuddy.mac',),
+           'dsh': ('com.deepseek.dsh',),
+           # The desktop app has shipped under both identifiers.
+           'qodercn': ('com.qodercn.app', 'com.qodercn.app.stable')}
 
 
 def application_roots():
@@ -105,7 +111,8 @@ def app_candidates():
                     candidates.extend(child.glob('*.app'))
         except OSError:
             continue
-    query = ' || '.join(f'kMDItemCFBundleIdentifier == "{value}"' for value in APP_IDS.values())
+    query = ' || '.join(f'kMDItemCFBundleIdentifier == "{value}"'
+                        for values in APP_IDS.values() for value in values)
     try:
         result = subprocess.run(['/usr/bin/mdfind', query], capture_output=True, text=True, timeout=5)
         if result.returncode == 0:
@@ -137,7 +144,7 @@ def detect_apps():
             if not isinstance(info, dict):
                 continue
             bundle_id = info.get('CFBundleIdentifier')
-            name = next((key for key, value in APP_IDS.items() if value == bundle_id), None)
+            name = next((key for key, values in APP_IDS.items() if bundle_id in values), None)
             executable = info.get('CFBundleExecutable')
             if (name is None or name in found or info.get('CFBundlePackageType') != 'APPL'
                     or not isinstance(executable, str) or Path(executable).name != executable):
@@ -162,7 +169,7 @@ def configuration(previous, requested_source=None, workbuddy_root=None):
             raise RuntimeError('没有找到所选应用的有效安装，请先安装并打开所选应用。')
     else:
         if not apps:
-            raise RuntimeError('没有检测到已安装的 Codex、WorkBuddy 或 DeepSeek Harness。'
+            raise RuntimeError('没有检测到已安装的 Codex、WorkBuddy、DeepSeek Harness 或 Qoder CN。'
                                '请先安装其中一个应用，再双击安装小花。')
         source = selection_for(apps)
     home = Path.home()
@@ -171,6 +178,7 @@ def configuration(previous, requested_source=None, workbuddy_root=None):
     return {'source': source, 'installed_apps': apps,
             'sessions_root': Path(options.get('--sessions-root', str(home / '.codex/sessions'))),
             'workbuddy_root': Path(workbuddy_root or options.get('--workbuddy-root', default_wb)),
+            'qoder_root': Path(options.get('--qoder-root', str(home / '.qoder-cn'))),
             'port': options.get('--port', 'auto')}
 
 
@@ -206,6 +214,15 @@ def preflight(config):
     if 'dsh' in enabled:
         status_file = Path.home() / 'Library/Application Support/RotatingFlower/dsh/status.json'
         result['dsh'] = {'readiness': 'ready'} if status_file.is_file() else {'readiness': 'not_initialized'}
+    if 'qodercn' in enabled:
+        qoder_root = config.get('qoder_root') or Path.home() / '.qoder-cn'
+        project_root = qoder_root / 'projects'
+        if qoder_root.exists() and not qoder_root.is_dir():
+            result['qodercn'] = {'readiness': 'error', 'error': 'Qoder CN 数据目录不是文件夹'}
+        elif project_root.is_dir():
+            result['qodercn'] = {'readiness': 'ready'}
+        else:
+            result['qodercn'] = {'readiness': 'not_initialized'}
     config['preflight'] = result
     for name, state in result.items():
         label = LABELS[name]
@@ -247,7 +264,9 @@ def install(config, previous=None):
     launch_id = str(uuid.uuid4())
     args = [sys.executable, '-E', '-s', str(target / 'integrated_bridge.py'),
             '--source', config['source'], '--sessions-root', str(config['sessions_root']),
-            '--workbuddy-root', str(config['workbuddy_root']), '--port', config['port'],
+            '--workbuddy-root', str(config['workbuddy_root']),
+            '--qoder-root', str(config.get('qoder_root') or Path.home() / '.qoder-cn'),
+            '--port', config['port'],
             '--status-file', str(target / 'status.json'), '--launch-id', launch_id]
     payload = {'Label': LABEL, 'ProgramArguments': args, 'RunAtLoad': True, 'KeepAlive': True,
                'ThrottleInterval': 5, 'StandardOutPath': str(logs / 'bridge-integrated.log'),
@@ -397,7 +416,7 @@ def uninstall(previous):
         if previous and was_running:
             launchctl('bootstrap', f'gui/{os.getuid()}', str(plist), check=False)
         raise
-    print('小花后台服务与登录自启已全部移除；Codex、WorkBuddy 和 DSH 均不再联动。备份和日志保留。')
+    print('小花后台服务与登录自启已全部移除；Codex、WorkBuddy、DSH 和 Qoder CN 均不再联动。备份和日志保留。')
     if change.removed:
         print('DSH 插件配置已移除，请退出并重新打开 DeepSeek Harness。')
     return 0

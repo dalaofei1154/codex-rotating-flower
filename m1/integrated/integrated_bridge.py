@@ -1,6 +1,5 @@
 """One serial owner for independent work mapping and persistent attention."""
 import argparse
-import fcntl
 import json
 import os
 from pathlib import Path
@@ -8,8 +7,14 @@ import select
 import signal
 import subprocess
 import tempfile
-import termios
 import time
+
+try:
+    import fcntl
+    import termios
+except ImportError:  # Windows: imports for tests and read-only state checks only.
+    fcntl = None
+    termios = None
 
 from motor_bridge_base import CodexRolloutAdapter, serial_candidates
 from attention_state import AttentionAdapter
@@ -18,6 +23,7 @@ from runtime_feed import DesktopRuntimeFeed
 from state_reducer import RolloutSnapshot, RuntimeSnapshot, reduce_state, SPEED_RANK
 from workbuddy_adapter import WorkBuddyAdapter
 from dsh_adapter import DshAdapter
+from qodercn_adapter import QoderCnSource
 from source_config import CHOICES, enabled_sources
 
 
@@ -251,6 +257,8 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--sessions-root',type=Path,default=Path.home()/'.codex/sessions')
     parser.add_argument('--workbuddy-root',type=Path,default=Path.home()/'.workbuddy')
+    parser.add_argument('--qoder-root',type=Path,default=Path.home()/'.qoder-cn')
+    parser.add_argument('--qoder-app-data',type=Path,default=None)
     parser.add_argument('--source',choices=CHOICES,default='workbuddy')
     parser.add_argument('--port',default='auto')
     parser.add_argument('--once',action='store_true')
@@ -260,6 +268,9 @@ def main():
     args=parser.parse_args()
     lock=None
     if not args.once:
+        if fcntl is None:
+            print('USB control requires macOS or Linux; use --once to inspect task state.')
+            return 2
         lock=(Path(tempfile.gettempdir())/f'codex-motor-bridge-{os.getuid()}.lock').open('a+')
         fcntl.flock(lock.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
     running=True
@@ -274,6 +285,9 @@ def main():
         sources['workbuddy']=RecoveringSource(lambda:WorkBuddyAdapter(args.workbuddy_root))
     if 'dsh' in enabled_sources(args.source):
         sources['dsh']=RecoveringSource(DshAdapter)
+    if 'qodercn' in enabled_sources(args.source):
+        sources['qodercn']=RecoveringSource(
+            lambda:QoderCnSource(args.qoder_root,args.qoder_app_data))
     flower=Flower(args.port);previous=None;last_status=0
     once_deadline=time.monotonic()+5
     try:
