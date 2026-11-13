@@ -41,6 +41,14 @@ def runtime_config(model='magpie/group/safely-deepseek', effort=None):
     return json.dumps({'type': 'runtime-config', 'model': model, 'reasoningEffort': effort})
 
 
+def policy_line(session, effort):
+    return ('2026-11-13T00:00:00.000Z [INFO] [main] [ChatSession] '
+            'ChatSession model policy returning to SDK ' + json.dumps(
+                {'sessionId': session, 'turnId': 'turn-1', 'isActivePolicy': True,
+                 'frozenReasoningEffort': effort, 'hasReasoningEffort': True,
+                 'reasoningEffort': effort}))
+
+
 class QoderCnSourceTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='qoder source ')
@@ -71,6 +79,13 @@ class QoderCnSourceTests(unittest.TestCase):
     def append(self, path, lines):
         with path.open('a', encoding='utf-8') as file:
             file.write('\n'.join(lines) + '\n')
+
+    def write_log(self, lines, run='run-1'):
+        directory = self.app_data / 'logs' / run
+        directory.mkdir(parents=True, exist_ok=True)
+        path = directory / 'main.log'
+        path.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+        return path
 
     def poll(self, source=None, now=None):
         source = source or QoderCnSource(self.root, self.app_data)
@@ -186,6 +201,51 @@ class QoderCnSourceTests(unittest.TestCase):
     def test_an_unconfigured_model_stays_neutral(self):
         self.write([runtime_config(model='qmodel_latest'), user_prompt(),
                     assistant('Bash', stop='tool_use')])
+        self.assertEqual(self.poll()['motor'], 'RUN MEDIUM')
+
+    def test_the_app_log_supplies_the_real_per_turn_effort(self):
+        for effort, expected in (('low', 'RUN LOW'), ('high', 'RUN HIGH'), ('max', 'RUN ULTRA')):
+            with self.subTest(effort=effort):
+                self.write([user_prompt(), assistant('Bash', stop='tool_use')])
+                self.write_log([policy_line('s1', effort)])
+                self.assertEqual(self.poll()['motor'], expected)
+
+    def test_appended_policy_lines_update_the_effort(self):
+        self.write([user_prompt(), assistant('Bash', stop='tool_use')])
+        log = self.write_log([policy_line('s1', 'low')])
+        source = QoderCnSource(self.root, self.app_data)
+        self.assertEqual(source.poll(self.now)['motor'], 'RUN LOW')
+        self.append(log, [policy_line('s1', 'max')])
+        self.assertEqual(source.poll(time.time() + 1)['motor'], 'RUN ULTRA')
+
+    def test_the_app_log_outranks_the_static_model_default(self):
+        self.preferences([('byok:magpie/group%2Fsafely-deepseek', 'max')])
+        self.write([user_prompt(), assistant('Bash', stop='tool_use')])
+        self.write_log([policy_line('s1', 'low')])
+        self.assertEqual(self.poll()['motor'], 'RUN LOW')
+
+    def test_a_missing_app_log_still_uses_the_model_default(self):
+        self.preferences([('byok:magpie/group%2Fsafely-deepseek', 'max')])
+        self.write([user_prompt(), assistant('Bash', stop='tool_use')])
+        self.assertEqual(self.poll()['motor'], 'RUN ULTRA')
+
+    def test_policy_lines_from_other_sessions_do_not_leak(self):
+        self.write([user_prompt(), assistant('Bash', stop='tool_use')])
+        self.write_log([policy_line('other-session', 'low')])
+        self.assertEqual(self.poll()['motor'], 'RUN MEDIUM')
+
+    def test_the_app_log_is_read_from_the_newest_run_only(self):
+        (self.app_data / 'logs' / 'old-run').mkdir(parents=True)
+        (self.app_data / 'logs' / 'old-run' / 'main.log').write_text(
+            policy_line('s1', 'low') + '\n', encoding='utf-8')
+        self.write([user_prompt(), assistant('Bash', stop='tool_use')])
+        self.write_log([policy_line('s1', 'max')], run='new-run')
+        self.assertEqual(self.poll()['motor'], 'RUN ULTRA')
+
+    def test_non_policy_log_lines_are_ignored(self):
+        self.write([user_prompt(), assistant('Bash', stop='tool_use')])
+        self.write_log(['2026-11-13T00:00:00Z [INFO] unrelated line',
+                        '{"sessionId":"s1","frozenReasoningEffort":"low"}'])
         self.assertEqual(self.poll()['motor'], 'RUN MEDIUM')
 
     def test_a_missing_catalog_fails_quiet(self):

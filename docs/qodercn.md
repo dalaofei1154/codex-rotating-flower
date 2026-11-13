@@ -22,9 +22,21 @@ Qoder CN 在任务运行期间，把每个本地会话追加写入一个 JSONL �
 | 助手结束回复（`end_turn` / `stop_sequence` / `max_tokens`） | 空闲 |
 | 用户消息（新提示、工具结果或 `[Request interrupted by user]`） | 工作中 / 打断后空闲 |
 
-转速档位来自会话里记录的推理强度 `reasoningEffort`；若会话未记录，则读取 Qoder CN 应用数据库
-`%APPDATA%\com.qodercn.app.stable\main.sqlite`（macOS 为 `~/Library/Application Support/com.qodercn.app.stable/main.sqlite`）
-中 `chat_model_preferences` 表的该模型配置档位；仍无配置时用中速 `MEDIUM`。
+转速档位按每次 turn 实际冻结的推理强度决定：Qoder CN 会话记录里的 `reasoningEffort` 通常为空，
+真正的档位写在桌面应用日志（`<app data>/logs/<run>/main.log`）的
+`ChatSession model policy ... "frozenReasoningEffort":"max"` 行里，按会话与 turn 冻结。
+缺失时回退到应用数据库 `chat_model_preferences` 的模型默认档位，仍无配置则用中速 `MEDIUM`。
+
+| 实际档位 | 小花 |
+| --- | --- |
+| `low` | `RUN LOW` |
+| `medium` | `RUN MEDIUM` |
+| `high` | `RUN HIGH` |
+| `xhigh` | `RUN XHIGH` |
+| `max` | `RUN ULTRA` |
+
+已在 Qoder CN 1.1.79（Windows）上用 OpenCode Go 的 DeepSeek V4.1 Flash 验证三档：
+`low → RUN LOW`、`high → RUN HIGH`、`max → RUN ULTRA`。
 
 **已知限制**：命令执行的权限确认不会写入会话记录，因此“等待你批准某条命令”只表现为普通工作中，不会亮灯。只有提问（AskUserQuestion）会亮灯。
 

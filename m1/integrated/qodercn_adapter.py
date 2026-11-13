@@ -50,8 +50,10 @@ def model_key(model):
     return unquote(value)
 
 
-def speed_for_state(state, catalog=None):
+def speed_for_state(state, catalog=None, log_effort=None):
     speed = speed_for_effort(state.effort)
+    if speed is None:
+        speed = speed_for_effort(log_effort)
     if speed is None and state.model and catalog is not None:
         speed = speed_for_effort(catalog.effort(state.model))
     return speed or 'MEDIUM'
@@ -192,6 +194,100 @@ class SessionState:
             self.questions = 0
 
 
+class AppLogEffort:
+    """Read the per-turn reasoning effort Qoder freezes into its main log.
+
+    The session transcript records reasoningEffort as null, and the model
+    preference table only holds a static default. The desktop app instead
+    logs `ChatSession model policy ... {"frozenReasoningEffort":"max"}` for
+    each session when it sends a turn. Only that one field is kept.
+    """
+    MAX_SCAN = 4 * 1024 * 1024
+    MAX_LINE = 256 * 1024
+
+    def __init__(self, app_data=None):
+        self.app_data = Path(app_data) if app_data else None
+        self.cursors = {}
+        self.efforts = {}
+
+    def log_root(self):
+        # An explicit app-data directory is authoritative, which keeps tests
+        # and unusual installs from borrowing logs from the default location.
+        if self.app_data is not None:
+            root = self.app_data.parent if self.app_data.name == 'main.sqlite' else self.app_data
+            return root / 'logs' if (root / 'logs').is_dir() else None
+        for root in app_data_candidates():
+            try:
+                if (root / 'logs').is_dir():
+                    return root / 'logs'
+            except OSError:
+                continue
+        return None
+
+    def poll(self, now):
+        root = self.log_root()
+        if root is None:
+            self.efforts = {}
+            return
+        try:
+            runs = [p for p in root.iterdir() if (p / 'main.log').is_file()]
+            # Ascending by mtime: a newer run writes last and wins ties.
+            runs.sort(key=lambda p: p.joinpath('main.log').stat().st_mtime)
+        except OSError:
+            return
+        keep = set()
+        for run in runs[-3:]:
+            path = run / 'main.log'
+            keep.add(path)
+            self._tail(path)
+        self.cursors = {k: v for k, v in self.cursors.items() if k in keep}
+
+    def _tail(self, path):
+        try:
+            with open_read_shared(path) as file:
+                stat = os.fstat(file.fileno())
+                identity = (stat.st_dev, stat.st_ino)
+                cursor = self.cursors.get(path)
+                if not cursor or cursor[0] != identity or stat.st_size < cursor[1]:
+                    offset = max(0, stat.st_size - self.MAX_SCAN)
+                    pending, dropping = b'', offset > 0
+                else:
+                    _, offset, pending, dropping = cursor
+                file.seek(offset)
+                data = file.read(self.MAX_SCAN)
+                offset += len(data)
+                for part in data.splitlines(keepends=True):
+                    if dropping:
+                        if part.endswith(b'\n'):
+                            dropping = False
+                        continue
+                    pending += part
+                    if len(pending) > self.MAX_LINE:
+                        dropping = not part.endswith(b'\n')
+                        pending = b''
+                    elif pending.endswith(b'\n'):
+                        self._line(pending)
+                        pending = b''
+                self.cursors[path] = (identity, offset, pending, dropping)
+        except OSError:
+            self.cursors.pop(path, None)
+
+    def _line(self, line):
+        if b'ChatSession model policy' not in line or b'frozenReasoningEffort' not in line:
+            return
+        start = line.find(b'{')
+        if start < 0:
+            return
+        try:
+            body = json.loads(line[start:].decode('utf-8', 'replace'))
+        except ValueError:
+            return
+        session_id = body.get('sessionId')
+        effort = body.get('frozenReasoningEffort')
+        if isinstance(session_id, str) and isinstance(effort, str):
+            self.efforts[session_id] = effort
+
+
 class TranscriptFile:
     """Incremental tail reader; startup scans only the newest bounded window."""
     INITIAL_SCAN = 4 * 1024 * 1024
@@ -291,6 +387,7 @@ class QoderCnSource:
         self.projects = self.root / 'projects'
         self.stale_seconds = stale_seconds
         self.catalog = ModelEffortCatalog(app_data)
+        self.effort_log = AppLogEffort(app_data)
         self.sessions = {}
 
     def quiet(self, readiness, detail=None, error=None):
@@ -331,6 +428,7 @@ class QoderCnSource:
         recent = self._discover(now)
         if recent is None:
             return self.quiet('error', error='Qoder CN 任务目录不可读取')
+        self.effort_log.poll(now)
 
         for path in list(self.sessions):
             if path not in recent:
@@ -354,10 +452,14 @@ class QoderCnSource:
             session_id = state.session_id
             if state.phase == 'working':
                 working.append(session_id)
-                speeds[session_id] = speed_for_state(state, self.catalog)
+                speeds[session_id] = speed_for_state(
+                    state, self.catalog, self.effort_log.efforts.get(session_id))
             elif state.phase == 'waiting':
                 waiting.append(session_id)
                 pending += state.questions
+        self.effort_log.efforts = {
+            key: value for key, value in self.effort_log.efforts.items()
+            if any(entry.state.session_id == key for entry in self.sessions.values())}
 
         motor = 'STOP'
         if speeds:
