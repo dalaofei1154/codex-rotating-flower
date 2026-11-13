@@ -248,6 +248,31 @@ class QoderCnSourceTests(unittest.TestCase):
                         '{"sessionId":"s1","frozenReasoningEffort":"low"}'])
         self.assertEqual(self.poll()['motor'], 'RUN MEDIUM')
 
+    def test_a_rotated_log_is_still_read(self):
+        self.write([user_prompt(), assistant('Bash', stop='tool_use')])
+        directory = self.app_data / 'logs' / 'run-3'
+        directory.mkdir(parents=True)
+        old = directory / 'main.1.log'
+        old.write_text(policy_line('s1', 'low') + '\n', encoding='utf-8')
+        os.utime(old, (self.now - 60, self.now - 60))
+        (directory / 'main.log').write_text(policy_line('s1', 'max') + '\n', encoding='utf-8')
+        self.assertEqual(self.poll()['motor'], 'RUN ULTRA')
+
+    def test_no_appdata_paths_are_ever_none(self):
+        import qodercn_adapter
+        from unittest.mock import patch
+        with patch.dict(os.environ, {'APPDATA': ''}):
+            for path in qodercn_adapter.app_data_candidates():
+                self.assertIsInstance(path, Path)
+
+    def test_a_source_without_app_data_still_works(self):
+        from unittest.mock import patch
+        self.write([user_prompt(), assistant('Bash', stop='tool_use')])
+        with patch.dict(os.environ, {'APPDATA': ''}):
+            result = QoderCnSource(self.root, None).poll(self.now)
+        self.assertTrue(result['healthy'])
+        self.assertEqual(result['motor'], 'RUN MEDIUM')
+
     def test_a_missing_catalog_fails_quiet(self):
         catalog = ModelEffortCatalog(self.app_data / 'missing')
         self.assertIsNone(catalog.effort('magpie/group/safely-deepseek'))

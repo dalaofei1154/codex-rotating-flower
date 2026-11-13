@@ -27,7 +27,7 @@ except ImportError:  # macOS package has no platform_support module.
         return Path(path).open('rb')
 
 RANK = {'LOW': 1, 'MEDIUM': 2, 'HIGH': 3, 'XHIGH': 4, 'ULTRA': 5}
-EFFORT_SPEED = {'none': 'LOW', 'minimal': 'LOW', 'low': 'LOW', 'medium': 'MEDIUM',
+EFFORT_SPEED = {'off': 'LOW', 'none': 'LOW', 'minimal': 'LOW', 'low': 'LOW', 'medium': 'MEDIUM',
                 'high': 'HIGH', 'xhigh': 'XHIGH', 'max': 'ULTRA', 'ultra': 'ULTRA'}
 QUESTION_TOOLS = frozenset(('AskUserQuestion',))
 TERMINAL_STOPS = frozenset(('end_turn', 'stop_sequence', 'max_tokens'))
@@ -60,11 +60,15 @@ def speed_for_state(state, catalog=None, log_effort=None):
 
 
 def app_data_candidates():
+    candidates = []
     appdata = os.environ.get('APPDATA')
-    return [Path.home() / 'Library/Application Support/QoderCN',
-            Path.home() / 'Library/Application Support/com.qodercn.app.stable',
-            Path(appdata) / 'com.qodercn.app.stable' if appdata else None,
-            Path.home() / '.config/QoderCN']
+    if appdata:
+        candidates.append(Path(appdata) / 'com.qodercn.app.stable')
+    candidates.extend([Path.home() / 'Library/Application Support/QoderCN',
+                       Path.home() / 'Library/Application Support/Qoder CN',
+                       Path.home() / 'Library/Application Support/com.qodercn.app.stable',
+                       Path.home() / '.config/QoderCN'])
+    return candidates
 
 
 class ModelEffortCatalog:
@@ -230,14 +234,20 @@ class AppLogEffort:
             self.efforts = {}
             return
         try:
-            runs = [p for p in root.iterdir() if (p / 'main.log').is_file()]
-            # Ascending by mtime: a newer run writes last and wins ties.
-            runs.sort(key=lambda p: p.joinpath('main.log').stat().st_mtime)
+            logs = []
+            for run in root.iterdir():
+                try:
+                    # Rotation renames the active file (main.1.log) and starts
+                    # a fresh main.log; oldest-first makes the newest line win.
+                    for path in run.glob('main*.log'):
+                        logs.append((path.stat().st_mtime, path))
+                except OSError:
+                    continue
+            logs.sort()
         except OSError:
             return
         keep = set()
-        for run in runs[-3:]:
-            path = run / 'main.log'
+        for _, path in logs[-6:]:
             keep.add(path)
             self._tail(path)
         self.cursors = {k: v for k, v in self.cursors.items() if k in keep}

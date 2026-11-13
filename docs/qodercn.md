@@ -73,7 +73,8 @@ python3 m1/integrated/integrated_bridge.py --once --source qodercn
 ## 只读与隐私
 
 - 会话记录以只读方式打开；Windows 上使用共享读取，不阻塞 Qoder CN 自己写日志。
-- 只解析 `type`、`message.stop_reason`、工具名、模型名和 `reasoningEffort`，其余字段丢弃。
+- 会话记录会整行做一次 JSON 解码，但只使用 `type`、`message.stop_reason`、工具名和模型名；
+  应用日志同样整行解码，只使用 `sessionId` 与 `frozenReasoningEffort`。其余字段不保留、不输出。
 - 应用数据库以 `mode=ro` 打开，只读取模型档位表；格式变化时静默降级为中性档位，不会误驱动。
 - 不写入 Qoder CN 的任何目录，不修改其数据。
 
