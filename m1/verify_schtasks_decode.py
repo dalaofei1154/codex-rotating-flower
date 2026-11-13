@@ -26,7 +26,8 @@ def main() -> int:
         ("undecodable bytes", b"\xff\xfe\x00\xd8"),
     ]
     if sys.platform == "win32":
-        cases.insert(0, ("gbk console error", "错误: 拒绝访问。".encode("gbk")))
+        cases.insert(0, ("console text (system code page)",
+                         "Error: access is denied.".encode("mbcs")))
 
     failures = 0
     for label, raw in cases:
@@ -43,12 +44,12 @@ def main() -> int:
         print(f"ok    {label}: {decoded[:48]!r}")
 
     if sys.platform == "win32":
-        raw = "错误".encode("gbk")
+        raw = "Error".encode("mbcs")
         try:
             raw.decode("utf-8")
-            print("note: this GBK sample happens to be valid UTF-8")
+            print("note: this sample happens to be valid UTF-8")
         except UnicodeDecodeError:
-            print("confirmed: GBK output is not valid UTF-8, so text=True would raise")
+            print("confirmed: code-page output is not valid UTF-8, so text=True would raise")
 
     print("RESULT:", "decoder handles every encoding" if failures == 0
           else f"{failures} decoding failures")

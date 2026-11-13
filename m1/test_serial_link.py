@@ -256,9 +256,26 @@ class SchtasksDecodingTests(unittest.TestCase):
         self.installer = install_windows
 
     @unittest.skipUnless(sys.platform == "win32", "mbcs only exists on Windows")
-    def test_gbk_console_error_decodes(self):
-        raw = "错误: 拒绝访问。".encode("gbk")
-        self.assertEqual(self.installer._decode_schtasks(raw), "错误: 拒绝访问。")
+    def test_console_output_decodes_with_the_system_code_page(self):
+        """The decoder must use the machine's own code page, not a fixed one.
+
+        A CI runner is usually an English install (cp1252), so encoding a
+        Chinese sample there would be testing the wrong thing. Build the
+        sample from whatever this machine actually uses.
+        """
+        sample = "Error: access is denied."
+        raw = sample.encode("mbcs")
+        self.assertEqual(self.installer._decode_schtasks(raw), sample)
+
+    @unittest.skipUnless(sys.platform == "win32", "mbcs only exists on Windows")
+    def test_non_ascii_console_output_round_trips(self):
+        """Any text the console can produce must survive the decoder."""
+        sample = "错误: 拒绝访问。"
+        try:
+            raw = sample.encode("mbcs")
+        except UnicodeEncodeError:
+            self.skipTest("this machine's code page cannot represent the sample")
+        self.assertEqual(self.installer._decode_schtasks(raw), sample)
 
     def test_utf16_task_xml_decodes(self):
         raw = "<Task/>".encode("utf-16")
@@ -285,15 +302,17 @@ class SchtasksDecodingTests(unittest.TestCase):
     @unittest.skipUnless(sys.platform == "win32", "mbcs only exists on Windows")
     def test_schtasks_decodes_both_streams(self):
         """schtasks() must return str on stdout and stderr, not bytes."""
+        console = "Error: access is denied."
+
         class Result:
             returncode = 0
-            stdout = "错误".encode("gbk")
+            stdout = console.encode("mbcs")
             stderr = "<Task/>".encode("utf-16")
 
         with patch.object(self.installer.subprocess, "run",
                           return_value=Result()):
             result = self.installer.schtasks("/Query", "/TN", "X", check=False)
-        self.assertEqual(result.stdout, "错误")
+        self.assertEqual(result.stdout, console)
         self.assertEqual(result.stderr, "<Task/>")
 
 
