@@ -1,5 +1,6 @@
 import importlib.util
 import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -46,6 +47,28 @@ class PortPresenceTests(unittest.TestCase):
             missing = os.path.join(folder, "missing")
             with patch.object(serial_link.sys, "platform", "linux"):
                 self.assertFalse(serial_link.port_still_present(missing))
+
+    def test_windows_bare_name_matches_the_registry(self):
+        with patch.object(serial_link.sys, "platform", "win32"), \
+             patch.object(serial_link.os.path, "exists", return_value=False), \
+             patch.object(serial_link, "_windows_serial_ports",
+                          return_value=["COM12"]):
+            self.assertTrue(serial_link.port_still_present("COM12"))
+
+    def test_windows_device_path_matches_the_bare_registry_name(self):
+        """A caller may pass the \\\\.\\COM12 form that Win32 needs to open it."""
+        with patch.object(serial_link.sys, "platform", "win32"), \
+             patch.object(serial_link.os.path, "exists", return_value=False), \
+             patch.object(serial_link, "_windows_serial_ports",
+                          return_value=["COM12"]):
+            self.assertTrue(serial_link.port_still_present("\\\\.\\COM12"))
+
+    def test_windows_absent_port_is_not_present(self):
+        with patch.object(serial_link.sys, "platform", "win32"), \
+             patch.object(serial_link.os.path, "exists", return_value=False), \
+             patch.object(serial_link, "_windows_serial_ports",
+                          return_value=["COM12"]):
+            self.assertFalse(serial_link.port_still_present("\\\\.\\COM7"))
 
 
 class ProcessLockTests(unittest.TestCase):
@@ -138,6 +161,111 @@ class WindowsInstallerTests(unittest.TestCase):
              patch.object(self.installer, "task_exists", return_value=False):
             with self.assertRaises(RuntimeError):
                 self.installer.install(False, Path(self.folder.name) / "nope", "auto")
+
+
+class WindowsRollbackTests(unittest.TestCase):
+    """A failed replace must restore the previous task and runtime files."""
+
+    def setUp(self):
+        sys.path.insert(0, str(HERE))
+        import install_windows
+        self.installer = install_windows
+        self.folder = tempfile.TemporaryDirectory()
+        root = Path(self.folder.name)
+        self.support = root / "RotatingFlower"
+        self.sessions = root / "sessions"
+        self.sessions.mkdir()
+        self.support.mkdir(parents=True)
+
+    def tearDown(self):
+        self.folder.cleanup()
+
+    def _seed_previous(self):
+        for name in self.installer.RUNTIME_FILES:
+            (self.support / name).write_text("old-" + name, encoding="utf-8")
+
+    def _install_with(self, create_effect):
+        calls = []
+
+        def fake_schtasks(*args, check=True):
+            calls.append(args)
+
+            class Done:
+                returncode = 0
+                stdout = "<Task/>" if "/XML" in args else ""
+                stderr = ""
+
+            if args[0] == "/Create" and create_effect is not None:
+                raise create_effect
+            return Done()
+
+        with patch.object(self.installer, "locations",
+                          return_value=(self.support, self.support / "logs")), \
+             patch.object(self.installer, "task_exists", return_value=True), \
+             patch.object(self.installer, "schtasks", side_effect=fake_schtasks), \
+             patch.object(self.installer, "task_definition",
+                          return_value="<Task/>"):
+            try:
+                self.installer.install(True, self.sessions, "auto", "codex", None)
+            except Exception as error:
+                return error, calls
+            return None, calls
+
+    def test_failed_create_restores_the_previous_task(self):
+        self._seed_previous()
+        error, calls = self._install_with(
+            subprocess.CalledProcessError(1, "schtasks"))
+        self.assertIsNotNone(error)
+        # The previous definition must be recreated from XML, not just deleted.
+        restored = [c for c in calls if c[0] == "/Create" and "/XML" in c]
+        self.assertTrue(restored, f"expected an /XML restore, got {calls}")
+        self.assertFalse(
+            [c for c in calls if c[0] == "/Delete"],
+            "the previous task must not be deleted outright")
+
+    def test_timeout_also_triggers_rollback(self):
+        self._seed_previous()
+        error, calls = self._install_with(
+            subprocess.TimeoutExpired("schtasks", 30))
+        self.assertIsInstance(error, subprocess.TimeoutExpired)
+        restored = [c for c in calls if c[0] == "/Create" and "/XML" in c]
+        self.assertTrue(restored, f"a timeout must also roll back, got {calls}")
+
+    def test_failed_create_restores_the_runtime_files(self):
+        self._seed_previous()
+        self._install_with(subprocess.CalledProcessError(1, "schtasks"))
+        for name in self.installer.RUNTIME_FILES:
+            self.assertEqual((self.support / name).read_text(encoding="utf-8"),
+                             "old-" + name)
+
+
+class InstallerManifestTests(unittest.TestCase):
+    """Every installer must ship the shared modules the bridge imports."""
+
+    SHARED = ("serial_link.py", "process_lock.py", "process_probe.py")
+
+    def _manifest(self, module_name: str):
+        spec = importlib.util.spec_from_file_location(
+            module_name, HERE / f"{module_name}.py")
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[module_name] = module
+        spec.loader.exec_module(module)
+        return module.RUNTIME_FILES
+
+    def test_macos_installer_ships_the_shared_modules(self):
+        files = self._manifest("install_macos")
+        for name in self.SHARED:
+            self.assertIn(name, files, "install_macos.py must copy " + name)
+
+    def test_oneclick_package_ships_the_shared_modules(self):
+        files = self._manifest("package_workbuddy_oneclick")
+        for name in self.SHARED:
+            self.assertIn(name, files, "the one-click package must ship " + name)
+
+    def test_windows_installer_ships_the_shared_modules(self):
+        files = self._manifest("install_windows")
+        for name in self.SHARED:
+            self.assertIn(name, files, "install_windows.py must copy " + name)
 
 
 if __name__ == "__main__":

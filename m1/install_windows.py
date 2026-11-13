@@ -17,6 +17,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 
@@ -55,6 +56,41 @@ def task_command(target: Path, sessions_root: Path, port: str, source: str,
     return " ".join(parts)
 
 
+def task_definition() -> str | None:
+    """Return the registered task's XML so a failed replace can restore it."""
+    if not task_exists():
+        return None
+    try:
+        result = schtasks("/Query", "/TN", TASK_NAME, "/XML", check=False)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if result.returncode != 0 or not result.stdout.strip():
+        return None
+    return result.stdout
+
+
+def restore_task(definition: str | None) -> None:
+    """Put the previous task back, or remove the one this run created."""
+    if definition is None:
+        schtasks("/Delete", "/TN", TASK_NAME, "/F", check=False)
+        return
+    handle = None
+    try:
+        handle = tempfile.NamedTemporaryFile(
+            mode="w", suffix=".xml", delete=False, encoding="utf-16")
+        handle.write(definition)
+        handle.close()
+        schtasks("/Create", "/TN", TASK_NAME, "/XML", handle.name, "/F", check=False)
+    except (OSError, subprocess.SubprocessError):
+        pass
+    finally:
+        if handle is not None:
+            try:
+                os.unlink(handle.name)
+            except OSError:
+                pass
+
+
 def install(replace: bool, sessions_root: Path, port: str,
             source: str = "codex", workbuddy_root: Path | None = None) -> int:
     support, logs = locations()
@@ -72,13 +108,17 @@ def install(replace: bool, sessions_root: Path, port: str,
     previous = {support / name: ((support / name).read_bytes()
                                  if (support / name).exists() else None)
                 for name in RUNTIME_FILES}
-    if replace and any(value is not None for value in previous.values()):
+    previous_task = task_definition()
+    if replace and (any(value is not None for value in previous.values())
+                    or previous_task is not None):
         stamp = dt.datetime.now().strftime("%Y%m%d-%H%M%S-%f")
         backup = support / "backups" / stamp
         backup.mkdir(parents=True)
         for path, contents in previous.items():
             if contents is not None:
                 (backup / path.name).write_bytes(contents)
+        if previous_task is not None:
+            (backup / f"{TASK_NAME}.xml").write_text(previous_task, encoding="utf-16")
         print(f"Previous installation backed up: {backup}")
 
     target = support / "global_bridge.py"
@@ -89,8 +129,10 @@ def install(replace: bool, sessions_root: Path, port: str,
         # /RL LIMITED keeps it in the normal user context, like a LaunchAgent.
         schtasks("/Create", "/TN", TASK_NAME, "/TR", command, "/SC", "ONLOGON",
                  "/RL", "LIMITED", "/F")
-    except (OSError, subprocess.CalledProcessError):
-        schtasks("/Delete", "/TN", TASK_NAME, "/F", check=False)
+    except (OSError, subprocess.SubprocessError):
+        # A timeout is a SubprocessError but not a CalledProcessError, and it
+        # can leave the old task deleted, so roll back on both.
+        restore_task(previous_task)
         for path, contents in previous.items():
             if contents is not None:
                 path.write_bytes(contents)

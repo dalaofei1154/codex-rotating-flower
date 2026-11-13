@@ -38,9 +38,18 @@ def port_still_present(path: str) -> bool:
     if os.path.exists(path):
         return True
     if sys.platform == "win32":
-        wanted = path.upper()
+        # A caller may pass either "COM12" or the "\\\\.\\COM12" form that
+        # Win32 needs; the registry only reports the bare name.
+        wanted = _bare_port_name(path).upper()
         return any(port.upper() == wanted for port in _windows_serial_ports())
     return False
+
+
+def _bare_port_name(port: str) -> str:
+    """Strip the ``\\\\.\\`` prefix so a device path compares with the registry."""
+    if port.startswith(_WINDOWS_PREFIX):
+        return port[len(_WINDOWS_PREFIX):]
+    return port
 
 
 def windows_device_path(port: str) -> str:
