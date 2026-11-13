@@ -239,6 +239,53 @@ class WindowsRollbackTests(unittest.TestCase):
                              "old-" + name)
 
 
+class SchtasksDecodingTests(unittest.TestCase):
+    """schtasks writes the OEM code page and UTF-16, never plain UTF-8.
+
+    The installer originally used text=True, which decodes as UTF-8 and raises
+    UnicodeDecodeError on a localized Windows. These cover the decoder that
+    replaced it.
+    """
+
+    def setUp(self):
+        sys.path.insert(0, str(HERE))
+        import install_windows
+        self.installer = install_windows
+
+    def test_gbk_console_error_decodes(self):
+        raw = "错误: 拒绝访问。".encode("gbk")
+        self.assertEqual(self.installer._decode_schtasks(raw), "错误: 拒绝访问。")
+
+    def test_utf16_task_xml_decodes(self):
+        raw = "<Task/>".encode("utf-16")
+        self.assertEqual(self.installer._decode_schtasks(raw), "<Task/>")
+
+    def test_ascii_output_decodes(self):
+        raw = b"SUCCESS: The scheduled task was created."
+        self.assertEqual(self.installer._decode_schtasks(raw), raw.decode())
+
+    def test_empty_output_is_empty_string(self):
+        self.assertEqual(self.installer._decode_schtasks(b""), "")
+
+    def test_gbk_bytes_are_not_valid_utf8(self):
+        """The reason text=True could not work here."""
+        with self.assertRaises(UnicodeDecodeError):
+            "错误".encode("gbk").decode("utf-8")
+
+    def test_schtasks_decodes_both_streams(self):
+        """schtasks() must return str on stdout and stderr, not bytes."""
+        class Result:
+            returncode = 0
+            stdout = "错误".encode("gbk")
+            stderr = "<Task/>".encode("utf-16")
+
+        with patch.object(self.installer.subprocess, "run",
+                          return_value=Result()):
+            result = self.installer.schtasks("/Query", "/TN", "X", check=False)
+        self.assertEqual(result.stdout, "错误")
+        self.assertEqual(result.stderr, "<Task/>")
+
+
 class InstallerManifestTests(unittest.TestCase):
     """Every installer must ship the shared modules the bridge imports."""
 

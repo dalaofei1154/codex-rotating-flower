@@ -33,8 +33,30 @@ def locations() -> tuple[Path, Path]:
 
 
 def schtasks(*args: str, check: bool = True) -> subprocess.CompletedProcess:
-    return subprocess.run(["schtasks", *args], check=check, capture_output=True,
-                          text=True, timeout=30)
+    """Run schtasks and decode its output.
+
+    schtasks writes console messages in the OEM code page and /XML output in
+    UTF-16, so decoding with text=True (UTF-8) raises UnicodeDecodeError on a
+    localized Windows. Capture bytes and decode each stream explicitly.
+    """
+    result = subprocess.run(["schtasks", *args], check=check, capture_output=True,
+                            timeout=30)
+    result.stdout = _decode_schtasks(result.stdout)
+    result.stderr = _decode_schtasks(result.stderr)
+    return result
+
+
+def _decode_schtasks(raw: bytes) -> str:
+    if not raw:
+        return ""
+    if raw[:2] in (b"\xff\xfe", b"\xfe\xff"):
+        return raw.decode("utf-16")
+    for encoding in ("utf-8", "mbcs", "cp1252"):
+        try:
+            return raw.decode(encoding)
+        except (UnicodeDecodeError, LookupError):
+            continue
+    return raw.decode("utf-8", errors="replace")
 
 
 def task_exists() -> bool:
